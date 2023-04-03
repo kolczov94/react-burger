@@ -1,20 +1,25 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1C1C21;
+  background-color: #1c1c21;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navList {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 8px;
-    list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  list-style: none;
 }
 
 .navItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
