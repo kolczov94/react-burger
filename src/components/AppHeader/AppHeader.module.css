@@ -10,16 +10,4 @@
   align-items: center;
 }
 
-.navList {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 8px;
-  list-style: none;
-}
 
-.navItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}

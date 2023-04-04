@@ -6,7 +6,7 @@ import styles from "./BurgerIngredients.module.css";
 export default function BurgerIngredients({data}) {
   const [current, setCurrent] = useState("one");
   return (
-    <section>
+    <section className={styles.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <nav className={styles.nav}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>

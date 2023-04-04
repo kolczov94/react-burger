@@ -8,7 +8,7 @@ import moveIcon from "../../images/move-icon.svg";
 
 export default function BurgerConstructor({ data }) {
   return (
-    <section className="mt-25 ml-4">
+    <section className={`${styles.sections} mt-25 ml-4`}>
       <div className={`${styles.list}`}>
         <div className="ml-8 mr-4">
           <ConstructorElement

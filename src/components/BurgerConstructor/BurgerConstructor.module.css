@@ -1,3 +1,7 @@
+.sections {
+    width: 50%;
+}
+
 .list {
     display: flex;
     flex-direction: column;
