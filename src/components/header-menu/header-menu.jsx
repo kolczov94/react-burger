@@ -2,7 +2,7 @@ import {
   BurgerIcon,
   ListIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./HeaderMenu.module.css";
+import styles from "./header-menu.module.css";
 
 export default function HeaderMenu() {
   return (

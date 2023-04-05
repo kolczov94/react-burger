@@ -1,0 +1,43 @@
+.sections {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: aquamarine; */
+  box-sizing: border-box;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100% - 104px);
+  gap: 16px;
+}
+
+.elements {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: scroll;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.total svg {
+  width: 36px;
+  height: 36px;
+}

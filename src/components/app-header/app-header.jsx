@@ -1,7 +1,8 @@
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./AppHeader.module.css";
-import HeaderMenu from "../HeaderMenu/HeaderMenu";
-import Profile from "../Profile/Profile";
+import styles from "./app-header.module.css";
+
+import HeaderMenu from "../header-menu/header-menu";
+import Profile from "../profile/profile";
 
 export default function AppHeader() {
   return (

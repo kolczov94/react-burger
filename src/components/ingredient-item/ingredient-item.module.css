@@ -1,0 +1,29 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #4c4cff;
+}
+
+.price {
+  display: flex;
+  gap: 8px;
+}
+
+.name {
+  text-align: center;
+}
