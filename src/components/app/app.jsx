@@ -8,13 +8,12 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <main className={`${styles.main} pl-5 pr-5 pb-10`}>
+      <main className={`${styles.main} pb-10 pl-5 pr-5`}>
         <BurgerIngredients ingredients={CUSTOM_DATA} />
         <BurgerConstructor ingredients={CUSTOM_DATA} />
       </main>
     </div>
   );
 }
-
 
 export default App;
