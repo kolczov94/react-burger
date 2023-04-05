@@ -20,7 +20,7 @@ export default function IngredientItem({ price, image, name }) {
 }
 
 IngredientItem.propTypes = {
-  price: PropTypes.number,
-  image: PropTypes.string,
-  name: PropTypes.string,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
