@@ -5,8 +5,6 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
 import { URL_API } from "../../utils/constants";
 
-const modalRoot = document.getElementById("react-modals");
-
 function App() {
   const [ingredients, setIngredients] = useState([]);
 
