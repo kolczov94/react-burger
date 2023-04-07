@@ -1,24 +1,30 @@
 import PropTypes from "prop-types";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
-import { useState } from "react";
+
 import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import useModalStatus from "../../hooks/use-modal-status";
 
-export default function IngredientItem({ price, image, name }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  function showModal() {
-    console.log("CLICK");
-    setIsOpen(true);
-  }
+export default function IngredientItem({
+  price,
+  image,
+  name,
+  calories,
+  carbohydrates,
+  fat,
+  proteins,
+  imageLarge,
+}) {
+  const { modalStatus, openModal, closeModal } = useModalStatus();
 
   return (
     <>
-      <li className={`${styles.card} pl-4 pr-4`} onClick={showModal}>
-        <span className={`${styles.counter} text text_type_digits-default`}>
-          1
-        </span>
+      <li className={`${styles.card} pl-4 pr-4`} onClick={() => openModal()}>
+        <Counter count={1} size="default" />
         <img src={image} alt="" />
         <div className={styles.price}>
           <span className="text text_type_digits-default">{price}</span>
@@ -27,7 +33,19 @@ export default function IngredientItem({ price, image, name }) {
         <p className={`${styles.name} text text_type_main-default`}>{name}</p>
       </li>
 
-      {isOpen && <Modal>"Hello"</Modal>}
+      {modalStatus && (
+        <Modal title="Детали ингредиента" onClose={closeModal}>
+          <IngredientDetails
+            image={imageLarge}
+            name={name}
+            price={price}
+            calories={calories}
+            carbohydrates={carbohydrates}
+            fat={fat}
+            proteins={proteins}
+          />
+        </Modal>
+      )}
     </>
   );
 }

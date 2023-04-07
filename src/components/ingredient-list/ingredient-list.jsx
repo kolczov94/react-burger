@@ -11,8 +11,13 @@ export default function IngredientList({ list }) {
           <IngredientItem
             key={item._id}
             image={item.image}
+            imageLarge={item.image_large}
             name={item.name}
             price={item.price}
+            calories={item.calories}
+            carbohydrates={item.carbohydrates}
+            fat={item.fat}
+            proteins={item.proteins}
           />
         );
       })}
