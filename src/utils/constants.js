@@ -6,11 +6,11 @@ export const TAB_MENU_LIST = [
     title: "Булки",
   },
   {
-    name: "bun",
+    name: "sauce",
     title: "Соусы",
   },
   {
-    name: "bun",
+    name: "main",
     title: "Начинки",
   },
 ];

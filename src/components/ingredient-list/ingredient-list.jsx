@@ -3,21 +3,18 @@ import PropTypes from "prop-types";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import styles from "./ingredient-list.module.css";
 
-export default function IngredientList({ list }) {
+export default function IngredientList({ list, handleCardClick }) {
   return (
     <ul className={`${styles.list} ml-4 mr-1 mt-6 mb-10`}>
       {list.map((item) => {
         return (
           <IngredientItem
             key={item._id}
+            id={item._id}
             image={item.image}
-            imageLarge={item.image_large}
             name={item.name}
             price={item.price}
-            calories={item.calories}
-            carbohydrates={item.carbohydrates}
-            fat={item.fat}
-            proteins={item.proteins}
+            handleCardClick={handleCardClick}
           />
         );
       })}
@@ -42,4 +39,5 @@ IngredientList.propTypes = {
       __v: PropTypes.number,
     })
   ),
+  handleCardClick: PropTypes.func.isRequired,
 };
