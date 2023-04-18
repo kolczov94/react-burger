@@ -7,8 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import moveIcon from "../../images/move-icon.svg";
 import { useMemo } from "react";
+import useModalStatus from "../../hooks/use-modal-status";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 export default function BurgerConstructor({ ingredients }) {
+  const { modalStatus, openModal, closeModal } = useModalStatus();
+
   const totalSum = useMemo(() => {
     return ingredients.reduce((sum, current) => sum + current.price, 200);
   }, [ingredients]);
@@ -54,10 +59,15 @@ export default function BurgerConstructor({ ingredients }) {
           <span className="text text_type_digits-medium mr-2">{totalSum}</span>
           <CurrencyIcon />
         </div>
-        <Button htmlType="submit" size="large">
+        <Button htmlType="submit" size="large" onClick={openModal}>
           Оформить заказ
         </Button>
       </div>
+      {modalStatus && (
+        <Modal onClose={closeModal}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 }

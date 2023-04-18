@@ -1,14 +1,23 @@
 import PropTypes from "prop-types";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import {
+  Counter,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
 
-export default function IngredientItem({ price, image, name }) {
+export default function IngredientItem({
+  id,
+  name,
+  price,
+  image,
+  handleCardClick,
+}) {
   return (
-    <li className={`${styles.card} pl-4 pr-4`}>
-      <span className={`${styles.counter} text text_type_digits-default`}>
-        1
-      </span>
+    <li
+      className={`${styles.card} pl-4 pr-4`}
+      onClick={() => handleCardClick(id)}
+    >
+      <Counter count={1} size="default" />
       <img src={image} alt="" />
       <div className={styles.price}>
         <span className="text text_type_digits-default">{price}</span>
@@ -20,7 +29,9 @@ export default function IngredientItem({ price, image, name }) {
 }
 
 IngredientItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  handleCardClick: PropTypes.func.isRequired,
 };
