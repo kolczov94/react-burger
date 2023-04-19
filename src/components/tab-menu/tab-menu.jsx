@@ -1,18 +1,20 @@
-import { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentTab } from "../../services/actions/ingredients";
+import { TAB_MENU_LIST } from "../../utils/constants";
 
-export default function TabMenu({ tabs, tabDefault }) {
-  const [current, setCurrent] = useState(tabDefault);
+export default function TabMenu() {
+  const dispatch = useDispatch();
+  const currentTab = useSelector((state) => state.ingredients.currentTab);
   return (
     <>
-      {tabs.map((tab, count) => {
+      {TAB_MENU_LIST.map((tab, count) => {
         return (
           <Tab
             key={count}
             value={tab.name}
-            active={current === tab.name}
-            onClick={setCurrent}
+            active={currentTab === tab.name}
+            onClick={(name) => dispatch(updateCurrentTab(name))}
           >
             {tab.title}
           </Tab>
@@ -21,13 +23,3 @@ export default function TabMenu({ tabs, tabDefault }) {
     </>
   );
 }
-
-TabMenu.propTypes = {
-  tabDefault: PropTypes.string.isRequired,
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-};

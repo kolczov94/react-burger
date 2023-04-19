@@ -1,4 +1,4 @@
-import { URL_API } from "./constants";
+export const URL_API = "https://norma.nomoreparties.space/api/ingredients";
 
 function checkResponse(res) {
   if (res.ok) {
@@ -7,6 +7,6 @@ function checkResponse(res) {
   return res.json().then((err) => Promise.reject(err));
 }
 
-export function getIngredients() {
+export function getIngredientsRequest() {
   return fetch(URL_API).then(checkResponse);
 }

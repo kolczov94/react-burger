@@ -1,17 +1,12 @@
 import PropTypes from "prop-types";
+import { memo } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
 
-export default function IngredientItem({
-  id,
-  name,
-  price,
-  image,
-  handleCardClick,
-}) {
+function IngredientItem({ id, name, price, image, handleCardClick }) {
   return (
     <li
       className={`${styles.card} pl-4 pr-4`}
@@ -35,3 +30,5 @@ IngredientItem.propTypes = {
   image: PropTypes.string.isRequired,
   handleCardClick: PropTypes.func.isRequired,
 };
+
+export default memo(IngredientItem);
