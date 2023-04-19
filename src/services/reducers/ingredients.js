@@ -10,6 +10,8 @@ const initialState = {
   itemsRequest: false,
   itemsFailed: false,
   currentTab: "bun",
+  ingredientDetail: {},
+  isShowIngredientDetail: false,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -18,7 +20,6 @@ export const ingredientsReducer = (state = initialState, action) => {
       return { ...state, itemsRequest: true };
     }
     case GET_INGREDIENTS_SUCCESS:
-      console.log("INGRREDUCER", action.payload);
       return { ...state, items: action.payload };
     case GET_INGREDIENTS_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };

@@ -1,5 +1,4 @@
 import { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import IngredientItem from "../ingredient-item/ingredient-item";
@@ -10,25 +9,15 @@ export default function IngredientGroup({
   handleCardClick,
   title,
   name,
-  observer,
+  addObserverTarget,
 }) {
-  const currentTab = useSelector((state) => state.ingredients.currentTab);
   const titleRef = useRef();
 
   useEffect(() => {
-    if (name === currentTab) {
-      titleRef.current.scrollIntoView({ behavior: "smooth" });
+    if (titleRef.current) {
+      addObserverTarget({ key: name, target: titleRef.current });
     }
-  }, [currentTab, name]);
-
-  useEffect(() => {
-    console.log("RENDER EFF OBS")
-    if (observer) {
-      const section = titleRef.current;
-      observer.observe(section);
-      return () => observer.unobserve(section);
-    }
-  }, [observer]);
+  }, [addObserverTarget, name]);
 
   return (
     <div>
@@ -71,6 +60,7 @@ IngredientGroup.propTypes = {
     })
   ),
   handleCardClick: PropTypes.func.isRequired,
+  addObserverTarget: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };

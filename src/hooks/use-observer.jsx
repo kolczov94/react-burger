@@ -1,11 +1,12 @@
-import { useState, useMemo } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
-export function useObserver(rootElement) {
+export function useObserver() {
   const [visibleSectionId, setVisibleSectionId] = useState("");
+  const [targets, setTargets] = useState({});
+  const rootRef = useRef();
 
-  const observer = useMemo(() => {
-    console.log("RENDER OBS")
-    return new IntersectionObserver(
+  useEffect(() => {
+    const observer = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -13,13 +14,27 @@ export function useObserver(rootElement) {
           }
         });
       },
-      {
-        root: rootElement,
-        rootMargin: "0px 0px -90% 0px",
-        threshold: 0,
-      }
+      { root: rootRef.current, rootMargin: "0px 0px -90% 0px" }
     );
-  }, [rootElement]);
+    Object.keys(targets).forEach((key) => {
+      observer.observe(targets[key]);
+    });
+    return () => observer.disconnect();
+  }, [targets]);
 
-  return { observer, visibleSectionId };
+  const addObserverTarget = useCallback((target) => {
+    setTargets((prev) => ({ ...prev, [target.key]: target.target }));
+  }, []);
+
+  const scrollToTarget = useCallback(
+    (targetKey) => {
+      const target = targets[targetKey];
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [targets]
+  );
+
+  return { rootRef, addObserverTarget, visibleSectionId, scrollToTarget };
 }
