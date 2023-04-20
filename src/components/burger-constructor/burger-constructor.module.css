@@ -3,7 +3,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* background-color: aquamarine; */
   box-sizing: border-box;
 }
 
@@ -12,18 +11,6 @@
   flex-direction: column;
   max-height: calc(100% - 104px);
   gap: 16px;
-}
-
-.elements {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: scroll;
-}
-
-.item {
-  display: flex;
-  align-items: center;
 }
 
 .order {

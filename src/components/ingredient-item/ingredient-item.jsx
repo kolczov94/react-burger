@@ -1,15 +1,25 @@
-import PropTypes from "prop-types";
 import { memo } from "react";
+import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
 
-function IngredientItem({ id, name, price, image, handleCardClick }) {
+function IngredientItem({ id, name, price, image, handleCardClick, type }) {
+  const [{ isDrag }, dragRef] = useDrag({
+    type,
+    item: { id },
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
+
   return (
     <li
-      className={`${styles.card} pl-4 pr-4`}
+      ref={dragRef}
+      className={`${styles.card} pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
       onClick={() => handleCardClick(id)}
     >
       <Counter count={1} size="default" />

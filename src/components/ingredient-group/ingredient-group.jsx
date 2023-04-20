@@ -30,6 +30,7 @@ export default function IngredientGroup({
             <IngredientItem
               key={item._id}
               id={item._id}
+              type={item.type}
               image={item.image}
               name={item.name}
               price={item.price}

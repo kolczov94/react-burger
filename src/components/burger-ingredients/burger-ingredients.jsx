@@ -13,13 +13,7 @@ import { useObserver } from "../../hooks/use-observer";
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
-  const { ingredients, ingredientDetail, isShowIngredientDetail } = useSelector(
-    (state) => ({
-      ingredients: state.ingredients.items,
-      ingredientDetail: state.ingredients.ingredientDetail,
-      isShowIngredientDetail: state.ingredients.isShowIngredientDetail,
-    })
-  );
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
   const [currentCardId, setCurrentCardId] = useState(null);
   const { modalStatus, openModal, closeModal } = useModalStatus();
 
