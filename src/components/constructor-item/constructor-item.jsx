@@ -1,28 +1,30 @@
-import styles from "./constructor-item.module.css";
-import moveIcon from "../../images/move-icon.svg";
 import { useDispatch } from "react-redux";
+import { useDrag, useDrop } from "react-dnd";
+import PropTypes from "prop-types";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./constructor-item.module.css";
+
+import moveIcon from "../../images/move-icon.svg";
 import {
   decrementIngredientCount,
   moveConstructorItem,
   removeConstructorList,
 } from "../../services/actions/ingredients";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDrag, useDrop } from "react-dnd";
 
 export default function ConstructorItem({
-  name,
-  price,
-  image,
   id,
   index,
   secondId,
+  name,
+  price,
+  image,
 }) {
   const dispatch = useDispatch();
 
   const [{ isDrag }, dragRef, previewRef] = useDrag(
     () => ({
       type: "item",
-      item: { id, index },
+      item: { id: secondId, index },
       collect: (monitor) => ({
         isDrag: monitor.isDragging(),
       }),
@@ -73,3 +75,12 @@ export default function ConstructorItem({
     </div>
   );
 }
+
+ConstructorItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  secondId: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+};

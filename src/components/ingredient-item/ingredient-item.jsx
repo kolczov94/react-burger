@@ -48,6 +48,8 @@ IngredientItem.propTypes = {
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   handleCardClick: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default memo(IngredientItem);

@@ -1,7 +1,8 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item-bun.module.css";
-import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import {
   updateConstructorBun,
   updateIngredientCountBun,
@@ -52,3 +53,7 @@ export default function ConstructorItemBun({ type }) {
     </div>
   );
 }
+
+ConstructorItemBun.propTypes = {
+  type: PropTypes.string.isRequired,
+};

@@ -17,13 +17,13 @@ import {
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
-  const { constructorList, constructorBun, isShowOrderDetail } = useSelector(
-    (state) => ({
+  const { constructorList, constructorBun, isShowOrderDetail, orderRequest } =
+    useSelector((state) => ({
       constructorList: state.ingredients.constructorList,
       constructorBun: state.ingredients.constructorBun,
       isShowOrderDetail: state.ingredients.isShowOrderDetail,
-    })
-  );
+      orderRequest: state.ingredients.orderRequest,
+    }));
 
   const totalSum = useMemo(() => {
     let total = constructorList.reduce(
@@ -40,6 +40,9 @@ export default function BurgerConstructor() {
     dispatch(getOrder());
   }
 
+  const isLockedButton =
+    Boolean(constructorList.length) || Boolean(constructorBun._id);
+
   return (
     <section className={`${styles.sections} pt-25 ml-4`}>
       <div className={`${styles.list}`}>
@@ -52,7 +55,12 @@ export default function BurgerConstructor() {
           <span className="text text_type_digits-medium mr-2">{totalSum}</span>
           <CurrencyIcon />
         </div>
-        <Button htmlType="submit" size="large" onClick={handleSubmit}>
+        <Button
+          htmlType="submit"
+          size="large"
+          onClick={handleSubmit}
+          disabled={!isLockedButton || orderRequest}
+        >
           Оформить заказ
         </Button>
       </div>

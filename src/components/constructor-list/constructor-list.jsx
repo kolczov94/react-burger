@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./constructor-list.module.css";
 import { useDrop } from "react-dnd";
+import styles from "./constructor-list.module.css";
 import {
   addConstructorList,
   incrementIngredientCount,

@@ -39,9 +39,10 @@ export const ingredientsReducer = (state = initialState, action) => {
       return { ...state, ingredientsRequest: true, ingredientsFailed: false };
     }
     case GET_INGREDIENTS_SUCCESS:
+      const ingredients = action.payload.map((item) => ({ ...item, count: 0 }));
       return {
         ...state,
-        ingredients: action.payload,
+        ingredients,
         ingredientsRequest: false,
       };
     case GET_INGREDIENTS_FAILED: {
@@ -56,6 +57,8 @@ export const ingredientsReducer = (state = initialState, action) => {
         order: action.payload,
         isShowOrderDetail: true,
         orderRequest: false,
+        constructorList: [],
+        constructorBun: {},
       };
     case GET_ORDER_FAILED: {
       return { ...state, orderFailed: true, orderRequest: false };
@@ -91,7 +94,9 @@ export const ingredientsReducer = (state = initialState, action) => {
     }
     case MOVE_CONSTRUCTOR_ITEM: {
       const { id, atIndex } = action.payload;
-      const card = state.constructorList.filter((item) => item._id === id)[0];
+      const card = state.constructorList.filter(
+        (item) => item.second_id === id
+      )[0];
       const index = state.constructorList.indexOf(card);
 
       const newConstructorList = [...state.constructorList];
@@ -108,9 +113,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredients: state.ingredients.map((item) => {
           if (item._id === id) {
-            return item.count
-              ? { ...item, count: ++item.count }
-              : { ...item, count: 1 };
+            return { ...item, count: ++item.count };
           }
           return item;
         }),
