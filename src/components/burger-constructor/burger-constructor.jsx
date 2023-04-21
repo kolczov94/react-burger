@@ -1,26 +1,44 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-constructor.module.css";
 
 import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import useModalStatus from "../../hooks/use-modal-status";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorItemBun from "../constructor-item-bun/constructor-item-bun";
 import ConstructorList from "../constructor-list/constructor-list";
+import {
+  closeModalOrderDetail,
+  getOrder,
+} from "../../services/actions/ingredients";
 
 export default function BurgerConstructor() {
-  const constructorList = useSelector(
-    (state) => state.ingredients.constructorList
+  const dispatch = useDispatch();
+  const { constructorList, constructorBun, isShowOrderDetail } = useSelector(
+    (state) => ({
+      constructorList: state.ingredients.constructorList,
+      constructorBun: state.ingredients.constructorBun,
+      isShowOrderDetail: state.ingredients.isShowOrderDetail,
+    })
   );
-  const { modalStatus, openModal, closeModal } = useModalStatus();
 
   const totalSum = useMemo(() => {
-    return constructorList.reduce((sum, current) => sum + current.price, 0);
-  }, [constructorList]);
+    let total = constructorList.reduce(
+      (sum, current) => sum + current.price,
+      0
+    );
+    if (constructorBun._id) {
+      return total + constructorBun.price * 2;
+    }
+    return total;
+  }, [constructorList, constructorBun]);
+
+  function handleSubmit() {
+    dispatch(getOrder());
+  }
 
   return (
     <section className={`${styles.sections} pt-25 ml-4`}>
@@ -34,12 +52,12 @@ export default function BurgerConstructor() {
           <span className="text text_type_digits-medium mr-2">{totalSum}</span>
           <CurrencyIcon />
         </div>
-        <Button htmlType="submit" size="large" onClick={openModal}>
+        <Button htmlType="submit" size="large" onClick={handleSubmit}>
           Оформить заказ
         </Button>
       </div>
-      {modalStatus && (
-        <Modal onClose={closeModal}>
+      {isShowOrderDetail && (
+        <Modal onClose={() => dispatch(closeModalOrderDetail())}>
           <OrderDetails />
         </Modal>
       )}

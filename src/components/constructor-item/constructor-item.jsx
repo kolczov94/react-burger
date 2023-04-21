@@ -2,13 +2,21 @@ import styles from "./constructor-item.module.css";
 import moveIcon from "../../images/move-icon.svg";
 import { useDispatch } from "react-redux";
 import {
+  decrementIngredientCount,
   moveConstructorItem,
   removeConstructorList,
 } from "../../services/actions/ingredients";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 
-export default function ConstructorItem({ name, price, image, id, index }) {
+export default function ConstructorItem({
+  name,
+  price,
+  image,
+  id,
+  index,
+  secondId,
+}) {
   const dispatch = useDispatch();
 
   const [{ isDrag }, dragRef, previewRef] = useDrag(
@@ -39,6 +47,11 @@ export default function ConstructorItem({ name, price, image, id, index }) {
     [index]
   );
 
+  function handleRemoveClick() {
+    dispatch(removeConstructorList(secondId));
+    dispatch(decrementIngredientCount(id));
+  }
+
   return (
     <div
       className={`${styles.item} ${isDrag ? styles.drag : ""} mr-2`}
@@ -52,7 +65,7 @@ export default function ConstructorItem({ name, price, image, id, index }) {
         alt="move icon"
       />
       <ConstructorElement
-        handleClose={() => dispatch(removeConstructorList(id))}
+        handleClose={handleRemoveClick}
         text={name}
         price={price}
         thumbnail={image}

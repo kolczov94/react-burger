@@ -7,7 +7,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
 
-function IngredientItem({ id, name, price, image, handleCardClick, type }) {
+function IngredientItem({
+  id,
+  name,
+  price,
+  image,
+  handleCardClick,
+  type,
+  count,
+}) {
   const [{ isDrag }, dragRef] = useDrag({
     type,
     item: { id },
@@ -23,7 +31,7 @@ function IngredientItem({ id, name, price, image, handleCardClick, type }) {
       className={`${styles.card} pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
       onClick={() => handleCardClick(id)}
     >
-      <Counter count={1} size="default" />
+      {count ? <Counter count={count} size="default" /> : null}
       <img src={image} alt="" />
       <div className={styles.price}>
         <span className="text text_type_digits-default">{price}</span>

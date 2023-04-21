@@ -35,6 +35,7 @@ export default function IngredientGroup({
               name={item.name}
               price={item.price}
               handleCardClick={handleCardClick}
+              count={item.count}
             />
           );
         })}
