@@ -1,12 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./constructor-list.module.css";
-import moveIcon from "../../images/move-icon.svg";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from "react-dnd";
-import {
-  addConstructorList,
-  removeConstructorList,
-} from "../../services/actions/ingredients";
+import { addConstructorList } from "../../services/actions/ingredients";
+import ConstructorItem from "../constructor-item/constructor-item";
 
 export default function ConstructorList() {
   const dispatch = useDispatch();
@@ -26,22 +22,21 @@ export default function ConstructorList() {
   return (
     <div
       ref={dropTarget}
-      className={`${styles.elements} ${
-        canDrop ? styles.drag : ""
+      className={`${styles.elements} ${canDrop ? styles.drag : ""} ${
+        isHover ? styles.hover : ""
       } custom-scroll`}
     >
       {constructorList.length ? (
-        constructorList.map((item) => {
+        constructorList.map((item, index) => {
           return (
-            <div className={`${styles.item} mr-2`} key={item._id}>
-              <img className="mr-2" src={moveIcon} alt="move icon" />
-              <ConstructorElement
-                handleClose={() => dispatch(removeConstructorList(item._id))}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
+            <ConstructorItem
+              key={item.second_id}
+              id={item.second_id}
+              index={index}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+            />
           );
         })
       ) : (

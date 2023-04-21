@@ -8,6 +8,7 @@ export const UPDATE_INGREDIENTS_DETAIL = "UPDATE_INGREDIENTS_DETAIL";
 export const UPDATE_CONSTRUCTOR_BUN = "UPDATE_INGREDIENTS_DETAIL";
 export const ADD_CONSTRUCTOR_LIST = "ADD_CONSTRUCTOR_LIST";
 export const REMOVE_CONSTRUCTOR_LIST = "REMOVE_CONSTRUCTOR_LIST";
+export const MOVE_CONSTRUCTOR_ITEM = "MOVE_CONSTRUCTOR_ITEM";
 
 export function getIngredients() {
   return function (dispatch) {
@@ -25,37 +26,44 @@ export function getIngredients() {
   };
 }
 
-export function updateCurrentTab(name) {
+export function updateCurrentTab(payload) {
   return {
     type: UPDATE_CURRENT_TAB,
-    payload: name,
+    payload,
   };
 }
 
-export function updateIngredientsDetail(id) {
+export function updateIngredientsDetail(payload) {
   return {
     type: UPDATE_INGREDIENTS_DETAIL,
-    payload: id,
+    payload,
   };
 }
 
-export function updateConstructorBun(id) {
+export function updateConstructorBun(payload) {
   return {
     type: UPDATE_CONSTRUCTOR_BUN,
-    payload: id,
+    payload,
   };
 }
 
-export function addConstructorList(id) {
+export function addConstructorList(payload) {
   return {
     type: ADD_CONSTRUCTOR_LIST,
-    payload: id,
+    payload,
   };
 }
 
-export function removeConstructorList(id) {
+export function removeConstructorList(payload) {
   return {
     type: REMOVE_CONSTRUCTOR_LIST,
-    payload: id,
+    payload,
+  };
+}
+
+export function moveConstructorItem(payload) {
+  return {
+    type: MOVE_CONSTRUCTOR_ITEM,
+    payload,
   };
 }

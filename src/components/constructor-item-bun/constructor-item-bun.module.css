@@ -8,7 +8,7 @@
 }
 
 .hover {
-  outline: 4px dashed var(--colors-interface-accent);
+  outline: 4px dashed var(--colors-interface-success);
 }
 
 .template {

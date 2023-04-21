@@ -5,17 +5,16 @@
   overflow-y: scroll;
   outline: 4px dashed transparent;
   transition: 0.1s outline linear;
-  border-radius: 40px;
 }
 
 .drag {
-  border-radius: 40px;
+  /* border-radius: 40px; */
   outline: 4px dashed var(--colors-interface-accent);
 }
 
-.item {
-  display: flex;
-  align-items: center;
+.hover {
+  /* border-radius: 40px; */
+  outline: 4px dashed var(--colors-interface-success);
 }
 
 .template {

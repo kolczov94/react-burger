@@ -9,7 +9,7 @@ import {
 import useModalStatus from "../../hooks/use-modal-status";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import ConstructorElementBun from "../constructor-element-bun/constructor-element-bun";
+import ConstructorItemBun from "../constructor-item-bun/constructor-item-bun";
 import ConstructorList from "../constructor-list/constructor-list";
 
 export default function BurgerConstructor() {
@@ -25,9 +25,9 @@ export default function BurgerConstructor() {
   return (
     <section className={`${styles.sections} pt-25 ml-4`}>
       <div className={`${styles.list}`}>
-        <ConstructorElementBun type="top" />
+        <ConstructorItemBun type="top" />
         <ConstructorList />
-        <ConstructorElementBun type="bottom" />
+        <ConstructorItemBun type="bottom" />
       </div>
       <div className={`${styles.order} mt-10`}>
         <div className={`${styles.total} mr-10`}>

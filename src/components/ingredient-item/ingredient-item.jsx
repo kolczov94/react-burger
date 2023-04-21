@@ -18,6 +18,7 @@ function IngredientItem({ id, name, price, image, handleCardClick, type }) {
 
   return (
     <li
+      draggable
       ref={dragRef}
       className={`${styles.card} pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
       onClick={() => handleCardClick(id)}

@@ -1,3 +1,5 @@
+import update from "immutability-helper";
+
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -6,6 +8,7 @@ import {
   UPDATE_CONSTRUCTOR_BUN,
   ADD_CONSTRUCTOR_LIST,
   REMOVE_CONSTRUCTOR_LIST,
+  MOVE_CONSTRUCTOR_ITEM,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -50,15 +53,32 @@ export const ingredientsReducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        constructorList: [...state.constructorList, ingredient],
+        constructorList: [
+          ...state.constructorList,
+          { ...ingredient, second_id: crypto.randomUUID() },
+        ],
       };
     }
     case REMOVE_CONSTRUCTOR_LIST: {
       return {
         ...state,
         constructorList: state.constructorList.filter(
-          (item) => item._id !== action.payload
+          (item) => item.second_id !== action.payload
         ),
+      };
+    }
+    case MOVE_CONSTRUCTOR_ITEM: {
+      const { id, atIndex } = action.payload;
+      const card = state.constructorList.filter((c) => c.second_id === id)[0];
+      const index = state.constructorList.indexOf(card);
+      return {
+        ...state,
+        constructorList: update([...state.constructorList], {
+          $splice: [
+            [index, 1],
+            [atIndex, 0, card],
+          ],
+        }),
       };
     }
     default:

@@ -1,15 +1,15 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./constructor-element-bun.module.css";
+import styles from "./constructor-item-bun.module.css";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { updateConstructorBun } from "../../services/actions/ingredients";
 
-export default function ConstructorElementBun({ type }) {
+export default function ConstructorItemBun({ type }) {
   const dispatch = useDispatch();
   const { constructorBun } = useSelector((state) => ({
     constructorBun: state.ingredients.constructorBun,
   }));
-  const [{ isHover, canDrop }, dropTarget] = useDrop({
+  const [{ isHover, canDrop }, dropRef] = useDrop({
     accept: "bun",
     drop(itemId) {
       dispatch(updateConstructorBun(itemId.id));
@@ -24,7 +24,7 @@ export default function ConstructorElementBun({ type }) {
       className={`ml-8 mr-4 ${styles.container} ${
         type === "top" ? styles.border_top : styles.border_bottom
       } ${canDrop ? styles.drag : ""} ${isHover ? styles.hover : ""}`}
-      ref={dropTarget}
+      ref={dropRef}
     >
       {constructorBun ? (
         <ConstructorElement
