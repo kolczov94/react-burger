@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.drag {
+  opacity: 0;
+}
+
 .move {
   cursor: move;
 }

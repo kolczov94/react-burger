@@ -1,5 +1,3 @@
-import update from "immutability-helper";
-
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -69,16 +67,17 @@ export const ingredientsReducer = (state = initialState, action) => {
     }
     case MOVE_CONSTRUCTOR_ITEM: {
       const { id, atIndex } = action.payload;
-      const card = state.constructorList.filter((c) => c.second_id === id)[0];
+      const card = state.constructorList.filter(
+        (item) => item.second_id === id
+      )[0];
       const index = state.constructorList.indexOf(card);
+
+      const newConstructorList = [...state.constructorList];
+      newConstructorList.splice(index, 1);
+      newConstructorList.splice(atIndex, 0, card);
       return {
         ...state,
-        constructorList: update([...state.constructorList], {
-          $splice: [
-            [index, 1],
-            [atIndex, 0, card],
-          ],
-        }),
+        constructorList: newConstructorList,
       };
     }
     default:

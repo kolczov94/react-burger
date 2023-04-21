@@ -11,12 +11,12 @@ import { useDrag, useDrop } from "react-dnd";
 export default function ConstructorItem({ name, price, image, id, index }) {
   const dispatch = useDispatch();
 
-  const [{ opacity }, dragRef, previewRef] = useDrag(
+  const [{ isDrag }, dragRef, previewRef] = useDrag(
     () => ({
       type: "item",
       item: { id, index },
       collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0 : 1,
+        isDrag: monitor.isDragging(),
       }),
       end: (item, monitor) => {
         if (!monitor.didDrop()) {
@@ -41,8 +41,7 @@ export default function ConstructorItem({ name, price, image, id, index }) {
 
   return (
     <div
-      className={`${styles.item} mr-2`}
-      style={{ opacity }}
+      className={`${styles.item} ${isDrag ? styles.drag : ""} mr-2`}
       ref={(node) => dropRef(previewRef(node))}
       draggable
     >
