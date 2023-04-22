@@ -1,21 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import styles from "./constructor-list.module.css";
-import {
-  addConstructorList,
-  incrementIngredientCount,
-} from "../../services/actions/ingredients";
+
 import ConstructorItem from "../constructor-item/constructor-item";
+import { addConstructorItem } from "../../services/actions/burger-constructor";
+import { incrementIngredientCount } from "../../services/actions/ingredients";
+import { selectorBurgerConstructorIngredients } from "../../services/selectors/burger-constructor";
 
 export default function ConstructorList() {
   const dispatch = useDispatch();
-  const constructorList = useSelector(
-    (state) => state.ingredients.constructorList
+  const constructorIngredients = useSelector(
+    selectorBurgerConstructorIngredients
   );
+
   const [{ isHover, canDrop }, dropTarget] = useDrop({
     accept: ["main", "sauce"],
     drop({ id }) {
-      dispatch(addConstructorList(id));
+      dispatch(addConstructorItem(id));
       dispatch(incrementIngredientCount(id));
     },
     collect: (monitor) => {
@@ -30,17 +31,17 @@ export default function ConstructorList() {
         isHover ? styles.hover : ""
       } custom-scroll`}
     >
-      {constructorList.length ? (
-        constructorList.map((item, index) => {
+      {constructorIngredients.length ? (
+        constructorIngredients.map((item, index) => {
           return (
             <ConstructorItem
-              key={item.second_id}
+              key={item.constructor_id}
               id={item._id}
               index={index}
               name={item.name}
               price={item.price}
               image={item.image}
-              secondId={item.second_id}
+              constructorId={item.constructor_id}
             />
           );
         })

@@ -1,12 +1,11 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import styles from "./ingredient-group.module.css";
 
 import IngredientItem from "../ingredient-item/ingredient-item";
-import styles from "./ingredient-group.module.css";
 
 export default function IngredientGroup({
   list,
-  handleCardClick,
   title,
   name,
   addObserverTarget,
@@ -34,7 +33,6 @@ export default function IngredientGroup({
               image={item.image}
               name={item.name}
               price={item.price}
-              handleCardClick={handleCardClick}
               count={item.count}
             />
           );
@@ -61,7 +59,6 @@ IngredientGroup.propTypes = {
       __v: PropTypes.number,
     })
   ),
-  handleCardClick: PropTypes.func.isRequired,
   addObserverTarget: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

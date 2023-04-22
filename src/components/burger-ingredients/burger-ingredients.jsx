@@ -1,21 +1,24 @@
-import { useCallback, useMemo, useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 
 import IngredientGroup from "../ingredient-group/ingredient-group";
 import TabMenu from "../tab-menu/tab-menu";
-import useModalStatus from "../../hooks/use-modal-status";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { updateCurrentTab } from "../../services/actions/ingredients";
 import { useObserver } from "../../hooks/use-observer";
+import { selectorIngredients } from "../../services/selectors/ingredients";
+import { selectorIngredientDetail } from "../../services/selectors/ingredient-detail";
+import { closeIngredientDetail } from "../../services/actions/ingredient-detail";
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const [currentCardId, setCurrentCardId] = useState(null);
-  const { modalStatus, openModal, closeModal } = useModalStatus();
+  const ingredients = useSelector(selectorIngredients);
+  const { ingredientDetail, isShowIngredientDetail } = useSelector(
+    selectorIngredientDetail
+  );
 
   const filteredIngredients = useMemo(() => {
     const bun = ingredients.filter((item) => item.type === "bun");
@@ -23,19 +26,6 @@ export default function BurgerIngredients() {
     const main = ingredients.filter((item) => item.type === "main");
     return { bun, sauce, main };
   }, [ingredients]);
-
-  const currentCard = useMemo(
-    () => ingredients.find((item) => item._id === currentCardId),
-    [currentCardId, ingredients]
-  );
-
-  const handleCardClick = useCallback(
-    (id) => {
-      setCurrentCardId(id);
-      openModal();
-    },
-    [openModal]
-  );
 
   const { addObserverTarget, rootRef, visibleSectionId, scrollToTarget } =
     useObserver();
@@ -55,34 +45,34 @@ export default function BurgerIngredients() {
           title="Булки"
           name="bun"
           list={filteredIngredients.bun}
-          handleCardClick={handleCardClick}
           addObserverTarget={addObserverTarget}
         />
         <IngredientGroup
           title="Соусы"
           name="sauce"
           list={filteredIngredients.sauce}
-          handleCardClick={handleCardClick}
           addObserverTarget={addObserverTarget}
         />
         <IngredientGroup
           title="Начинки"
           name="main"
           list={filteredIngredients.main}
-          handleCardClick={handleCardClick}
           addObserverTarget={addObserverTarget}
         />
       </div>
-      {modalStatus && (
-        <Modal title="Детали ингредиента" onClose={closeModal}>
+      {isShowIngredientDetail && (
+        <Modal
+          title="Детали ингредиента"
+          onClose={() => dispatch(closeIngredientDetail())}
+        >
           <IngredientDetails
-            image={currentCard.image_large}
-            name={currentCard.name}
-            price={currentCard.price}
-            calories={currentCard.calories}
-            carbohydrates={currentCard.carbohydrates}
-            fat={currentCard.fat}
-            proteins={currentCard.proteins}
+            image={ingredientDetail.image_large}
+            name={ingredientDetail.name}
+            price={ingredientDetail.price}
+            calories={ingredientDetail.calories}
+            carbohydrates={ingredientDetail.carbohydrates}
+            fat={ingredientDetail.fat}
+            proteins={ingredientDetail.proteins}
           />
         </Modal>
       )}

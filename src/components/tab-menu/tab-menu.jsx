@@ -2,9 +2,10 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TAB_MENU_LIST } from "../../utils/constants";
+import { selectorCurrentTab } from "../../services/selectors/ingredients";
 
 export default function TabMenu({ scrollToTarget }) {
-  const currentTab = useSelector((state) => state.ingredients.currentTab);
+  const currentTab = useSelector(selectorCurrentTab);
 
   return (
     <>

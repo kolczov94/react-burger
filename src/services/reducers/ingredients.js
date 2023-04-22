@@ -2,116 +2,42 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  UPDATE_CURRENT_TAB,
-  UPDATE_CONSTRUCTOR_BUN,
-  ADD_CONSTRUCTOR_LIST,
-  REMOVE_CONSTRUCTOR_LIST,
-  MOVE_CONSTRUCTOR_ITEM,
   ICREMENT_INGREDIENT_COUNT,
   DECREMENT_INGREDIENT_COUNT,
   UPDATE_INGREDIENT_COUNT_BUN,
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  CLOSE_MODAL_ORDER_DETAIL,
+  RESET_INGREDIENTS_COUNT,
+  UPDATE_CURRENT_TAB,
 } from "../actions/ingredients";
 
 const initialState = {
-  ingredients: [],
-  ingredientsRequest: false,
-  ingredientsFailed: false,
-
+  items: [],
+  isRequest: false,
+  isFailed: false,
   ingredientDetail: {},
-
-  order: {},
-  isShowOrderDetail: false,
-  orderRequest: false,
-  orderFailed: false,
-
-  constructorBun: {},
-  constructorList: [],
+  isShowIngredientDetail: false,
   currentTab: "bun",
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
-      return { ...state, ingredientsRequest: true, ingredientsFailed: false };
+      return { ...state, isRequest: true, isFailed: false };
     }
     case GET_INGREDIENTS_SUCCESS:
       const ingredients = action.payload.map((item) => ({ ...item, count: 0 }));
       return {
         ...state,
-        ingredients,
-        ingredientsRequest: false,
+        items: ingredients,
+        isRequest: false,
       };
     case GET_INGREDIENTS_FAILED: {
-      return { ...state, ingredientsFailed: true, ingredientsRequest: false };
-    }
-    case GET_ORDER_REQUEST: {
-      return { ...state, orderRequest: true, orderFailed: false };
-    }
-    case GET_ORDER_SUCCESS:
-      return {
-        ...state,
-        order: action.payload,
-        isShowOrderDetail: true,
-        orderRequest: false,
-        constructorList: [],
-        constructorBun: {},
-      };
-    case GET_ORDER_FAILED: {
-      return { ...state, orderFailed: true, orderRequest: false };
-    }
-    case UPDATE_CURRENT_TAB: {
-      return { ...state, currentTab: action.payload };
-    }
-    case UPDATE_CONSTRUCTOR_BUN: {
-      const ingredient = [...state.ingredients].find(
-        (item) => item._id === action.payload
-      );
-      return { ...state, constructorBun: ingredient };
-    }
-    case ADD_CONSTRUCTOR_LIST: {
-      const ingredient = [...state.ingredients].find(
-        (item) => item._id === action.payload
-      );
-      return {
-        ...state,
-        constructorList: [
-          ...state.constructorList,
-          { ...ingredient, second_id: crypto.randomUUID() },
-        ],
-      };
-    }
-    case REMOVE_CONSTRUCTOR_LIST: {
-      return {
-        ...state,
-        constructorList: state.constructorList.filter(
-          (item) => item.second_id !== action.payload
-        ),
-      };
-    }
-    case MOVE_CONSTRUCTOR_ITEM: {
-      const { id, atIndex } = action.payload;
-      const card = state.constructorList.filter(
-        (item) => item.second_id === id
-      )[0];
-      const index = state.constructorList.indexOf(card);
-
-      const newConstructorList = [...state.constructorList];
-      newConstructorList.splice(index, 1);
-      newConstructorList.splice(atIndex, 0, card);
-      return {
-        ...state,
-        constructorList: newConstructorList,
-      };
+      return { ...state, isFailed: true, isRequest: false };
     }
     case ICREMENT_INGREDIENT_COUNT: {
       const id = action.payload;
       return {
         ...state,
-        ingredients: state.ingredients.map((item) => {
+        items: state.items.map((item) => {
           if (item._id === id) {
             return { ...item, count: ++item.count };
           }
@@ -123,7 +49,7 @@ export const ingredientsReducer = (state = initialState, action) => {
       const id = action.payload;
       return {
         ...state,
-        ingredients: state.ingredients.map((item) => {
+        items: state.items.map((item) => {
           if (item._id === id) {
             return { ...item, count: --item.count };
           }
@@ -135,7 +61,7 @@ export const ingredientsReducer = (state = initialState, action) => {
       const id = action.payload;
       return {
         ...state,
-        ingredients: state.ingredients.map((item) => {
+        items: state.items.map((item) => {
           if (item.type === "bun") {
             return item._id === id
               ? { ...item, count: 2 }
@@ -145,8 +71,14 @@ export const ingredientsReducer = (state = initialState, action) => {
         }),
       };
     }
-    case CLOSE_MODAL_ORDER_DETAIL: {
-      return { ...state, isShowOrderDetail: false };
+    case RESET_INGREDIENTS_COUNT: {
+      return {
+        ...state,
+        items: state.items.map((item) => ({ ...item, count: 0 })),
+      };
+    }
+    case UPDATE_CURRENT_TAB: {
+      return { ...state, currentTab: action.payload };
     }
     default:
       return state;

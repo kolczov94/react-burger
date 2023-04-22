@@ -3,16 +3,15 @@ import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item-bun.module.css";
-import {
-  updateConstructorBun,
-  updateIngredientCountBun,
-} from "../../services/actions/ingredients";
+
+import { updateConstructorBun } from "../../services/actions/burger-constructor";
+import { updateIngredientCountBun } from "../../services/actions/ingredients";
+import { selectorBurgerConstructorBun } from "../../services/selectors/burger-constructor";
 
 export default function ConstructorItemBun({ type }) {
   const dispatch = useDispatch();
-  const constructorBun = useSelector(
-    (state) => state.ingredients.constructorBun
-  );
+  const constructorBun = useSelector(selectorBurgerConstructorBun);
+
   const [{ isHover, canDrop }, dropRef] = useDrop({
     accept: "bun",
     drop({ id }) {

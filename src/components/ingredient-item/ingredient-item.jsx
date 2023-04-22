@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import {
@@ -6,16 +7,11 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
+import { openIngredientDetail } from "../../services/actions/ingredient-detail";
 
-function IngredientItem({
-  id,
-  name,
-  price,
-  image,
-  handleCardClick,
-  type,
-  count,
-}) {
+function IngredientItem({ id, name, price, image, type, count }) {
+  const dispatch = useDispatch();
+
   const [{ isDrag }, dragRef] = useDrag({
     type,
     item: { id },
@@ -29,7 +25,7 @@ function IngredientItem({
       draggable
       ref={dragRef}
       className={`${styles.card} pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
-      onClick={() => handleCardClick(id)}
+      onClick={() => dispatch(openIngredientDetail(id))}
     >
       {count ? <Counter count={count} size="default" /> : null}
       <img src={image} alt="" />
@@ -47,7 +43,6 @@ IngredientItem.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  handleCardClick: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
 };

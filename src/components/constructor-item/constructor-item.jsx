@@ -6,15 +6,15 @@ import styles from "./constructor-item.module.css";
 
 import moveIcon from "../../images/move-icon.svg";
 import {
-  decrementIngredientCount,
   moveConstructorItem,
-  removeConstructorList,
-} from "../../services/actions/ingredients";
+  removeConstructorItem,
+} from "../../services/actions/burger-constructor";
+import { decrementIngredientCount } from "../../services/actions/ingredients";
 
 export default function ConstructorItem({
   id,
   index,
-  secondId,
+  constructorId,
   name,
   price,
   image,
@@ -24,7 +24,7 @@ export default function ConstructorItem({
   const [{ isDrag }, dragRef, previewRef] = useDrag(
     () => ({
       type: "item",
-      item: { id: secondId, index },
+      item: { id: constructorId, index },
       collect: (monitor) => ({
         isDrag: monitor.isDragging(),
       }),
@@ -50,7 +50,7 @@ export default function ConstructorItem({
   );
 
   function handleRemoveClick() {
-    dispatch(removeConstructorList(secondId));
+    dispatch(removeConstructorItem(constructorId));
     dispatch(decrementIngredientCount(id));
   }
 
@@ -79,7 +79,7 @@ export default function ConstructorItem({
 ConstructorItem.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  secondId: PropTypes.string.isRequired,
+  constructorId: PropTypes.string.isRequired,
   name: PropTypes.string,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
