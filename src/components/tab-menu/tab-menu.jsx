@@ -1,18 +1,21 @@
-import { useState } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TAB_MENU_LIST } from "../../utils/constants";
+import { selectorCurrentTab } from "../../services/selectors/ingredients";
 
-export default function TabMenu({ tabs, tabDefault }) {
-  const [current, setCurrent] = useState(tabDefault);
+export default function TabMenu({ scrollToTarget }) {
+  const currentTab = useSelector(selectorCurrentTab);
+
   return (
     <>
-      {tabs.map((tab, count) => {
+      {TAB_MENU_LIST.map((tab, count) => {
         return (
           <Tab
             key={count}
             value={tab.name}
-            active={current === tab.name}
-            onClick={setCurrent}
+            active={currentTab === tab.name}
+            onClick={(value) => scrollToTarget(value)}
           >
             {tab.title}
           </Tab>
@@ -23,11 +26,5 @@ export default function TabMenu({ tabs, tabDefault }) {
 }
 
 TabMenu.propTypes = {
-  tabDefault: PropTypes.string.isRequired,
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  scrollToTarget: PropTypes.func.isRequired,
 };

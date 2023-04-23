@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.dragged {
+  opacity: 0.3;
+}
+
 .price {
   display: flex;
   gap: 8px;

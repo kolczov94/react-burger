@@ -1,0 +1,15 @@
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.total svg {
+  width: 36px;
+  height: 36px;
+}
