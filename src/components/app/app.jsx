@@ -16,6 +16,7 @@ import {
   ResetPasswordPage,
   SingleIngredientPage,
 } from "../../pages";
+import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,7 +34,10 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
+        />
         <Route path="/order-feed" element={<OrderFeedPage />} />
         <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
       </Routes>
