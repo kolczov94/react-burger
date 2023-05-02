@@ -1,0 +1,32 @@
+.main {
+  margin: 0 auto;
+  max-width: 1280px;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.columns {
+  display: flex;
+}
+
+.menu_list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.menu_item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.description {
+  opacity: 0.4;
+  min-width: 320px;
+  max-width: 320px;
+}
