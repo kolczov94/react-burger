@@ -1,3 +1,4 @@
+import { setCookie } from "../../utils/cookie";
 import {
   GET_LOGIN_REQUEST,
   GET_LOGIN_SUCCESS,
@@ -26,8 +27,8 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, loginRequest: true, loginFailed: false };
     }
     case GET_LOGIN_SUCCESS:
-      console.log(action.payload);
-      return state;
+      setCookie("refreshToken", action.payload.refreshToken);
+      return { ...state, user: action.payload.user };
     case GET_LOGIN_FAILED: {
       return { ...state, loginFailed: true, loginRequest: false };
     }
@@ -35,8 +36,8 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, registrationRequest: true, registrationFailed: false };
     }
     case GET_REGISTER_SUCCESS:
-      console.log(action.payload);
-      return state;
+      setCookie("refreshToken", action.payload.refreshToken);
+      return { ...state, user: action.payload.user };
     case GET_REGISTER_FAILED: {
       return { ...state, registrationFailed: true, registrationRequest: false };
     }

@@ -6,13 +6,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { onLogin } from "../../services/actions/user";
 
 export default function LoginPage() {
-  const [login, setLogin] = useState("");
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onChangeLogin = (e) => {
-    setLogin(e.target.value);
+    setEmail(e.target.value);
   };
 
   const onChangePassword = (e) => {
@@ -21,6 +24,7 @@ export default function LoginPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    dispatch(onLogin(email, password));
     console.log("SUBMIT");
   }
 
@@ -30,7 +34,7 @@ export default function LoginPage() {
       <form className={`${styles.form} mb-20`} onSubmit={handleSubmit}>
         <EmailInput
           onChange={onChangeLogin}
-          value={login}
+          value={email}
           name={"email"}
           extraClass="mb-6"
           isIcon={false}

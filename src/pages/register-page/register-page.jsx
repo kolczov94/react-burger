@@ -7,14 +7,18 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register-page.module.css";
+import { getRegistrationRequest } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { onRegistration } from "../../services/actions/user";
 
 export default function RegisterPage() {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onChangeLogin = (e) => {
-    setLogin(e.target.value);
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
   };
 
   const onChangeName = (e) => {
@@ -27,6 +31,7 @@ export default function RegisterPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    dispatch(onRegistration(name, email, password));
     console.log("SUBMIT");
   }
 
@@ -42,8 +47,8 @@ export default function RegisterPage() {
           placeholder="Имя"
         />
         <EmailInput
-          onChange={onChangeLogin}
-          value={login}
+          onChange={onChangeEmail}
+          value={email}
           name={"email"}
           extraClass="mb-6"
           isIcon={false}

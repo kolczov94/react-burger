@@ -5,17 +5,20 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getForgotPasswordRequest } from "../../utils/api";
 
 export default function ForgotPasswordPage() {
-  const [login, setLogin] = useState("");
-
-  const onChangeLogin = (e) => {
-    setLogin(e.target.value);
-  };
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
+    getForgotPasswordRequest(email).then((data) => {
+      if (data.success) {
+        navigate("/reset-password");
+      }
+    });
     console.log("SUBMIT");
   }
 
@@ -24,8 +27,8 @@ export default function ForgotPasswordPage() {
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
       <form className={`${styles.form} mb-20`} onSubmit={handleSubmit}>
         <EmailInput
-          onChange={onChangeLogin}
-          value={login}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
           name={"email"}
           extraClass="mb-6"
           isIcon={false}

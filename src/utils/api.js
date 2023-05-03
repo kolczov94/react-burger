@@ -23,6 +23,17 @@ export function getOrderRequest(ingredients) {
   }).then(checkResponse);
 }
 
+export function getUserRequest() {
+  console.log("TOK", getCookie("token"));
+  return fetch(`${URL_API}/auth/user`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
+    },
+  }).then(checkResponse);
+}
+
 export function getLoginRequest(email, password) {
   return fetch(`${URL_API}/auth/login`, {
     method: "POST",
@@ -74,12 +85,22 @@ export function getRefreshTokenRequest(ingredients) {
   }).then(checkResponse);
 }
 
-export function getUserRequest() {
-  return fetch(`${URL_API}/auth/user`, {
-    method: "GET",
+export function getForgotPasswordRequest(email) {
+  return fetch(`${URL_API}/password-reset`, {
+    method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: "Bearer " + getCookie("token"),
     },
+    body: JSON.stringify({ email }),
+  }).then(checkResponse);
+}
+
+export function getResetPasswordRequest(password, token) {
+  return fetch(`${URL_API}/password-reset/reset`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ password, token }),
   }).then(checkResponse);
 }
