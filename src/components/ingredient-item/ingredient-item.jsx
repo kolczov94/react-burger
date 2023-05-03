@@ -1,5 +1,4 @@
 import { memo } from "react";
-import { useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import {
@@ -7,10 +6,10 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-item.module.css";
-import { openIngredientDetail } from "../../services/actions/ingredient-detail";
+import { Link, useLocation } from "react-router-dom";
 
 function IngredientItem({ id, name, price, image, type, count }) {
-  const dispatch = useDispatch();
+  let location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag({
     type,
@@ -24,16 +23,29 @@ function IngredientItem({ id, name, price, image, type, count }) {
     <li
       draggable
       ref={dragRef}
-      className={`${styles.card} pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
-      onClick={() => dispatch(openIngredientDetail(id))}
+      className={`pl-4 pr-4 ${isDrag ? styles.dragged : ""}`}
     >
-      {count ? <Counter count={count} size="default" /> : null}
-      <img src={image} alt="" />
-      <div className={styles.price}>
-        <span className="text text_type_digits-default">{price}</span>
-        <CurrencyIcon />
-      </div>
-      <p className={`${styles.name} text text_type_main-default`}>{name}</p>
+      <Link
+        className={styles.link}
+        to={`/ingredients/${id}`}
+        state={{ backgroundLocation: location }}
+      >
+        <div className={styles.card}>
+          {count ? <Counter count={count} size="default" /> : null}
+          <img src={image} alt="" />
+          <div className={styles.price}>
+            <span className="text text_type_digits-default text_color_primary">
+              {price}
+            </span>
+            <CurrencyIcon />
+          </div>
+          <p
+            className={`${styles.name} text text_type_main-default text_color_primary`}
+          >
+            {name}
+          </p>
+        </div>
+      </Link>
     </li>
   );
 }

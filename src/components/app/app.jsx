@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import AppHeader from "../app-header/app-header";
 
@@ -20,6 +20,8 @@ import { ProtectedRouteElement } from "../protected-route-element/protected-rout
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const locationState = location.state;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -28,8 +30,9 @@ function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={locationState?.backgroundLocation || location}>
         <Route path="/" element={<MainPage />} />
+        <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -38,9 +41,17 @@ function App() {
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
         />
-        <Route path="/order-feed" element={<OrderFeedPage />} />
-        <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
+        <Route
+          path="/order-feed"
+          element={<ProtectedRouteElement element={<OrderFeedPage />} />}
+        />
       </Routes>
+
+      {locationState?.backgroundLocation && (
+        <Routes>
+          <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
+        </Routes>
+      )}
     </div>
   );
 }

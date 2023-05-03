@@ -4,21 +4,14 @@ import styles from "./burger-ingredients.module.css";
 
 import IngredientGroup from "../ingredient-group/ingredient-group";
 import TabMenu from "../tab-menu/tab-menu";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { updateCurrentTab } from "../../services/actions/ingredients";
 import { useObserver } from "../../hooks/use-observer";
 import { selectorIngredients } from "../../services/selectors/ingredients";
-import { selectorIngredientDetail } from "../../services/selectors/ingredient-detail";
-import { closeIngredientDetail } from "../../services/actions/ingredient-detail";
 
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
   const ingredients = useSelector(selectorIngredients);
-  const { ingredientDetail, isShowIngredientDetail } = useSelector(
-    selectorIngredientDetail
-  );
 
   const filteredIngredients = useMemo(() => {
     const bun = ingredients.filter((item) => item.type === "bun");
@@ -60,22 +53,6 @@ export default function BurgerIngredients() {
           addObserverTarget={addObserverTarget}
         />
       </div>
-      {isShowIngredientDetail && (
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => dispatch(closeIngredientDetail())}
-        >
-          <IngredientDetails
-            image={ingredientDetail.image_large}
-            name={ingredientDetail.name}
-            price={ingredientDetail.price}
-            calories={ingredientDetail.calories}
-            carbohydrates={ingredientDetail.carbohydrates}
-            fat={ingredientDetail.fat}
-            proteins={ingredientDetail.proteins}
-          />
-        </Modal>
-      )}
     </section>
   );
 }
