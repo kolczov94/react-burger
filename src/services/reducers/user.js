@@ -27,15 +27,17 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, loginRequest: true, loginFailed: false };
     }
     case GET_LOGIN_SUCCESS:
+      setCookie("token", action.payload.accessToken.split("Bearer ")[1]);
       setCookie("refreshToken", action.payload.refreshToken);
       return { ...state, user: action.payload.user };
     case GET_LOGIN_FAILED: {
-      return { ...state, loginFailed: true, loginRequest: false };
+      return { ...state, loginFailed: true, loginRequest: false, user: null };
     }
     case GET_REGISTER_REQUEST: {
       return { ...state, registrationRequest: true, registrationFailed: false };
     }
     case GET_REGISTER_SUCCESS:
+      setCookie("token", action.payload.accessToken.split("Bearer ")[1]);
       setCookie("refreshToken", action.payload.refreshToken);
       return { ...state, user: action.payload.user };
     case GET_REGISTER_FAILED: {
@@ -46,9 +48,14 @@ export const userReducer = (state = initialState, action) => {
     }
     case GET_USER_SUCCESS:
       console.log(action.payload);
-      return { ...state, userRequest: true, userFailed: false };
+      return {
+        ...state,
+        userRequest: false,
+        userFailed: false,
+        user: action.payload,
+      };
     case GET_USER_FAILED: {
-      return { ...state, userFailed: true, userRequest: false };
+      return { ...state, userFailed: true, userRequest: false, user: null };
     }
     default:
       return state;

@@ -24,7 +24,6 @@ export function getOrderRequest(ingredients) {
 }
 
 export function getUserRequest() {
-  console.log("TOK", getCookie("token"));
   return fetch(`${URL_API}/auth/user`, {
     method: "GET",
     headers: {
@@ -41,18 +40,7 @@ export function getLoginRequest(email, password) {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then((res) => {
-    let authToken;
-    res.headers.forEach((header) => {
-      if (header.indexOf("Bearer") === 0) {
-        authToken = header.split("Bearer ")[1];
-      }
-    });
-    if (authToken) {
-      setCookie("token", authToken);
-    }
-    return checkResponse(res);
-  });
+  }).then(checkResponse);
 }
 
 export function getRegistrationRequest(name, email, password) {
@@ -71,17 +59,17 @@ export function getLogoutRequest(ingredients) {
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ ingredients }),
+    body: JSON.stringify({ token: getCookie("refreshToken") }),
   }).then(checkResponse);
 }
 
-export function getRefreshTokenRequest(ingredients) {
+export function getRefreshTokenRequest() {
   return fetch(`${URL_API}/auth/token`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ ingredients }),
+    body: JSON.stringify({ token: getCookie("refreshToken") }),
   }).then(checkResponse);
 }
 

@@ -17,6 +17,7 @@ import {
   SingleIngredientPage,
 } from "../../pages";
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
+import { getUser } from "../../services/actions/user";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(getUser());
   }, [dispatch]);
 
   return (

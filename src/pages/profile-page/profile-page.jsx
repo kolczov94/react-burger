@@ -12,7 +12,7 @@ export default function ProfilePage() {
   const onChangeName = () => {};
 
   return (
-    <main className={styles.main}>
+    <main className={`${styles.main} pl-5 pr-5 pb-10`}>
       <div className={`${styles.columns} mt-30`}>
         <div className="mr-15">
           <nav className={styles.menu}>
