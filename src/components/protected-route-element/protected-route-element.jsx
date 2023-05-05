@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectorUser,
@@ -17,14 +17,9 @@ export function ProtectedRouteElement({ element }) {
     console.log("PROTECTED");
   }, []);
 
-  useLayoutEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-
   if (userRequest) {
     return null;
   }
-  console.log(user, userRequest);
 
   return user ? (
     element

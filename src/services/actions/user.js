@@ -83,6 +83,14 @@ export function refreshToken() {
     try {
       const data = await getRefreshTokenRequest();
       console.log("REFRESH", data);
+      if (data && data.success) {
+        dispatch({
+          type: GET_REGISTER_SUCCESS,
+          payload: data,
+        });
+      } else {
+        dispatch({ type: GET_REGISTER_FAILED });
+      }
     } catch (error) {
       console.log("REFRESHERR", error);
     }

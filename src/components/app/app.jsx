@@ -18,6 +18,7 @@ import {
 } from "../../pages";
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 import { getUser } from "../../services/actions/user";
+import ProfileForm from "../profile-form/profile-form";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +43,10 @@ function App() {
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
-        />
+        >
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<></>} />
+        </Route>
         <Route
           path="/order-feed"
           element={<ProtectedRouteElement element={<OrderFeedPage />} />}
