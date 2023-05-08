@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from "./cookie";
+import { deleteCookie, getCookie, setCookie } from "./cookie";
 
 export const URL_API = "https://norma.nomoreparties.space/api";
 
@@ -33,6 +33,17 @@ export function getUserRequest() {
   }).then(checkResponse);
 }
 
+export function getUserUpdateRequest({ name, email, password }) {
+  return fetch(`${URL_API}/auth/user`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
+    },
+    body: JSON.stringify({ name, email, password }),
+  }).then(checkResponse);
+}
+
 export function getLoginRequest(email, password) {
   return fetch(`${URL_API}/auth/login`, {
     method: "POST",
@@ -40,7 +51,15 @@ export function getLoginRequest(email, password) {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then(checkResponse);
+  })
+    .then(checkResponse)
+    .then((data) => {
+      if (data.success) {
+        setCookie("token", data.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", data.refreshToken);
+      }
+      return data;
+    });
 }
 
 export function getRegistrationRequest(name, email, password) {
@@ -50,17 +69,15 @@ export function getRegistrationRequest(name, email, password) {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
-}
-
-export function getLogoutRequest(ingredients) {
-  return fetch(`${URL_API}/auth/logout`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ token: getCookie("refreshToken") }),
-  }).then(checkResponse);
+  })
+    .then(checkResponse)
+    .then((data) => {
+      if (data.success) {
+        setCookie("token", data.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", data.refreshToken);
+      }
+      return data;
+    });
 }
 
 export function getRefreshTokenRequest() {
@@ -70,7 +87,15 @@ export function getRefreshTokenRequest() {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ token: getCookie("refreshToken") }),
-  }).then(checkResponse);
+  })
+    .then(checkResponse)
+    .then((data) => {
+      if (data.success) {
+        setCookie("token", data.accessToken.split("Bearer ")[1]);
+        setCookie("refreshToken", data.refreshToken);
+      }
+      return data;
+    });
 }
 
 export function getForgotPasswordRequest(email) {
@@ -91,4 +116,22 @@ export function getResetPasswordRequest(password, token) {
     },
     body: JSON.stringify({ password, token }),
   }).then(checkResponse);
+}
+
+export function getLogoutRequest() {
+  return fetch(`${URL_API}/auth/logout`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ token: getCookie("refreshToken") }),
+  })
+    .then(checkResponse)
+    .then((data) => {
+      if (data.success) {
+        deleteCookie("token");
+        deleteCookie("refreshToken");
+        return data;
+      }
+    });
 }

@@ -1,4 +1,3 @@
-import { setCookie } from "../../utils/cookie";
 import {
   GET_LOGIN_REQUEST,
   GET_LOGIN_SUCCESS,
@@ -9,10 +8,16 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
+  USER_LOGOUT,
+  USER_FORGOT_PASSWORD,
+  USER_FORGOT_PASSWORD_RESET,
+  USER_PASSWORD_RESET,
+  USER_UPDATE,
 } from "../actions/user";
 
 const initialState = {
   user: null,
+  isResetPassword: false,
   loginRequest: false,
   loginFailed: false,
   registrationRequest: false,
@@ -27,27 +32,24 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, loginRequest: true, loginFailed: false };
     }
     case GET_LOGIN_SUCCESS:
-      setCookie("token", action.payload.accessToken.split("Bearer ")[1]);
-      setCookie("refreshToken", action.payload.refreshToken);
-      return { ...state, user: action.payload.user };
+      return { ...state, user: action.payload };
     case GET_LOGIN_FAILED: {
       return { ...state, loginFailed: true, loginRequest: false, user: null };
     }
+
     case GET_REGISTER_REQUEST: {
       return { ...state, registrationRequest: true, registrationFailed: false };
     }
     case GET_REGISTER_SUCCESS:
-      setCookie("token", action.payload.accessToken.split("Bearer ")[1]);
-      setCookie("refreshToken", action.payload.refreshToken);
-      return { ...state, user: action.payload.user };
+      return { ...state, user: action.payload };
     case GET_REGISTER_FAILED: {
       return { ...state, registrationFailed: true, registrationRequest: false };
     }
+
     case GET_USER_REQUEST: {
       return { ...state, userRequest: true, userFailed: false };
     }
     case GET_USER_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         userRequest: false,
@@ -56,6 +58,26 @@ export const userReducer = (state = initialState, action) => {
       };
     case GET_USER_FAILED: {
       return { ...state, userFailed: true, userRequest: false, user: null };
+    }
+
+    case USER_FORGOT_PASSWORD: {
+      return {
+        ...state,
+        isResetPassword: true,
+      };
+    }
+    case USER_FORGOT_PASSWORD_RESET: {
+      return { ...state, isResetPassword: false };
+    }
+    case USER_PASSWORD_RESET: {
+      return { ...state, isResetPassword: false };
+    }
+
+    case USER_LOGOUT: {
+      return { ...state, user: null };
+    }
+    case USER_UPDATE: {
+      return { ...state, user: action.payload };
     }
     default:
       return state;

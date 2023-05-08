@@ -2,9 +2,12 @@ import {
   getLoginRequest,
   getRegistrationRequest,
   getLogoutRequest,
-  getRefreshTokenRequest,
   getUserRequest,
+  getForgotPasswordRequest,
+  getResetPasswordRequest,
+  getUserUpdateRequest,
 } from "../../utils/api";
+import { fetchAuth } from "../../utils/fetch-auth";
 
 export const GET_LOGIN_REQUEST = "GET_LOGIN_REQUEST";
 export const GET_LOGIN_SUCCESS = "GET_LOGIN_SUCCESS";
@@ -22,77 +25,105 @@ export const GET_USER_REQUEST = "GET_USER_REQUEST";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_FAILED = "GET_USER_FAILED";
 
+export const USER_LOGOUT = "USER_LOGOUT";
+export const USER_UPDATE = "USER_UPDATE";
+export const USER_FORGOT_PASSWORD = "USER_FORGOT_PASSWORD";
+export const USER_FORGOT_PASSWORD_RESET = "USER_FORGOT_PASSWORD_RESET";
+export const USER_PASSWORD_RESET = "USER_FORGOT_RESET";
+
+export const USER_DISABLE_REDDIRECT_RESET_PASSWORD =
+  "USER_DISABLE_REDDIRECT_RESET_PASSWORD";
+
 export function getUser() {
-  return async function (dispatch) {
+  return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    try {
-      const data = await getUserRequest();
-      if (data && data.success) {
+    fetchAuth(getUserRequest)
+      .then((data) => {
         dispatch({
           type: GET_USER_SUCCESS,
           payload: data.user,
         });
-      } else {
-        dispatch({ type: GET_USER_FAILED });
-      }
-    } catch (error) {
-      if (error.message === "jwt expired") {
-        dispatch(refreshToken());
-      }
-      dispatch({ type: GET_USER_FAILED });
-    }
+      })
+      .catch((err) => dispatch({ type: GET_USER_FAILED }));
+  };
+}
+
+export function userUpdate(name, email, password) {
+  return async function (dispatch) {
+    fetchAuth(getUserUpdateRequest, { name, email, password }).then((data) => {
+      dispatch({ type: USER_UPDATE, payload: data.user });
+    });
   };
 }
 
 export function onLogin(email, password) {
   return function (dispatch) {
     dispatch({ type: GET_LOGIN_REQUEST });
-    getLoginRequest(email, password).then((data) => {
-      console.log("LOGINDATA", data);
-      if (data && data.success) {
-        dispatch({
-          type: GET_LOGIN_SUCCESS,
-          payload: data,
-        });
-      } else {
-        dispatch({ type: GET_LOGIN_FAILED });
-      }
-    });
+    getLoginRequest(email, password)
+      .then((data) => {
+        if (data && data.success) {
+          dispatch({
+            type: GET_LOGIN_SUCCESS,
+            payload: data.user,
+          });
+        } else {
+          dispatch({ type: GET_LOGIN_FAILED });
+        }
+      })
+      .catch((err) => dispatch({ type: GET_LOGIN_FAILED }));
+  };
+}
+
+export function onLogout() {
+  return function (dispatch) {
+    getLogoutRequest().then((data) => dispatch({ type: USER_LOGOUT }));
   };
 }
 
 export function onRegistration(name, email, password) {
   return function (dispatch) {
     dispatch({ type: GET_REGISTER_REQUEST });
-    getRegistrationRequest(name, email, password).then((data) => {
-      console.log("REGISTERDATA", data);
+    getRegistrationRequest(name, email, password)
+      .then((data) => {
+        if (data && data.success) {
+          dispatch({
+            type: GET_REGISTER_SUCCESS,
+            payload: data.user,
+          });
+        } else {
+          dispatch({ type: GET_REGISTER_FAILED });
+        }
+      })
+      .catch((err) => dispatch({ type: GET_REGISTER_FAILED }));
+  };
+}
+
+export function userPasswordForgot(email) {
+  return function (dispatch) {
+    getForgotPasswordRequest(email).then((data) => {
       if (data && data.success) {
         dispatch({
-          type: GET_REGISTER_SUCCESS,
+          type: USER_FORGOT_PASSWORD,
           payload: data,
         });
-      } else {
-        dispatch({ type: GET_REGISTER_FAILED });
       }
     });
   };
 }
 
-export function refreshToken() {
-  return async function (dispatch) {
-    try {
-      const data = await getRefreshTokenRequest();
-      console.log("REFRESH", data);
+export function userPasswordForgotReset() {
+  return { type: USER_FORGOT_PASSWORD_RESET };
+}
+
+export function userPasswordReset(password, token) {
+  return function (dispatch) {
+    getResetPasswordRequest(password, token).then((data) => {
       if (data && data.success) {
         dispatch({
-          type: GET_REGISTER_SUCCESS,
+          type: USER_PASSWORD_RESET,
           payload: data,
         });
-      } else {
-        dispatch({ type: GET_REGISTER_FAILED });
       }
-    } catch (error) {
-      console.log("REFRESHERR", error);
-    }
+    });
   };
 }

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PasswordInput,
   EmailInput,
@@ -8,35 +8,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
 import { onLogin } from "../../services/actions/user";
-import { selectorUser } from "../../services/selectors/user";
 
 export default function LoginPage() {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const dispatch = useDispatch();
-  const user = useSelector(selectorUser);
-  const location = useLocation();
-  const loactionState = location.state;
-  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(onLogin(email, password));
   }
-
-  useEffect(() => {
-    console.log("LOGIN");
-  }, []);
-
-  useEffect(() => {
-    if (user && loactionState?.from) {
-      navigate(loactionState.from);
-    }
-    if (user && !loactionState?.from) {
-      navigate("/");
-    }
-  }, [loactionState, navigate, user]);
 
   return (
     <div className={styles.container}>

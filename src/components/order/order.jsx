@@ -20,9 +20,12 @@ import {
 } from "../../services/selectors/order";
 import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
+import { selectorUser } from "../../services/selectors/user";
+import { useNavigate } from "react-router";
 
 export default function Order() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const constructorIngredients = useSelector(
     selectorBurgerConstructorIngredients
@@ -30,6 +33,7 @@ export default function Order() {
   const constructorBun = useSelector(selectorBurgerConstructorBun);
   const orderRequest = useSelector(selectorOrderRequest);
   const isShowOrder = useSelector(selectorIsShowOrder);
+  const user = useSelector(selectorUser);
 
   const isLockedButton =
     Boolean(constructorIngredients.length) || Boolean(constructorBun._id);
@@ -51,6 +55,10 @@ export default function Order() {
     dispatch(resetBurgerConstructor());
   }
 
+  function handleClickOrder() {
+    user ? dispatch(getOrder()) : navigate("/login");
+  }
+
   return (
     <>
       <div className={`${styles.order} mt-10`}>
@@ -59,9 +67,9 @@ export default function Order() {
           <CurrencyIcon />
         </div>
         <Button
-          htmlType="submit"
+          htmlType="button"
           size="large"
-          onClick={() => dispatch(getOrder())}
+          onClick={handleClickOrder}
           disabled={!isLockedButton || orderRequest}
         >
           Оформить заказ

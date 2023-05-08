@@ -19,8 +19,9 @@ import {
 import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
 import { getUser } from "../../services/actions/user";
 import ProfileForm from "../profile-form/profile-form";
+import Error404Page from "../../pages/error-404-page/error-404-page";
 
-function App() {
+export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationState = location.state;
@@ -36,10 +37,37 @@ function App() {
       <Routes location={locationState?.backgroundLocation || location}>
         <Route path="/" element={<MainPage />} />
         <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/order-feed" element={<OrderFeedPage />} />
+        <Route
+          path="/login"
+          element={
+            <ProtectedRouteElement element={<LoginPage />} isAuthed={true} />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRouteElement element={<RegisterPage />} isAuthed={true} />
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteElement
+              element={<ForgotPasswordPage />}
+              isAuthed={true}
+            />
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteElement
+              element={<ResetPasswordPage />}
+              isAuthed={true}
+            />
+          }
+        />
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
@@ -47,10 +75,7 @@ function App() {
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<></>} />
         </Route>
-        <Route
-          path="/order-feed"
-          element={<ProtectedRouteElement element={<OrderFeedPage />} />}
-        />
+        <Route path="*" element={<Error404Page />} />
       </Routes>
 
       {locationState?.backgroundLocation && (
@@ -61,5 +86,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

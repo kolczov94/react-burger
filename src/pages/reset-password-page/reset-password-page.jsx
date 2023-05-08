@@ -1,15 +1,28 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Button,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password-page.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { selectorUserIsResetPassword } from "../../services/selectors/user";
+import {
+  userPasswordForgotReset,
+  userPasswordReset,
+} from "../../services/actions/user";
 
 export default function ResetPasswordPage() {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
+
+  const isResetPassword = useSelector(selectorUserIsResetPassword);
+
+  useEffect(() => {
+    return () => dispatch(userPasswordForgotReset());
+  }, [dispatch]);
 
   const onChangeCode = (e) => {
     setCode(e.target.value);
@@ -21,7 +34,11 @@ export default function ResetPasswordPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("SUBMIT");
+    dispatch(userPasswordReset(password, code));
+  }
+
+  if (!isResetPassword) {
+    return <Navigate to="/login" />;
   }
 
   return (

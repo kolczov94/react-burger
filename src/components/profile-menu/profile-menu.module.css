@@ -13,3 +13,8 @@
 .link {
   text-decoration: none;
 }
+
+.button {
+  background-color: transparent;
+  cursor: pointer;
+}

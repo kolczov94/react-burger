@@ -1,24 +1,31 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   selectorUser,
   selectorUserRequest,
 } from "../../services/selectors/user";
-import { getUser } from "../../services/actions/user";
 
-export function ProtectedRouteElement({ element }) {
-  const dispatch = useDispatch();
+export function ProtectedRouteElement({ element, isAuthed }) {
+  const location = useLocation();
+  const loactionState = location.state;
+
   const userRequest = useSelector(selectorUserRequest);
   const user = useSelector(selectorUser);
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log("PROTECTED");
-  }, []);
 
   if (userRequest) {
     return null;
+  }
+
+  if (isAuthed && !user) {
+    return element;
+  }
+
+  if (isAuthed && user) {
+    return loactionState?.from ? (
+      <Navigate to={loactionState.from} replace />
+    ) : (
+      <Navigate to="/" replace />
+    );
   }
 
   return user ? (

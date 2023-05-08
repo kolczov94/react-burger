@@ -7,7 +7,6 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register-page.module.css";
-import { getRegistrationRequest } from "../../utils/api";
 import { useDispatch } from "react-redux";
 import { onRegistration } from "../../services/actions/user";
 
@@ -32,7 +31,6 @@ export default function RegisterPage() {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(onRegistration(name, email, password));
-    console.log("SUBMIT");
   }
 
   return (
