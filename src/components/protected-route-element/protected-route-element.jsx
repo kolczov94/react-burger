@@ -1,5 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import {
   selectorUser,
   selectorUserRequest,
@@ -34,3 +36,8 @@ export function ProtectedRouteElement({ element, isAuthed }) {
     <Navigate to="/login" replace state={{ from: location }} />
   );
 }
+
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.node.isRequired,
+  isAuthed: PropTypes.bool.isRequired,
+};

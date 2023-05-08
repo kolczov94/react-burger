@@ -70,7 +70,9 @@ export default function App() {
         />
         <Route
           path="/profile"
-          element={<ProtectedRouteElement element={<ProfilePage />} />}
+          element={
+            <ProtectedRouteElement element={<ProfilePage />} isAuthed={false} />
+          }
         >
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<></>} />
