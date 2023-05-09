@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Button,
   Input,
@@ -12,11 +12,14 @@ import {
   userPasswordForgotReset,
   userPasswordReset,
 } from "../../services/actions/user";
+import { useForm } from "../../hooks/use-form";
 
 export default function ResetPasswordPage() {
   const dispatch = useDispatch();
-  const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
+  const { handleChange, values } = useForm({
+    password: "",
+    code: "",
+  });
 
   const isResetPassword = useSelector(selectorUserIsResetPassword);
 
@@ -24,17 +27,9 @@ export default function ResetPasswordPage() {
     return () => dispatch(userPasswordForgotReset());
   }, [dispatch]);
 
-  const onChangeCode = (e) => {
-    setCode(e.target.value);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(userPasswordReset(password, code));
+    dispatch(userPasswordReset(values.password, values.code));
   }
 
   if (!isResetPassword) {
@@ -46,15 +41,15 @@ export default function ResetPasswordPage() {
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
       <form className={`${styles.form} mb-20`} onSubmit={handleSubmit}>
         <PasswordInput
-          onChange={onChangePassword}
-          value={password}
-          name={"password"}
+          onChange={handleChange}
+          value={values.password}
+          name="password"
           extraClass="mb-6"
         />
         <Input
-          onChange={onChangeCode}
-          value={code}
-          name={"code"}
+          onChange={handleChange}
+          value={values.code}
+          name="code"
           extraClass="mb-6"
           placeholder="Введите код из письма"
         />

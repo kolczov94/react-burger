@@ -9,7 +9,7 @@ import styles from "./ingredient-item.module.css";
 import { Link, useLocation } from "react-router-dom";
 
 function IngredientItem({ id, name, price, image, type, count }) {
-  let location = useLocation();
+  const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag({
     type,

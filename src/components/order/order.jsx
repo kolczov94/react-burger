@@ -9,7 +9,7 @@ import styles from "./order.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-import { closeModalOrderDetail, getOrder } from "../../services/actions/order";
+import { closeModalOrderDetail } from "../../services/actions/order";
 import {
   selectorBurgerConstructorBun,
   selectorBurgerConstructorIngredients,
@@ -20,12 +20,9 @@ import {
 } from "../../services/selectors/order";
 import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
-import { selectorUser } from "../../services/selectors/user";
-import { useNavigate } from "react-router";
 
-export default function Order() {
+export default function Order({ handleClickOrder }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const constructorIngredients = useSelector(
     selectorBurgerConstructorIngredients
@@ -33,7 +30,6 @@ export default function Order() {
   const constructorBun = useSelector(selectorBurgerConstructorBun);
   const orderRequest = useSelector(selectorOrderRequest);
   const isShowOrder = useSelector(selectorIsShowOrder);
-  const user = useSelector(selectorUser);
 
   const isLockedButton =
     Boolean(constructorIngredients.length) || Boolean(constructorBun._id);
@@ -53,10 +49,6 @@ export default function Order() {
     dispatch(closeModalOrderDetail());
     dispatch(resetIngredientCount());
     dispatch(resetBurgerConstructor());
-  }
-
-  function handleClickOrder() {
-    user ? dispatch(getOrder()) : navigate("/login");
   }
 
   return (

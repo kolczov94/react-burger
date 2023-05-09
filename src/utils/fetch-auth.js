@@ -24,5 +24,5 @@ export async function fetchAuth(userFetch, payload) {
     return Promise.reject(updateTokenData.message);
   }
 
-  return await userFetch();
+  return await userFetch(payload ? payload : {});
 }

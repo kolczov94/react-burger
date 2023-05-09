@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Input,
@@ -9,28 +8,19 @@ import {
 import styles from "./register-page.module.css";
 import { useDispatch } from "react-redux";
 import { onRegistration } from "../../services/actions/user";
+import { useForm } from "../../hooks/use-form";
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  const { handleChange, values } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(onRegistration(name, email, password));
+    dispatch(onRegistration(values.name, values.email, values.password));
   }
 
   return (
@@ -38,23 +28,23 @@ export default function RegisterPage() {
       <h1 className="text text_type_main-medium mb-6">Регистрация</h1>
       <form className={`${styles.form} mb-20`} onSubmit={handleSubmit}>
         <Input
-          onChange={onChangeName}
-          value={name}
-          name={"name"}
+          onChange={handleChange}
+          value={values.name}
+          name="name"
           extraClass="mb-6"
           placeholder="Имя"
         />
         <EmailInput
-          onChange={onChangeEmail}
-          value={email}
-          name={"email"}
+          onChange={handleChange}
+          value={values.email}
+          name="email"
           extraClass="mb-6"
           isIcon={false}
         />
         <PasswordInput
-          onChange={onChangePassword}
-          value={password}
-          name={"password"}
+          onChange={handleChange}
+          value={values.password}
+          name="password"
           extraClass="mb-6"
         />
         <Button htmlType="submit">Зарегистрироваться</Button>

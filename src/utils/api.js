@@ -55,8 +55,8 @@ export function getLoginRequest(email, password) {
     .then(checkResponse)
     .then((data) => {
       if (data.success) {
-        setCookie("token", data.accessToken.split("Bearer ")[1]);
-        setCookie("refreshToken", data.refreshToken);
+        setCookie("token", data.accessToken.split("Bearer ")[1], { path: '/' });
+        setCookie("refreshToken", data.refreshToken, { path: '/' });
       }
       return data;
     });
@@ -73,8 +73,8 @@ export function getRegistrationRequest(name, email, password) {
     .then(checkResponse)
     .then((data) => {
       if (data.success) {
-        setCookie("token", data.accessToken.split("Bearer ")[1]);
-        setCookie("refreshToken", data.refreshToken);
+        setCookie("token", data.accessToken.split("Bearer ")[1], { path: '/' });
+        setCookie("refreshToken", data.refreshToken, { path: '/' });
       }
       return data;
     });
@@ -91,8 +91,8 @@ export function getRefreshTokenRequest() {
     .then(checkResponse)
     .then((data) => {
       if (data.success) {
-        setCookie("token", data.accessToken.split("Bearer ")[1]);
-        setCookie("refreshToken", data.refreshToken);
+        setCookie("token", data.accessToken.split("Bearer ")[1], { path: '/' });
+        setCookie("refreshToken", data.refreshToken, { path: '/' });
       }
       return data;
     });

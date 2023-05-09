@@ -1,68 +1,75 @@
-import { useState } from "react";
-import styles from "./profile-form.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   EmailInput,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import styles from "./profile-form.module.css";
+
 import { selectorUser } from "../../services/selectors/user";
 import { userUpdate } from "../../services/actions/user";
+import { useForm } from "../../hooks/use-form";
 
 export default function ProfileForm() {
   const user = useSelector(selectorUser);
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState("");
+  const { handleChange, setValues, values } = useForm({
+    name: user.name,
+    email: user.email,
+    password: "",
+  });
+
+  function resetForm() {
+    setValues({
+      name: user.name,
+      email: user.email,
+      password: "",
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(userUpdate(name, email, password));
-    setPassword("");
-  }
-
-  function handleReset() {
-    setName(user.name);
-    setEmail(user.email);
-    setPassword("");
+    dispatch(userUpdate(values.name, values.email, values.password));
+    setValues({ ...values, password: "" });
   }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-        name={"name"}
+        onChange={handleChange}
+        value={values.name}
+        name="name"
         extraClass="mb-6"
         placeholder="Имя"
         type="text"
         icon={"EditIcon"}
       />
       <EmailInput
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        name={"email"}
+        onChange={handleChange}
+        value={values.email}
+        name="email"
         placeholder="Логин"
         isIcon={true}
         extraClass="mb-6"
       />
       <PasswordInput
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-        name={"password"}
+        onChange={handleChange}
+        value={values.password}
+        name="password"
         icon="EditIcon"
         autoComplete="off"
       />
-      {(name !== user.name || email !== user.email || password !== "") && (
+      {(values.name !== user.name ||
+        values.email !== user.email ||
+        values.password !== "") && (
         <div className={`${styles.buttons} mt-6`}>
           <Button
             htmlType="button"
             type="secondary"
             size="medium"
-            onClick={handleReset}
+            onClick={resetForm}
           >
             Отмена
           </Button>

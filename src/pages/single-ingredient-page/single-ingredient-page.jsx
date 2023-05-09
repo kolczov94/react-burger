@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { selectorIngredients } from "../../services/selectors/ingredients";
 
 export default function SingleIngredientPage() {
-  let { id } = useParams();
-  let navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const ingredients = useSelector(selectorIngredients);
   const ingredientDetail = ingredients.filter((item) => item._id === id)[0];
 

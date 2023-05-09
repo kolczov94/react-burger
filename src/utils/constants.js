@@ -13,3 +13,16 @@ export const TAB_MENU_LIST = [
     title: "Начинки",
   },
 ];
+
+export const ROUTES = {
+  MAIN: "/",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
+  PROFILE: "/profile",
+  ORDERS: "orders",
+  SINGLE_INGREDIENT: "/ingredients/:id",
+  ORDER_FEED: "/order-feed",
+  ALL: "*",
+};

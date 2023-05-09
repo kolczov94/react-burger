@@ -20,6 +20,7 @@ import { ProtectedRouteElement } from "../protected-route-element/protected-rout
 import { getUser } from "../../services/actions/user";
 import ProfileForm from "../profile-form/profile-form";
 import Error404Page from "../../pages/error-404-page/error-404-page";
+import { ROUTES } from "../../utils/constants";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -35,23 +36,26 @@ export default function App() {
     <div className={styles.app}>
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
-        <Route path="/order-feed" element={<OrderFeedPage />} />
+        <Route path={ROUTES.MAIN} element={<MainPage />} />
         <Route
-          path="/login"
+          path={ROUTES.SINGLE_INGREDIENT}
+          element={<SingleIngredientPage />}
+        />
+        <Route path={ROUTES.ORDER_FEED} element={<OrderFeedPage />} />
+        <Route
+          path={ROUTES.LOGIN}
           element={
             <ProtectedRouteElement element={<LoginPage />} isAuthed={true} />
           }
         />
         <Route
-          path="/register"
+          path={ROUTES.REGISTER}
           element={
             <ProtectedRouteElement element={<RegisterPage />} isAuthed={true} />
           }
         />
         <Route
-          path="/forgot-password"
+          path={ROUTES.FORGOT_PASSWORD}
           element={
             <ProtectedRouteElement
               element={<ForgotPasswordPage />}
@@ -60,7 +64,7 @@ export default function App() {
           }
         />
         <Route
-          path="/reset-password"
+          path={ROUTES.RESET_PASSWORD}
           element={
             <ProtectedRouteElement
               element={<ResetPasswordPage />}
@@ -69,20 +73,23 @@ export default function App() {
           }
         />
         <Route
-          path="/profile"
+          path={ROUTES.PROFILE}
           element={
             <ProtectedRouteElement element={<ProfilePage />} isAuthed={false} />
           }
         >
           <Route index element={<ProfileForm />} />
-          <Route path="orders" element={<></>} />
+          <Route path={ROUTES.ORDERS} element={<></>} />
         </Route>
-        <Route path="*" element={<Error404Page />} />
+        <Route path={ROUTES.ALL} element={<Error404Page />} />
       </Routes>
 
       {locationState?.backgroundLocation && (
         <Routes>
-          <Route path="/ingredients/:id" element={<SingleIngredientPage />} />
+          <Route
+            path={ROUTES.SINGLE_INGREDIENT}
+            element={<SingleIngredientPage />}
+          />
         </Routes>
       )}
     </div>
