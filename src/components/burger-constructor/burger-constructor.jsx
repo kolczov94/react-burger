@@ -3,7 +3,7 @@ import ConstructorItemBun from "../constructor-item-bun/constructor-item-bun";
 import ConstructorList from "../constructor-list/constructor-list";
 import Order from "../order/order";
 
-export default function BurgerConstructor() {
+export default function BurgerConstructor({ handleClickOrder }) {
   return (
     <section className={`${styles.sections} pt-25 ml-4`}>
       <div className={`${styles.list}`}>
@@ -11,7 +11,7 @@ export default function BurgerConstructor() {
         <ConstructorList />
         <ConstructorItemBun type="bottom" />
       </div>
-      <Order />
+      <Order handleClickOrder={handleClickOrder} />
     </section>
   );
 }

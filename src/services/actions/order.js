@@ -12,9 +12,9 @@ export function getOrder() {
       burgerConstructor: { ingredients, bun },
     } = getState();
 
-    const ingreidentsIds = ingredients.map((item) => item._id);
+    let ingreidentsIds = ingredients.map((item) => item._id);
     if (bun._id) {
-      ingreidentsIds.push(bun._id, bun._id);
+      ingreidentsIds = [bun._id, ...ingreidentsIds, bun._id];
     }
 
     getOrderRequest(ingreidentsIds).then((data) => {

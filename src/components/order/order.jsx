@@ -9,7 +9,7 @@ import styles from "./order.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-import { closeModalOrderDetail, getOrder } from "../../services/actions/order";
+import { closeModalOrderDetail } from "../../services/actions/order";
 import {
   selectorBurgerConstructorBun,
   selectorBurgerConstructorIngredients,
@@ -21,7 +21,7 @@ import {
 import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 
-export default function Order() {
+export default function Order({ handleClickOrder }) {
   const dispatch = useDispatch();
 
   const constructorIngredients = useSelector(
@@ -59,9 +59,9 @@ export default function Order() {
           <CurrencyIcon />
         </div>
         <Button
-          htmlType="submit"
+          htmlType="button"
           size="large"
-          onClick={() => dispatch(getOrder())}
+          onClick={handleClickOrder}
           disabled={!isLockedButton || orderRequest}
         >
           Оформить заказ

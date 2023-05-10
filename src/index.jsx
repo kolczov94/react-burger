@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { compose, createStore, applyMiddleware } from "redux";
 import "./index.css";
+
 import App from "./components/app/app";
 import { rootReducer } from "./services/reducers";
 
@@ -19,8 +21,10 @@ const store = createStore(rootReducer, enhancer);
 
 root.render(
   // <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
       <App />
-    </Provider>
+    </BrowserRouter>
+  </Provider>
   // </React.StrictMode>
 );
