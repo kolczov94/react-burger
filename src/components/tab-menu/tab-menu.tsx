@@ -1,10 +1,14 @@
+import { FC } from "react";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TAB_MENU_LIST } from "../../utils/constants";
 import { selectorCurrentTab } from "../../services/selectors/ingredients";
 
-export default function TabMenu({ scrollToTarget }) {
+interface ITabMenu {
+  scrollToTarget: (value: string) => void;
+}
+
+const TabMenu: FC<ITabMenu> = ({ scrollToTarget }) => {
   const currentTab = useSelector(selectorCurrentTab);
 
   return (
@@ -23,8 +27,6 @@ export default function TabMenu({ scrollToTarget }) {
       })}
     </>
   );
-}
-
-TabMenu.propTypes = {
-  scrollToTarget: PropTypes.func.isRequired,
 };
+
+export default TabMenu;

@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
-import PropTypes from "prop-types";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
 
@@ -10,15 +9,25 @@ import {
   removeConstructorItem,
 } from "../../services/actions/burger-constructor";
 import { decrementIngredientCount } from "../../services/actions/ingredients";
+import { FC } from "react";
 
-export default function ConstructorItem({
+interface IConstructorItem {
+  id: string;
+  index: number;
+  constructorId: string;
+  name: string;
+  price: number;
+  image: string;
+}
+
+const ConstructorItem: FC<IConstructorItem> = ({
   id,
   index,
   constructorId,
   name,
   price,
   image,
-}) {
+}) => {
   const dispatch = useDispatch();
 
   const [{ isDrag }, dragRef, previewRef] = useDrag(
@@ -40,7 +49,7 @@ export default function ConstructorItem({
   const [, dropRef] = useDrop(
     () => ({
       accept: "item",
-      hover(item, monitor) {
+      hover(item: { id: string }, monitor) {
         if (item.id !== id) {
           dispatch(moveConstructorItem({ id: item.id, atIndex: index }));
         }
@@ -74,13 +83,6 @@ export default function ConstructorItem({
       />
     </div>
   );
-}
-
-ConstructorItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
-  constructorId: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
 };
+
+export default ConstructorItem;

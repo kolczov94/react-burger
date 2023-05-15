@@ -1,3 +1,4 @@
+import { FC, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -11,7 +12,7 @@ import { selectorUser } from "../../services/selectors/user";
 import { userUpdate } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
 
-export default function ProfileForm() {
+const ProfileForm: FC = () => {
   const user = useSelector(selectorUser);
   const dispatch = useDispatch();
 
@@ -29,8 +30,9 @@ export default function ProfileForm() {
     });
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // @ts-ignore
     dispatch(userUpdate(values.name, values.email, values.password));
     setValues({ ...values, password: "" });
   }
@@ -78,4 +80,6 @@ export default function ProfileForm() {
       )}
     </form>
   );
-}
+};
+
+export default ProfileForm;

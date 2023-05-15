@@ -1,9 +1,16 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-export function useObserver() {
-  const [visibleSectionId, setVisibleSectionId] = useState("");
-  const [targets, setTargets] = useState({});
-  const rootRef = useRef();
+// type TReturnObserver = {
+//   rootRef;
+//   addObserverTarget;
+//   visibleSectionId;
+//   scrollToTarget;
+// };
+
+export const useObserver = () => {
+  const [visibleSectionId, setVisibleSectionId] = useState<string>("");
+  const [targets, setTargets] = useState<{ [name: string]: HTMLElement }>({});
+  const rootRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,12 +29,15 @@ export function useObserver() {
     return () => observer.disconnect();
   }, [targets]);
 
-  const addObserverTarget = useCallback((target) => {
-    setTargets((prev) => ({ ...prev, [target.key]: target.target }));
-  }, []);
+  const addObserverTarget = useCallback(
+    (target: { key: string; target: HTMLElement }): void => {
+      setTargets((prev) => ({ ...prev, [target.key]: target.target }));
+    },
+    []
+  );
 
   const scrollToTarget = useCallback(
-    (targetKey) => {
+    (targetKey: string) => {
       const target = targets[targetKey];
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });
@@ -37,4 +47,4 @@ export function useObserver() {
   );
 
   return { rootRef, addObserverTarget, visibleSectionId, scrollToTarget };
-}
+};

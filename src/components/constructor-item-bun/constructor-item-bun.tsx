@@ -1,21 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import PropTypes from "prop-types";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item-bun.module.css";
 
 import { updateConstructorBun } from "../../services/actions/burger-constructor";
 import { updateIngredientCountBun } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorBun } from "../../services/selectors/burger-constructor";
+import { FC } from "react";
 
-export default function ConstructorItemBun({ type }) {
+interface IConstructorItemBun {
+  type: "top" | "bottom" | undefined;
+}
+
+const ConstructorItemBun: FC<IConstructorItemBun> = ({ type }) => {
   const dispatch = useDispatch();
   const constructorBun = useSelector(selectorBurgerConstructorBun);
-
+  // @ts-ignore
   const [{ isHover, canDrop }, dropRef] = useDrop({
     accept: "bun",
+    // @ts-ignore
     drop({ id }) {
       if (id !== constructorBun._id) {
+        // @ts-ignore
         dispatch(updateConstructorBun(id));
         dispatch(updateIngredientCountBun(id));
       }
@@ -51,8 +57,6 @@ export default function ConstructorItemBun({ type }) {
       )}
     </div>
   );
-}
-
-ConstructorItemBun.propTypes = {
-  type: PropTypes.string.isRequired,
 };
+
+export default ConstructorItemBun;

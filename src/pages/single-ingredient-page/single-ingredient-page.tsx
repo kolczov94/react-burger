@@ -4,12 +4,16 @@ import IngredientDetails from "../../components/ingredient-details/ingredient-de
 import { useSelector } from "react-redux";
 
 import { selectorIngredients } from "../../services/selectors/ingredients";
+import { FC } from "react";
 
-export default function SingleIngredientPage() {
+const SingleIngredientPage: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const ingredients = useSelector(selectorIngredients);
-  const ingredientDetail = ingredients.filter((item) => item._id === id)[0];
+  const ingredientDetail = ingredients.filter(
+    // @ts-ignore
+    (item) => item._id === id
+  )[0];
 
   return (
     <>
@@ -18,7 +22,6 @@ export default function SingleIngredientPage() {
           <IngredientDetails
             image={ingredientDetail?.image_large}
             name={ingredientDetail?.name}
-            price={ingredientDetail?.price}
             calories={ingredientDetail?.calories}
             carbohydrates={ingredientDetail?.carbohydrates}
             fat={ingredientDetail?.fat}
@@ -28,4 +31,6 @@ export default function SingleIngredientPage() {
       ) : null}
     </>
   );
-}
+};
+
+export default SingleIngredientPage;

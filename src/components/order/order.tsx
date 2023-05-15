@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -21,7 +21,11 @@ import {
 import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 
-export default function Order({ handleClickOrder }) {
+interface IOrder {
+  handleClickOrder: () => void;
+}
+
+const Order: FC<IOrder> = ({ handleClickOrder }) => {
   const dispatch = useDispatch();
 
   const constructorIngredients = useSelector(
@@ -36,7 +40,7 @@ export default function Order({ handleClickOrder }) {
 
   const totalSum = useMemo(() => {
     let total = constructorIngredients.reduce(
-      (sum, current) => sum + current.price,
+      (sum: number, current: { price: number }) => sum + current.price,
       0
     );
     if (constructorBun._id) {
@@ -56,7 +60,7 @@ export default function Order({ handleClickOrder }) {
       <div className={`${styles.order} mt-10`}>
         <div className={`${styles.total} mr-10`}>
           <span className="text text_type_digits-medium mr-2">{totalSum}</span>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary" />
         </div>
         <Button
           htmlType="button"
@@ -74,4 +78,6 @@ export default function Order({ handleClickOrder }) {
       )}
     </>
   );
-}
+};
+
+export default Order;

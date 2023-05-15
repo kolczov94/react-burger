@@ -1,59 +1,45 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+
+import styles from "./forgot-password-page.module.css";
 import {
   Button,
-  Input,
-  PasswordInput,
+  EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./reset-password-page.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { userPasswordForgot } from "../../services/actions/user";
 import { selectorUserIsResetPassword } from "../../services/selectors/user";
-import {
-  userPasswordForgotReset,
-  userPasswordReset,
-} from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
+import { FC, FormEvent } from "react";
 
-export default function ResetPasswordPage() {
+const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  const { handleChange, values } = useForm({
-    password: "",
-    code: "",
-  });
-
   const isResetPassword = useSelector(selectorUserIsResetPassword);
 
-  useEffect(() => {
-    return () => dispatch(userPasswordForgotReset());
-  }, [dispatch]);
+  const { handleChange, values } = useForm({ email: "" });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(userPasswordReset(values.password, values.code));
+    // @ts-ignore
+    dispatch(userPasswordForgot(values.email));
   }
 
-  if (!isResetPassword) {
-    return <Navigate to="/login" />;
+  if (isResetPassword) {
+    return <Navigate to="/reset-password" />;
   }
 
   return (
     <div className={styles.container}>
       <h1 className="text text_type_main-medium mb-6">Восстановление пароля</h1>
       <form className={`${styles.form} mb-20`} onSubmit={handleSubmit}>
-        <PasswordInput
+        <EmailInput
           onChange={handleChange}
-          value={values.password}
-          name="password"
+          value={values.email}
+          name="email"
           extraClass="mb-6"
+          isIcon={false}
+          placeholder="Укажите e-mail"
         />
-        <Input
-          onChange={handleChange}
-          value={values.code}
-          name="code"
-          extraClass="mb-6"
-          placeholder="Введите код из письма"
-        />
-        <Button htmlType="submit">Сохранить</Button>
+        <Button htmlType="submit">Восстановить</Button>
       </form>
       <div className={`${styles.links} mb-4`}>
         <p className="text text_type_main-default text_color_inactive">
@@ -68,4 +54,6 @@ export default function ResetPasswordPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ForgotPasswordPage;

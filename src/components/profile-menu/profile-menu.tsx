@@ -2,9 +2,15 @@ import { NavLink } from "react-router-dom";
 import styles from "./profile-menu.module.css";
 import { useDispatch } from "react-redux";
 import { onLogout } from "../../services/actions/user";
+import { FC } from "react";
 
-export default function ProfileMenu() {
+const ProfileMenu: FC = () => {
   const dispatch = useDispatch();
+
+  function handleExit() {
+    // @ts-ignore
+    dispatch(onLogout());
+  }
 
   return (
     <nav className={styles.menu}>
@@ -39,7 +45,7 @@ export default function ProfileMenu() {
           <button
             className={`${styles.button} text text_type_main-medium text_color_inactive`}
             type="button"
-            onClick={() => dispatch(onLogout())}
+            onClick={handleExit}
           >
             Выход
           </button>
@@ -47,4 +53,6 @@ export default function ProfileMenu() {
       </ul>
     </nav>
   );
-}
+};
+
+export default ProfileMenu;

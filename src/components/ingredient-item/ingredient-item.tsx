@@ -1,6 +1,5 @@
-import { memo } from "react";
+import { FC, memo } from "react";
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
 import {
   Counter,
   CurrencyIcon,
@@ -8,7 +7,23 @@ import {
 import styles from "./ingredient-item.module.css";
 import { Link, useLocation } from "react-router-dom";
 
-function IngredientItem({ id, name, price, image, type, count }) {
+interface IIngredientItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  type: string;
+  count: number;
+}
+
+const IngredientItem: FC<IIngredientItem> = ({
+  id,
+  name,
+  price,
+  image,
+  type,
+  count,
+}) => {
   const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -37,7 +52,7 @@ function IngredientItem({ id, name, price, image, type, count }) {
             <span className="text text_type_digits-default text_color_primary">
               {price}
             </span>
-            <CurrencyIcon />
+            <CurrencyIcon type="primary" />
           </div>
           <p
             className={`${styles.name} text text_type_main-default text_color_primary`}
@@ -48,15 +63,6 @@ function IngredientItem({ id, name, price, image, type, count }) {
       </Link>
     </li>
   );
-}
-
-IngredientItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
 };
 
 export default memo(IngredientItem);

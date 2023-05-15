@@ -9,8 +9,9 @@ import styles from "./register-page.module.css";
 import { useDispatch } from "react-redux";
 import { onRegistration } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
+import { FC, FormEvent } from "react";
 
-export default function RegisterPage() {
+const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const { handleChange, values } = useForm({
     name: "",
@@ -18,8 +19,9 @@ export default function RegisterPage() {
     password: "",
   });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // @ts-ignore
     dispatch(onRegistration(values.name, values.email, values.password));
   }
 
@@ -62,4 +64,6 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-}
+};
+
+export default RegisterPage;

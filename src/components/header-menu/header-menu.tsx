@@ -4,8 +4,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 import styles from "./header-menu.module.css";
+import { FC } from "react";
 
-export default function HeaderMenu() {
+const HeaderMenu: FC = () => {
   return (
     <nav>
       <ul className={styles.list}>
@@ -13,7 +14,7 @@ export default function HeaderMenu() {
           <NavLink to="/" className={styles.link}>
             {({ isActive }) => (
               <>
-                <BurgerIcon type={isActive ? "" : "secondary"} />
+                <BurgerIcon type={isActive ? "primary" : "secondary"} />
                 <span
                   className={`text text_type_main-default ${
                     isActive ? "text_color_primary" : "text_color_inactive"
@@ -29,7 +30,7 @@ export default function HeaderMenu() {
           <NavLink to="/order-feed" className={styles.link}>
             {({ isActive }) => (
               <>
-                <ListIcon type={isActive ? "" : "secondary"} />
+                <ListIcon type={isActive ? "primary" : "secondary"} />
                 <span
                   className={`text text_type_main-default ${
                     isActive ? "text_color_primary" : "text_color_inactive"
@@ -44,4 +45,6 @@ export default function HeaderMenu() {
       </ul>
     </nav>
   );
-}
+};
+
+export default HeaderMenu;

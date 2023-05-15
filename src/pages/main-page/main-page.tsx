@@ -8,13 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectorUser } from "../../services/selectors/user";
 import { getOrder } from "../../services/actions/order";
+import { FC } from "react";
 
-export default function MainPage() {
+const MainPage: FC = () => {
   const user = useSelector(selectorUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   function handleClickOrder() {
+    // @ts-ignore
     user ? dispatch(getOrder()) : navigate("/login");
   }
 
@@ -26,4 +28,6 @@ export default function MainPage() {
       </DndProvider>
     </main>
   );
-}
+};
+
+export default MainPage;

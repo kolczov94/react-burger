@@ -1,13 +1,21 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 
 import {
   selectorUser,
   selectorUserRequest,
 } from "../../services/selectors/user";
+import { FC, ReactElement } from "react";
 
-export function ProtectedRouteElement({ element, isAuthed }) {
+interface IProtectedRouteElement {
+  element: ReactElement;
+  isAuthed?: boolean;
+}
+
+const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
+  element,
+  isAuthed,
+}) => {
   const location = useLocation();
   const loactionState = location.state;
 
@@ -35,9 +43,6 @@ export function ProtectedRouteElement({ element, isAuthed }) {
   ) : (
     <Navigate to="/login" replace state={{ from: location }} />
   );
-}
-
-ProtectedRouteElement.propTypes = {
-  element: PropTypes.node.isRequired,
-  isAuthed: PropTypes.bool.isRequired,
 };
+
+export default ProtectedRouteElement;

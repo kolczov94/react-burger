@@ -1,16 +1,31 @@
-import { useRef, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useRef, useEffect, FC } from "react";
 import styles from "./ingredient-group.module.css";
 
 import IngredientItem from "../ingredient-item/ingredient-item";
 
-export default function IngredientGroup({
+interface IIngredientItem {
+  _id: string;
+  type: string;
+  image: string;
+  name: string;
+  price: number;
+  count: number;
+}
+
+interface IIngredientGroup {
+  list: Array<IIngredientItem>;
+  title: string;
+  name: string;
+  addObserverTarget: (target: { key: string; target: HTMLElement }) => void;
+}
+
+const IngredientGroup: FC<IIngredientGroup> = ({
   list,
   title,
   name,
   addObserverTarget,
-}) {
-  const titleRef = useRef();
+}) => {
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (titleRef.current) {
@@ -40,26 +55,6 @@ export default function IngredientGroup({
       </ul>
     </div>
   );
-}
-
-IngredientGroup.propTypes = {
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
-  addObserverTarget: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
 };
+
+export default IngredientGroup;

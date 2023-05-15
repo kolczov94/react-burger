@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation } from "react-router-dom";
 
@@ -16,19 +16,21 @@ import {
   ResetPasswordPage,
   SingleIngredientPage,
 } from "../../pages";
-import { ProtectedRouteElement } from "../protected-route-element/protected-route-element";
-import { getUser } from "../../services/actions/user";
+import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import ProfileForm from "../profile-form/profile-form";
 import Error404Page from "../../pages/error-404-page/error-404-page";
+import { getUser } from "../../services/actions/user";
 import { ROUTES } from "../../utils/constants";
 
-export default function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationState = location.state;
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getIngredients());
+    // @ts-ignore
     dispatch(getUser());
   }, [dispatch]);
 
@@ -94,4 +96,6 @@ export default function App() {
       )}
     </div>
   );
-}
+};
+
+export default App;

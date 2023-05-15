@@ -2,8 +2,9 @@ import styles from "./order-details.module.css";
 import imageDone from "../../images/done.png";
 import { useSelector } from "react-redux";
 import { selectorOrderNumber } from "../../services/selectors/order";
+import { FC } from "react";
 
-export default function OrderDetails() {
+const OrderDetails: FC = () => {
   const number = useSelector(selectorOrderNumber);
 
   return (
@@ -21,4 +22,6 @@ export default function OrderDetails() {
       </p>
     </div>
   );
-}
+};
+
+export default OrderDetails;

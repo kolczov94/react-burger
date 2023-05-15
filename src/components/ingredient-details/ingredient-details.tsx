@@ -1,14 +1,23 @@
-import PropTypes from "prop-types";
 import styles from "./ingredient-details.module.css";
+import { FC } from "react";
 
-export default function IngredientDetails({
+interface IIngredientDetails {
+  image: string;
+  name: string;
+  calories: string;
+  carbohydrates: string;
+  fat: string;
+  proteins: string;
+}
+
+const IngredientDetails: FC<IIngredientDetails> = ({
   image,
   name,
   calories,
   carbohydrates,
   fat,
   proteins,
-}) {
+}) => {
   return (
     <div className={`${styles.details} pb-5`}>
       <img className={styles.image} src={image} alt={name} />
@@ -49,13 +58,6 @@ export default function IngredientDetails({
       </ul>
     </div>
   );
-}
-
-IngredientDetails.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
 };
+
+export default IngredientDetails;

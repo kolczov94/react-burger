@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 
@@ -9,13 +9,16 @@ import { updateCurrentTab } from "../../services/actions/ingredients";
 import { useObserver } from "../../hooks/use-observer";
 import { selectorIngredients } from "../../services/selectors/ingredients";
 
-export default function BurgerIngredients() {
+const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(selectorIngredients);
 
   const filteredIngredients = useMemo(() => {
+    // @ts-ignore
     const bun = ingredients.filter((item) => item.type === "bun");
+    // @ts-ignore
     const sauce = ingredients.filter((item) => item.type === "sauce");
+    // @ts-ignore
     const main = ingredients.filter((item) => item.type === "main");
     return { bun, sauce, main };
   }, [ingredients]);
@@ -55,4 +58,6 @@ export default function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
+
+export default BurgerIngredients;

@@ -6,16 +6,20 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import { addConstructorItem } from "../../services/actions/burger-constructor";
 import { incrementIngredientCount } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorIngredients } from "../../services/selectors/burger-constructor";
+import { FC } from "react";
 
-export default function ConstructorList() {
+const ConstructorList: FC = () => {
   const dispatch = useDispatch();
   const constructorIngredients = useSelector(
     selectorBurgerConstructorIngredients
   );
 
+  // @ts-ignore
   const [{ isHover, canDrop }, dropTarget] = useDrop({
     accept: ["main", "sauce"],
+    // @ts-ignore
     drop({ id }) {
+      // @ts-ignore
       dispatch(addConstructorItem(id));
       dispatch(incrementIngredientCount(id));
     },
@@ -32,6 +36,7 @@ export default function ConstructorList() {
       } custom-scroll`}
     >
       {constructorIngredients.length ? (
+        // @ts-ignore
         constructorIngredients.map((item, index) => {
           return (
             <ConstructorItem
@@ -54,4 +59,6 @@ export default function ConstructorList() {
       )}
     </div>
   );
-}
+};
+
+export default ConstructorList;

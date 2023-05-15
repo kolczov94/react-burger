@@ -9,8 +9,9 @@ import styles from "./login-page.module.css";
 
 import { onLogin } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
+import { FC, FormEvent } from "react";
 
-export default function LoginPage() {
+const LoginPage: FC = () => {
   const dispatch = useDispatch();
 
   const { handleChange, values } = useForm({
@@ -18,8 +19,9 @@ export default function LoginPage() {
     password: "",
   });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // @ts-ignore
     dispatch(onLogin(values.email, values.password));
   }
 
@@ -66,4 +68,6 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;
