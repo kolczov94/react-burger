@@ -1,7 +1,7 @@
 import { getRefreshTokenRequest } from "./api";
 import { deleteCookie, getCookie } from "./cookie";
 
-export async function fetchAuth(userFetch, payload) {
+export const fetchAuth = async (userFetch, payload) => {
   if (!getCookie("refreshToken") || !getCookie("token")) {
     return Promise.reject("No JWT token");
   }
@@ -25,4 +25,4 @@ export async function fetchAuth(userFetch, payload) {
   }
 
   return await userFetch(payload ? payload : {});
-}
+};
