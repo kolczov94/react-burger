@@ -8,17 +8,20 @@ import { updateIngredientCountBun } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorBun } from "../../services/selectors/burger-constructor";
 import { FC } from "react";
 
-interface IConstructorItemBun {
+type IConstructorItemBunProps = {
   type: "top" | "bottom" | undefined;
-}
+};
 
-const ConstructorItemBun: FC<IConstructorItemBun> = ({ type }) => {
+const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
   const dispatch = useDispatch();
   const constructorBun = useSelector(selectorBurgerConstructorBun);
-  // @ts-ignore
-  const [{ isHover, canDrop }, dropRef] = useDrop({
+
+  const [{ isHover, canDrop }, dropRef] = useDrop<
+    { id: string },
+    void,
+    { isHover: boolean; canDrop: boolean }
+  >({
     accept: "bun",
-    // @ts-ignore
     drop({ id }) {
       if (id !== constructorBun._id) {
         // @ts-ignore

@@ -7,12 +7,12 @@ import {
 } from "../../services/selectors/user";
 import { FC, ReactElement } from "react";
 
-interface IProtectedRouteElement {
+type IProtectedRouteElementProps = {
   element: ReactElement;
   isAuthed?: boolean;
-}
+};
 
-const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
+const ProtectedRouteElement: FC<IProtectedRouteElementProps> = ({
   element,
   isAuthed,
 }) => {

@@ -1,4 +1,4 @@
-type TSetCookieProps = {
+type TCookieProps = {
   path?: string;
   domain?: string;
   secure?: true;
@@ -7,9 +7,9 @@ type TSetCookieProps = {
   "max-age"?: number;
 };
 
-export function setCookie(name: string, value: string, props: TSetCookieProps) {
+export function setCookie(name: string, value: string, props: TCookieProps) {
   let exp = props.expires;
-  if (typeof exp === "number" && exp) {
+  if (exp && typeof exp === "number") {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
@@ -21,7 +21,7 @@ export function setCookie(name: string, value: string, props: TSetCookieProps) {
   let updatedCookie = name + "=" + value;
   for (const propName in props) {
     updatedCookie += "; " + propName;
-    const propValue = props[propName as keyof TSetCookieProps];
+    const propValue = props[propName as keyof TCookieProps];
     if (propValue && propValue !== true) {
       updatedCookie += "=" + propValue;
     }
@@ -35,8 +35,6 @@ export function getCookie(name: string) {
       "(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1") + "=([^;]*)"
     )
   );
-  console.log("MATCHES", matches);
-  console.log("COOKEI", document.cookie);
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 

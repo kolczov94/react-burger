@@ -11,16 +11,16 @@ import {
 import { decrementIngredientCount } from "../../services/actions/ingredients";
 import { FC } from "react";
 
-interface IConstructorItem {
+type IConstructorItemProps = {
   id: string;
   index: number;
   constructorId: string;
   name: string;
   price: number;
   image: string;
-}
+};
 
-const ConstructorItem: FC<IConstructorItem> = ({
+const ConstructorItem: FC<IConstructorItemProps> = ({
   id,
   index,
   constructorId,
@@ -46,10 +46,10 @@ const ConstructorItem: FC<IConstructorItem> = ({
     [id, index]
   );
 
-  const [, dropRef] = useDrop(
+  const [, dropRef] = useDrop<{ id: string }>(
     () => ({
       accept: "item",
-      hover(item: { id: string }, monitor) {
+      hover(item, monitor) {
         if (item.id !== id) {
           dispatch(moveConstructorItem({ id: item.id, atIndex: index }));
         }

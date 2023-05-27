@@ -59,7 +59,7 @@ export function userUpdate(name, email, password) {
 export function onLogin(email, password) {
   return function (dispatch) {
     dispatch({ type: GET_LOGIN_REQUEST });
-    getLoginRequest(email, password)
+    getLoginRequest({ email, password })
       .then((data) => {
         if (data && data.success) {
           dispatch({
@@ -83,7 +83,7 @@ export function onLogout() {
 export function onRegistration(name, email, password) {
   return function (dispatch) {
     dispatch({ type: GET_REGISTER_REQUEST });
-    getRegistrationRequest(name, email, password)
+    getRegistrationRequest({ name, email, password })
       .then((data) => {
         if (data && data.success) {
           dispatch({
@@ -117,7 +117,7 @@ export function userPasswordForgotReset() {
 
 export function userPasswordReset(password, token) {
   return function (dispatch) {
-    getResetPasswordRequest(password, token).then((data) => {
+    getResetPasswordRequest({ password, token }).then((data) => {
       if (data && data.success) {
         dispatch({
           type: USER_PASSWORD_RESET,

@@ -2,24 +2,25 @@ import { useRef, useEffect, FC } from "react";
 import styles from "./ingredient-group.module.css";
 
 import IngredientItem from "../ingredient-item/ingredient-item";
+import { TAddObserverTarget } from "../../hooks/use-observer";
 
-interface IIngredientItem {
+type IIngredientItem = {
   _id: string;
   type: string;
   image: string;
   name: string;
   price: number;
   count: number;
-}
+};
 
-interface IIngredientGroup {
+type IIngredientGroupProps = {
   list: Array<IIngredientItem>;
   title: string;
   name: string;
-  addObserverTarget: (target: { key: string; target: HTMLElement }) => void;
-}
+  addObserverTarget: TAddObserverTarget;
+};
 
-const IngredientGroup: FC<IIngredientGroup> = ({
+const IngredientGroup: FC<IIngredientGroupProps> = ({
   list,
   title,
   name,

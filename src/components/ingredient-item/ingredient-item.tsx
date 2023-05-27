@@ -7,16 +7,16 @@ import {
 import styles from "./ingredient-item.module.css";
 import { Link, useLocation } from "react-router-dom";
 
-interface IIngredientItem {
+type IIngredientItemProps = {
   id: string;
   name: string;
   price: number;
   image: string;
   type: string;
   count: number;
-}
+};
 
-const IngredientItem: FC<IIngredientItem> = ({
+const IngredientItem: FC<IIngredientItemProps> = ({
   id,
   name,
   price,

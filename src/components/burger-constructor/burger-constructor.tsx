@@ -4,11 +4,13 @@ import ConstructorList from "../constructor-list/constructor-list";
 import Order from "../order/order";
 import { FC } from "react";
 
-interface IBurgerConstructor {
+type IBurgerConstructorProps = {
   handleClickOrder: () => void;
-}
+};
 
-const BurgerConstructor: FC<IBurgerConstructor> = ({ handleClickOrder }) => {
+const BurgerConstructor: FC<IBurgerConstructorProps> = ({
+  handleClickOrder,
+}) => {
   return (
     <section className={`${styles.sections} pt-25 ml-4`}>
       <div className={`${styles.list}`}>

@@ -2,7 +2,7 @@ import styles from "./profile-page.module.css";
 import ProfileMenu from "../../components/profile-menu/profile-menu";
 import { Outlet } from "react-router-dom";
 
-export default function ProfilePage() {
+const ProfilePage = () => {
   return (
     <main className={`${styles.main} pl-5 pr-5 pb-10`}>
       <div className={`${styles.columns} mt-30`}>
@@ -20,4 +20,6 @@ export default function ProfilePage() {
       </div>
     </main>
   );
-}
+};
+
+export default ProfilePage;

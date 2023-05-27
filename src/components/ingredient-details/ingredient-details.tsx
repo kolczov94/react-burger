@@ -1,16 +1,16 @@
 import styles from "./ingredient-details.module.css";
 import { FC } from "react";
 
-interface IIngredientDetails {
+type IIngredientDetailsProps = {
   image: string;
   name: string;
   calories: string;
   carbohydrates: string;
   fat: string;
   proteins: string;
-}
+};
 
-const IngredientDetails: FC<IIngredientDetails> = ({
+const IngredientDetails: FC<IIngredientDetailsProps> = ({
   image,
   name,
   calories,

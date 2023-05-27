@@ -21,11 +21,11 @@ import {
 import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 
-interface IOrder {
+type IOrderProps = {
   handleClickOrder: () => void;
-}
+};
 
-const Order: FC<IOrder> = ({ handleClickOrder }) => {
+const Order: FC<IOrderProps> = ({ handleClickOrder }) => {
   const dispatch = useDispatch();
 
   const constructorIngredients = useSelector(
@@ -40,9 +40,10 @@ const Order: FC<IOrder> = ({ handleClickOrder }) => {
 
   const totalSum = useMemo(() => {
     let total = constructorIngredients.reduce(
-      (sum: number, current: { price: number }) => sum + current.price,
+      (sum: number, current: { price: number }): number => sum + current.price,
       0
     );
+
     if (constructorBun._id) {
       return total + constructorBun.price * 2;
     }

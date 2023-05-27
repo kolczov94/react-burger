@@ -1,66 +1,73 @@
 import { deleteCookie, getCookie, setCookie } from "./cookie";
+import { TIngredientResponse } from "../types/ingredient";
+import {
+  TLoginResponse,
+  TMessageResponse,
+  TRegisterResponse,
+  TUpdateTokenResponse,
+} from "../types/auth";
+import { TUserResponse, TUserUpdateResponse } from "../types/user";
+import { TOrderResponse } from "../types/order";
 
 export const URL_API = "https://norma.nomoreparties.space/api";
 
-function checkResponse(res: any) {
+const checkResponse = <T>(res: Response): Promise<T> => {
   if (res.ok) {
     return res.json();
   }
-  return res.json().then((err: any) => Promise.reject(err));
-}
+  return res.json().then((err) => Promise.reject(err));
+};
 
-export function getIngredientsRequest() {
-  return fetch(`${URL_API}/ingredients`).then(checkResponse);
-}
+export const getIngredientsRequest = () => {
+  return fetch(`${URL_API}/ingredients`).then(
+    checkResponse<TIngredientResponse>
+  );
+};
 
-export function getOrderRequest(ingredients: Array<string>) {
+export const getOrderRequest = (ingredients: Array<string>) => {
   return fetch(`${URL_API}/orders`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ ingredients }),
-  }).then(checkResponse);
-}
+  }).then(checkResponse<TOrderResponse>);
+};
 
-export function getUserRequest() {
+export const getUserRequest = () => {
   return fetch(`${URL_API}/auth/user`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
       Authorization: "Bearer " + getCookie("token"),
     },
-  }).then(checkResponse);
-}
+  }).then(checkResponse<TUserResponse>);
+};
 
-export function getUserUpdateRequest({
-  name,
-  email,
-  password,
-}: {
+export const getUserUpdateRequest = (data: {
   name: string;
   email: string;
   password: string;
-}) {
+}) => {
   return fetch(`${URL_API}/auth/user`, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json",
       Authorization: "Bearer " + getCookie("token"),
     },
-    body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
-}
+    body: JSON.stringify(data),
+  }).then(checkResponse<TUserUpdateResponse>);
+};
 
-export function getLoginRequest(email: string, password: string) {
+export const getLoginRequest = (data: { email: string; password: string }) => {
   return fetch(`${URL_API}/auth/login`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(data),
   })
-    .then(checkResponse)
+    .then(checkResponse<TLoginResponse>)
     .then((data) => {
       if (data.success) {
         setCookie("token", data.accessToken.split("Bearer ")[1], { path: "/" });
@@ -68,21 +75,21 @@ export function getLoginRequest(email: string, password: string) {
       }
       return data;
     });
-}
+};
 
-export function getRegistrationRequest(
-  name: string,
-  email: string,
-  password: string
-) {
+export const getRegistrationRequest = (data: {
+  name: string;
+  email: string;
+  password: string;
+}) => {
   return fetch(`${URL_API}/auth/register`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify(data),
   })
-    .then(checkResponse)
+    .then(checkResponse<TRegisterResponse>)
     .then((data) => {
       if (data.success) {
         setCookie("token", data.accessToken.split("Bearer ")[1], { path: "/" });
@@ -90,9 +97,9 @@ export function getRegistrationRequest(
       }
       return data;
     });
-}
+};
 
-export function getRefreshTokenRequest() {
+export const getRefreshTokenRequest = () => {
   return fetch(`${URL_API}/auth/token`, {
     method: "POST",
     headers: {
@@ -100,7 +107,7 @@ export function getRefreshTokenRequest() {
     },
     body: JSON.stringify({ token: getCookie("refreshToken") }),
   })
-    .then(checkResponse)
+    .then(checkResponse<TUpdateTokenResponse>)
     .then((data) => {
       if (data.success) {
         setCookie("token", data.accessToken.split("Bearer ")[1], { path: "/" });
@@ -108,29 +115,32 @@ export function getRefreshTokenRequest() {
       }
       return data;
     });
-}
+};
 
-export function getForgotPasswordRequest(email: string) {
+export const getForgotPasswordRequest = (email: string) => {
   return fetch(`${URL_API}/password-reset`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
     body: JSON.stringify({ email }),
-  }).then(checkResponse);
-}
+  }).then(checkResponse<TMessageResponse>);
+};
 
-export function getResetPasswordRequest(password: string, token: string) {
+export const getResetPasswordRequest = (data: {
+  password: string;
+  token: string;
+}) => {
   return fetch(`${URL_API}/password-reset/reset`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ password, token }),
-  }).then(checkResponse);
-}
+    body: JSON.stringify(data),
+  }).then(checkResponse<TMessageResponse>);
+};
 
-export function getLogoutRequest() {
+export const getLogoutRequest = () => {
   return fetch(`${URL_API}/auth/logout`, {
     method: "POST",
     headers: {
@@ -138,7 +148,7 @@ export function getLogoutRequest() {
     },
     body: JSON.stringify({ token: getCookie("refreshToken") }),
   })
-    .then(checkResponse)
+    .then(checkResponse<TMessageResponse>)
     .then((data) => {
       if (data.success) {
         deleteCookie("token");
@@ -146,4 +156,4 @@ export function getLogoutRequest() {
         return data;
       }
     });
-}
+};

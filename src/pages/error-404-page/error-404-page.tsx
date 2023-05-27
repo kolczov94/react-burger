@@ -1,6 +1,7 @@
+import { FC } from "react";
 import styles from "./error-404-page.module.css";
 
-const Error404Page = () => {
+const Error404Page: FC = () => {
   return (
     <div className={styles.page}>
       <p className="text text_type_digits-large">404</p>

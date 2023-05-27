@@ -1,11 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-// type TReturnObserver = {
-//   rootRef;
-//   addObserverTarget;
-//   visibleSectionId;
-//   scrollToTarget;
-// };
+export type TAddObserverTarget = (target: {
+  key: string;
+  target: HTMLElement;
+}) => void;
+
+export type TScrollToTarget = (targetKey: string) => void;
 
 export const useObserver = () => {
   const [visibleSectionId, setVisibleSectionId] = useState<string>("");
@@ -29,15 +29,12 @@ export const useObserver = () => {
     return () => observer.disconnect();
   }, [targets]);
 
-  const addObserverTarget = useCallback(
-    (target: { key: string; target: HTMLElement }): void => {
-      setTargets((prev) => ({ ...prev, [target.key]: target.target }));
-    },
-    []
-  );
+  const addObserverTarget = useCallback<TAddObserverTarget>((target) => {
+    setTargets((prev) => ({ ...prev, [target.key]: target.target }));
+  }, []);
 
   const scrollToTarget = useCallback(
-    (targetKey: string) => {
+    (targetKey: string): void => {
       const target = targets[targetKey];
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });

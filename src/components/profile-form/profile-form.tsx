@@ -13,8 +13,8 @@ import { userUpdate } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
 
 const ProfileForm: FC = () => {
-  const user = useSelector(selectorUser);
   const dispatch = useDispatch();
+  const user = useSelector(selectorUser);
 
   const { handleChange, setValues, values } = useForm({
     name: user.name,

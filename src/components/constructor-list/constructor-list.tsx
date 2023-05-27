@@ -14,10 +14,12 @@ const ConstructorList: FC = () => {
     selectorBurgerConstructorIngredients
   );
 
-  // @ts-ignore
-  const [{ isHover, canDrop }, dropTarget] = useDrop({
+  const [{ isHover, canDrop }, dropTarget] = useDrop<
+    { id: string },
+    void,
+    { isHover: boolean; canDrop: boolean }
+  >({
     accept: ["main", "sauce"],
-    // @ts-ignore
     drop({ id }) {
       // @ts-ignore
       dispatch(addConstructorItem(id));

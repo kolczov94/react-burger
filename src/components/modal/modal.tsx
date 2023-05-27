@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, ReactNode } from "react";
+import { FC, useCallback, useEffect, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
@@ -6,13 +6,12 @@ import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 const modalRoot = document.getElementById("root-modals") as HTMLElement;
 
-interface IModal {
+type IModalProps = {
   title?: string;
   onClose: () => void;
-  children?: ReactNode;
-}
+};
 
-const Modal: FC<IModal> = ({ title, onClose, children }) => {
+const Modal: FC<PropsWithChildren<IModalProps>> = ({ title, onClose, children }) => {
   const handleKeyboardClose = useCallback(
     (e: KeyboardEvent) => {
       if (e.code === "Escape") onClose();

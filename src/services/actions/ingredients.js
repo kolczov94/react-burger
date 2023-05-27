@@ -13,16 +13,18 @@ export const UPDATE_CURRENT_TAB = "UPDATE_CURRENT_TAB";
 export function getIngredients() {
   return function (dispatch) {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
-    getIngredientsRequest().then((data) => {
-      if (data && data.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          payload: data.data,
-        });
-      } else {
-        dispatch({ type: GET_INGREDIENTS_FAILED });
-      }
-    });
+    getIngredientsRequest()
+      .then((data) => {
+        if (data && data.success) {
+          dispatch({
+            type: GET_INGREDIENTS_SUCCESS,
+            payload: data.data,
+          });
+        } else {
+          dispatch({ type: GET_INGREDIENTS_FAILED });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 }
 
