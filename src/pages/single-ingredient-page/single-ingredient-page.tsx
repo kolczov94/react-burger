@@ -1,14 +1,21 @@
-import { useNavigate, useParams } from "react-router-dom";
-import Modal from "../../components/modal/modal";
+import { FC } from "react";
+import { useParams } from "react-router-dom";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import { useSelector } from "react-redux";
 
-import { selectorIngredients } from "../../services/selectors/ingredients";
-import { FC } from "react";
+import styles from "./single-ingredient-page.module.css";
 
-const SingleIngredientPage: FC = () => {
+import { selectorIngredients } from "../../services/selectors/ingredients";
+import Loader from "../../components/loader/loader";
+
+type TSingleIngredientPageProps = {
+  showHeader: boolean;
+};
+
+const SingleIngredientPage: FC<TSingleIngredientPageProps> = ({
+  showHeader,
+}) => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const ingredients = useSelector(selectorIngredients);
   const ingredientDetail = ingredients.filter(
     // @ts-ignore
@@ -18,7 +25,10 @@ const SingleIngredientPage: FC = () => {
   return (
     <>
       {ingredientDetail ? (
-        <Modal title="Детали ингредиента" onClose={() => navigate("/")}>
+        <>
+          {showHeader && (
+            <h1 className={`text text_type_main-large mt-30 ${styles.title}`}>Детали ингредиента</h1>
+          )}
           <IngredientDetails
             image={ingredientDetail?.image_large}
             name={ingredientDetail?.name}
@@ -27,8 +37,10 @@ const SingleIngredientPage: FC = () => {
             fat={ingredientDetail?.fat}
             proteins={ingredientDetail?.proteins}
           />
-        </Modal>
-      ) : null}
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

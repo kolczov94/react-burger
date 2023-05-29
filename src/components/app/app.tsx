@@ -1,11 +1,9 @@
 import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import styles from "./app.module.css";
 
 import AppHeader from "../app-header/app-header";
-
-import styles from "./app.module.css";
-import { getIngredients } from "../../services/actions/ingredients";
 import {
   ForgotPasswordPage,
   LoginPage,
@@ -16,14 +14,19 @@ import {
   ResetPasswordPage,
   SingleIngredientPage,
 } from "../../pages";
+import Modal from "../modal/modal";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
 import ProfileForm from "../profile-form/profile-form";
 import Error404Page from "../../pages/error-404-page/error-404-page";
-import { getUser } from "../../services/actions/user";
+
 import { ROUTES } from "../../utils/constants";
+
+import { getUser } from "../../services/actions/user";
+import { getIngredients } from "../../services/actions/ingredients";
 
 const App: FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state;
 
@@ -41,7 +44,7 @@ const App: FC = () => {
         <Route path={ROUTES.MAIN} element={<MainPage />} />
         <Route
           path={ROUTES.SINGLE_INGREDIENT}
-          element={<SingleIngredientPage />}
+          element={<SingleIngredientPage showHeader={true} />}
         />
         <Route path={ROUTES.ORDER_FEED} element={<OrderFeedPage />} />
         <Route
@@ -90,7 +93,11 @@ const App: FC = () => {
         <Routes>
           <Route
             path={ROUTES.SINGLE_INGREDIENT}
-            element={<SingleIngredientPage />}
+            element={
+              <Modal title="Детали ингредиента" onClose={() => navigate("/")}>
+                <SingleIngredientPage showHeader={false} />
+              </Modal>
+            }
           />
         </Routes>
       )}

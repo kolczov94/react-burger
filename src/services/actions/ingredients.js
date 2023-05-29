@@ -15,16 +15,14 @@ export function getIngredients() {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
     getIngredientsRequest()
       .then((data) => {
-        if (data && data.success) {
-          dispatch({
-            type: GET_INGREDIENTS_SUCCESS,
-            payload: data.data,
-          });
-        } else {
-          dispatch({ type: GET_INGREDIENTS_FAILED });
-        }
+        dispatch({
+          type: GET_INGREDIENTS_SUCCESS,
+          payload: data.data,
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch({ type: GET_INGREDIENTS_FAILED });
+      });
   };
 }
 

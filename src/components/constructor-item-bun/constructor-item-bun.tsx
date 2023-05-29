@@ -9,7 +9,7 @@ import { selectorBurgerConstructorBun } from "../../services/selectors/burger-co
 import { FC } from "react";
 
 type IConstructorItemBunProps = {
-  type: "top" | "bottom" | undefined;
+  type?: "top" | "bottom";
 };
 
 const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
@@ -45,7 +45,7 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
         <ConstructorElement
           type={type}
           isLocked={true}
-          text={constructorBun.name}
+          text={`${constructorBun.name} ${type === "top" ? "(верх)" : "(низ)"}`}
           price={constructorBun.price}
           thumbnail={constructorBun.image}
         />
