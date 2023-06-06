@@ -17,16 +17,14 @@ export function getOrder() {
       ingreidentsIds = [bun._id, ...ingreidentsIds, bun._id];
     }
 
-    getOrderRequest(ingreidentsIds).then((data) => {
-      if (data && data.success) {
+    getOrderRequest(ingreidentsIds)
+      .then((data) => {
         dispatch({
           type: GET_ORDER_SUCCESS,
           payload: { name: data.name, number: data.order.number },
         });
-      } else {
-        dispatch({ type: GET_ORDER_FAILED });
-      }
-    });
+      })
+      .catch((err) => dispatch({ type: GET_ORDER_FAILED }));
   };
 }
 

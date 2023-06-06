@@ -14,12 +14,17 @@
 }
 
 .buttonClose {
-  position: absolute;
-  top: 60px;
-  right: 40px;
   padding: 0;
   margin: 0;
   border: none;
   background-color: transparent;
   cursor: pointer;
+  align-content: flex-end;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 64px;
 }

@@ -7,7 +7,6 @@ import {
   getResetPasswordRequest,
   getUserUpdateRequest,
 } from "../../utils/api";
-import { fetchAuth } from "../../utils/fetch-auth";
 
 export const GET_LOGIN_REQUEST = "GET_LOGIN_REQUEST";
 export const GET_LOGIN_SUCCESS = "GET_LOGIN_SUCCESS";
@@ -37,29 +36,31 @@ export const USER_DISABLE_REDDIRECT_RESET_PASSWORD =
 export function getUser() {
   return function (dispatch) {
     dispatch({ type: GET_USER_REQUEST });
-    fetchAuth(getUserRequest)
+    getUserRequest()
       .then((data) => {
         dispatch({
           type: GET_USER_SUCCESS,
           payload: data.user,
         });
       })
-      .catch((err) => dispatch({ type: GET_USER_FAILED }));
+      .catch((err) => {
+        dispatch({ type: GET_USER_FAILED });
+      });
   };
 }
 
 export function userUpdate(name, email, password) {
   return async function (dispatch) {
-    fetchAuth(getUserUpdateRequest, { name, email, password }).then((data) => {
-      dispatch({ type: USER_UPDATE, payload: data.user });
-    });
+    getUserUpdateRequest({ name, email, password })
+      .then((data) => dispatch({ type: USER_UPDATE, payload: data.user }))
+      .catch((err) => alert(err.message));
   };
 }
 
 export function onLogin(email, password) {
   return function (dispatch) {
     dispatch({ type: GET_LOGIN_REQUEST });
-    getLoginRequest(email, password)
+    getLoginRequest({ email, password })
       .then((data) => {
         if (data && data.success) {
           dispatch({
@@ -83,7 +84,7 @@ export function onLogout() {
 export function onRegistration(name, email, password) {
   return function (dispatch) {
     dispatch({ type: GET_REGISTER_REQUEST });
-    getRegistrationRequest(name, email, password)
+    getRegistrationRequest({ name, email, password })
       .then((data) => {
         if (data && data.success) {
           dispatch({
@@ -117,7 +118,7 @@ export function userPasswordForgotReset() {
 
 export function userPasswordReset(password, token) {
   return function (dispatch) {
-    getResetPasswordRequest(password, token).then((data) => {
+    getResetPasswordRequest({ password, token }).then((data) => {
       if (data && data.success) {
         dispatch({
           type: USER_PASSWORD_RESET,
