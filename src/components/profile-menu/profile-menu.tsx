@@ -1,14 +1,13 @@
 import { NavLink } from "react-router-dom";
 import styles from "./profile-menu.module.css";
-import { useDispatch } from "react-redux";
 import { onLogout } from "../../services/actions/user";
 import { FC } from "react";
+import { useDispatch } from "../../services/store";
 
 const ProfileMenu: FC = () => {
   const dispatch = useDispatch();
 
   function handleExit() {
-    // @ts-ignore
     dispatch(onLogout());
   }
 

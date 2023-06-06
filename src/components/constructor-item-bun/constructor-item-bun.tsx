@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item-bun.module.css";
@@ -7,6 +6,7 @@ import { updateConstructorBun } from "../../services/actions/burger-constructor"
 import { updateIngredientCountBun } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorBun } from "../../services/selectors/burger-constructor";
 import { FC } from "react";
+import { useDispatch, useSelector } from "../../services/store";
 
 type IConstructorItemBunProps = {
   type?: "top" | "bottom";
@@ -23,8 +23,7 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
   >({
     accept: "bun",
     drop({ id }) {
-      if (id !== constructorBun._id) {
-        // @ts-ignore
+      if (constructorBun && id !== constructorBun._id) {
         dispatch(updateConstructorBun(id));
         dispatch(updateIngredientCountBun(id));
       }
@@ -41,7 +40,7 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
       } ${canDrop ? styles.drag : ""} ${isHover ? styles.hover : ""}`}
       ref={dropRef}
     >
-      {constructorBun._id ? (
+      {constructorBun && constructorBun._id ? (
         <ConstructorElement
           type={type}
           isLocked={true}

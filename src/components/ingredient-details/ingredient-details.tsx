@@ -4,10 +4,10 @@ import { FC } from "react";
 type IIngredientDetailsProps = {
   image: string;
   name: string;
-  calories: string;
-  carbohydrates: string;
-  fat: string;
-  proteins: string;
+  calories: number;
+  carbohydrates: number;
+  fat: number;
+  proteins: number;
 };
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ({

@@ -1,3 +1,4 @@
+import { TUser } from "../../types/user";
 import {
   GET_LOGIN_REQUEST,
   GET_LOGIN_SUCCESS,
@@ -13,9 +14,21 @@ import {
   USER_FORGOT_PASSWORD_RESET,
   USER_PASSWORD_RESET,
   USER_UPDATE,
+  TUserActions,
 } from "../actions/user";
 
-const initialState = {
+type TUserState = {
+  user: TUser | null;
+  isResetPassword: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  registrationRequest: boolean;
+  registrationFailed: boolean;
+  userRequest: boolean;
+  userFailed: boolean;
+};
+
+const initialState: TUserState = {
   user: null,
   isResetPassword: false,
   loginRequest: false,
@@ -26,13 +39,16 @@ const initialState = {
   userFailed: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     case GET_LOGIN_REQUEST: {
       return { ...state, loginRequest: true, loginFailed: false };
     }
     case GET_LOGIN_SUCCESS:
-      return { ...state, user: action.payload };
+      return { ...state, user: action.user };
     case GET_LOGIN_FAILED: {
       return { ...state, loginFailed: true, loginRequest: false, user: null };
     }
@@ -41,7 +57,7 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, registrationRequest: true, registrationFailed: false };
     }
     case GET_REGISTER_SUCCESS:
-      return { ...state, user: action.payload };
+      return { ...state, user: action.user };
     case GET_REGISTER_FAILED: {
       return { ...state, registrationFailed: true, registrationRequest: false };
     }
@@ -54,7 +70,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         userRequest: false,
         userFailed: false,
-        user: action.payload,
+        user: action.user,
       };
     case GET_USER_FAILED: {
       return { ...state, userFailed: true, userRequest: false, user: null };
@@ -77,7 +93,7 @@ export const userReducer = (state = initialState, action) => {
       return { ...state, user: null };
     }
     case USER_UPDATE: {
-      return { ...state, user: action.payload };
+      return { ...state, user: action.user };
     }
     default:
       return state;

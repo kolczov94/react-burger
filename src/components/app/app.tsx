@@ -1,5 +1,4 @@
 import { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import styles from "./app.module.css";
 
@@ -23,6 +22,7 @@ import { ROUTES } from "../../utils/constants";
 
 import { getUser } from "../../services/actions/user";
 import { getIngredients } from "../../services/actions/ingredients";
+import { useDispatch } from "../../services/store";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -31,9 +31,7 @@ const App: FC = () => {
   const locationState = location.state;
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getIngredients());
-    // @ts-ignore
     dispatch(getUser());
   }, [dispatch]);
 

@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import styles from "./constructor-list.module.css";
 
@@ -7,6 +6,7 @@ import { addConstructorItem } from "../../services/actions/burger-constructor";
 import { incrementIngredientCount } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorIngredients } from "../../services/selectors/burger-constructor";
 import { FC } from "react";
+import { useDispatch, useSelector } from "../../services/store";
 
 const ConstructorList: FC = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,6 @@ const ConstructorList: FC = () => {
   >({
     accept: ["main", "sauce"],
     drop({ id }) {
-      // @ts-ignore
       dispatch(addConstructorItem(id));
       dispatch(incrementIngredientCount(id));
     },
@@ -38,7 +37,6 @@ const ConstructorList: FC = () => {
       } custom-scroll`}
     >
       {constructorIngredients.length ? (
-        // @ts-ignore
         constructorIngredients.map((item, index) => {
           return (
             <ConstructorItem

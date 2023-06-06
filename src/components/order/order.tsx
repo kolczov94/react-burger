@@ -1,5 +1,4 @@
 import { FC, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   CurrencyIcon,
@@ -22,6 +21,7 @@ import { resetIngredientCount } from "../../services/actions/ingredients";
 import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 import { useNavigate } from "react-router-dom";
 import { selectorUser } from "../../services/selectors/user";
+import { useDispatch, useSelector } from "../../services/store";
 
 const Order: FC = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Order: FC = () => {
   const user = useSelector(selectorUser);
 
   const isLockedButton =
-    Boolean(constructorIngredients.length) || Boolean(constructorBun._id);
+    Boolean(constructorIngredients.length) || Boolean(constructorBun);
 
   const totalSum = useMemo(() => {
     let total = constructorIngredients.reduce(
@@ -43,14 +43,13 @@ const Order: FC = () => {
       0
     );
 
-    if (constructorBun._id) {
+    if (constructorBun && constructorBun._id) {
       return total + constructorBun.price * 2;
     }
     return total;
   }, [constructorIngredients, constructorBun]);
 
   function handleClickOrder() {
-    // @ts-ignore
     user ? dispatch(getOrder()) : navigate("/login");
   }
 

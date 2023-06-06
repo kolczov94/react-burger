@@ -3,9 +3,18 @@ import {
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   CLOSE_MODAL_ORDER_DETAIL,
+  TOrderActions,
 } from "../actions/order";
 
-const initialState = {
+type TOrderState = {
+  number: number;
+  name: string;
+  orderRequest: boolean;
+  orderFailed: boolean;
+  isShow: boolean;
+};
+
+const initialState: TOrderState = {
   number: 0,
   name: "",
   orderRequest: false,
@@ -13,7 +22,10 @@ const initialState = {
   isShow: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+  state = initialState,
+  action: TOrderActions
+): TOrderState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return { ...state, orderRequest: true, orderFailed: false };
