@@ -1,15 +1,7 @@
 import { EIngredientTabs, TIngredient } from "../../types/ingredient";
-import {
-  GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
-  ICREMENT_INGREDIENT_COUNT,
-  DECREMENT_INGREDIENT_COUNT,
-  UPDATE_INGREDIENT_COUNT_BUN,
-  RESET_INGREDIENTS_COUNT,
-  UPDATE_CURRENT_TAB,
-  TIngredientsActions,
-} from "../actions/ingredients";
+import { DECREMENT_INGREDIENT_COUNT, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, ICREMENT_INGREDIENT_COUNT, RESET_INGREDIENTS_COUNT, UPDATE_CURRENT_TAB, UPDATE_INGREDIENT_COUNT_BUN } from "../constants/ingredients";
+import { TIngredientsActions } from "../types/ingredients";
+
 
 type TIngredientsState = {
   items: ReadonlyArray<TIngredient>;

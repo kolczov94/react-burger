@@ -8,7 +8,10 @@ import styles from "./order.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-import { closeModalOrderDetail, getOrder } from "../../services/actions/order";
+import {
+  closeOrderDetailAction,
+  getOrderThunk,
+} from "../../services/actions/order";
 import {
   selectorBurgerConstructorBun,
   selectorBurgerConstructorIngredients,
@@ -17,11 +20,11 @@ import {
   selectorIsShowOrder,
   selectorOrderRequest,
 } from "../../services/selectors/order";
-import { resetIngredientCount } from "../../services/actions/ingredients";
-import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 import { useNavigate } from "react-router-dom";
 import { selectorUser } from "../../services/selectors/user";
 import { useDispatch, useSelector } from "../../services/store";
+import { resetIngredientCountAction } from "../../services/actions/ingredients";
+import { resetBurgerConstructorAction } from "../../services/actions/burger-constructor";
 
 const Order: FC = () => {
   const dispatch = useDispatch();
@@ -50,13 +53,13 @@ const Order: FC = () => {
   }, [constructorIngredients, constructorBun]);
 
   function handleClickOrder() {
-    user ? dispatch(getOrder()) : navigate("/login");
+    user ? dispatch(getOrderThunk()) : navigate("/login");
   }
 
   function handleCloseModal() {
-    dispatch(closeModalOrderDetail());
-    dispatch(resetIngredientCount());
-    dispatch(resetBurgerConstructor());
+    dispatch(closeOrderDetailAction());
+    dispatch(resetIngredientCountAction());
+    dispatch(resetBurgerConstructorAction());
   }
 
   return (

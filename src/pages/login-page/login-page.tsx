@@ -6,10 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login-page.module.css";
 
-import { onLogin } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
 import { FC, FormEvent } from "react";
 import { useDispatch } from "../../services/store";
+import { onLoginThunk } from "../../services/actions/user";
 
 const LoginPage: FC = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const LoginPage: FC = () => {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(onLogin({ email: values.email, password: values.password }));
+    dispatch(onLoginThunk({ email: values.email, password: values.password }));
   }
 
   return (

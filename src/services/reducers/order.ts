@@ -1,10 +1,10 @@
 import {
+  CLOSE_MODAL_ORDER_DETAIL,
+  GET_ORDER_FAILED,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  CLOSE_MODAL_ORDER_DETAIL,
-  TOrderActions,
-} from "../actions/order";
+} from "../constants/order";
+import { TOrderActions } from "../types/order";
 
 type TOrderState = {
   number: number;

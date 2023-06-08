@@ -4,11 +4,11 @@ import styles from "./burger-ingredients.module.css";
 import IngredientGroup from "../ingredient-group/ingredient-group";
 import TabMenu from "../tab-menu/tab-menu";
 
-import { updateCurrentTab } from "../../services/actions/ingredients";
 import { useObserver } from "../../hooks/use-observer";
 import { selectorIngredients } from "../../services/selectors/ingredients";
 import { EIngredientTabs } from "../../types/ingredient";
 import { useDispatch, useSelector } from "../../services/store";
+import { updateCurrentTabAction } from "../../services/actions/ingredients";
 
 const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const BurgerIngredients: FC = () => {
 
   useEffect(() => {
     dispatch(
-      updateCurrentTab(
+      updateCurrentTabAction(
         EIngredientTabs[visibleSectionId as keyof typeof EIngredientTabs]
       )
     );

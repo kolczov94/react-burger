@@ -2,11 +2,11 @@ import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item-bun.module.css";
 
-import { updateConstructorBun } from "../../services/actions/burger-constructor";
-import { updateIngredientCountBun } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorBun } from "../../services/selectors/burger-constructor";
 import { FC } from "react";
 import { useDispatch, useSelector } from "../../services/store";
+import { updateIngredientCountBunAction } from "../../services/actions/ingredients";
+import { updateConstructorBunThunk } from "../../services/actions/burger-constructor";
 
 type IConstructorItemBunProps = {
   type?: "top" | "bottom";
@@ -24,8 +24,8 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
     accept: "bun",
     drop({ id }) {
       if (constructorBun && id !== constructorBun._id) {
-        dispatch(updateConstructorBun(id));
-        dispatch(updateIngredientCountBun(id));
+        dispatch(updateConstructorBunThunk(id));
+        dispatch(updateIngredientCountBunAction(id));
       }
     },
     collect: (monitor) => {

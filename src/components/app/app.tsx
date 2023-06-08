@@ -20,9 +20,9 @@ import Error404Page from "../../pages/error-404-page/error-404-page";
 
 import { ROUTES } from "../../utils/constants";
 
-import { getUser } from "../../services/actions/user";
-import { getIngredients } from "../../services/actions/ingredients";
 import { useDispatch } from "../../services/store";
+import { getUserThunk } from "../../services/actions/user";
+import { getIngredientsThunk } from "../../services/actions/ingredients";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -31,8 +31,8 @@ const App: FC = () => {
   const locationState = location.state;
 
   useEffect(() => {
-    dispatch(getIngredients());
-    dispatch(getUser());
+    dispatch(getIngredientsThunk());
+    dispatch(getUserThunk());
   }, [dispatch]);
 
   return (

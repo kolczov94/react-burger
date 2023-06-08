@@ -7,12 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password-page.module.css";
 import { selectorUserIsResetPassword } from "../../services/selectors/user";
-import {
-  userPasswordForgotReset,
-  userPasswordReset,
-} from "../../services/actions/user";
+
 import { useForm } from "../../hooks/use-form";
 import { useDispatch, useSelector } from "../../services/store";
+import {
+  onPasswordResetThunk,
+  passwordForgotResetAction,
+} from "../../services/actions/user";
 
 const ResetPasswordPage: FC = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,14 @@ const ResetPasswordPage: FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(userPasswordForgotReset());
+      dispatch(passwordForgotResetAction());
     };
   }, [dispatch]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(
-      userPasswordReset({ password: values.password, token: values.code })
+      onPasswordResetThunk({ password: values.password, token: values.code })
     );
   }
 

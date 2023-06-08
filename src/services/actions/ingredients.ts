@@ -1,72 +1,28 @@
 import { EIngredientTabs, TIngredient } from "../../types/ingredient";
 import { getIngredientsRequest } from "../../utils/api";
+import {
+  DECREMENT_INGREDIENT_COUNT,
+  GET_INGREDIENTS_FAILED,
+  GET_INGREDIENTS_REQUEST,
+  GET_INGREDIENTS_SUCCESS,
+  ICREMENT_INGREDIENT_COUNT,
+  RESET_INGREDIENTS_COUNT,
+  UPDATE_CURRENT_TAB,
+  UPDATE_INGREDIENT_COUNT_BUN,
+} from "../constants/ingredients";
 import { AppThunk } from "../store";
+import {
+  TDecrementIngredientCount,
+  TGetIngredientsFailed,
+  TGetIngredientsRequest,
+  TGetIngredientsSuccess,
+  TIncrementIngredientCount,
+  TResetIngredientCount,
+  TUpdateCurrentTab,
+  TUpdateIngredientCountBun,
+} from "../types/ingredients";
 
-export const GET_INGREDIENTS_REQUEST: "GET_INGREDIENTS_REQUEST" =
-  "GET_INGREDIENTS_REQUEST";
-export const GET_INGREDIENTS_SUCCESS: "GET_INGREDIENTS_SUCCESS" =
-  "GET_INGREDIENTS_SUCCESS";
-export const GET_INGREDIENTS_FAILED: "GET_INGREDIENTS_FAILED" =
-  "GET_INGREDIENTS_FAILED";
-export const ICREMENT_INGREDIENT_COUNT: "ICREMENT_INGREDIENT_COUNT" =
-  "ICREMENT_INGREDIENT_COUNT";
-export const DECREMENT_INGREDIENT_COUNT: "DECREMENT_INGREDIENT_COUNT" =
-  "DECREMENT_INGREDIENT_COUNT";
-export const UPDATE_INGREDIENT_COUNT_BUN: "UPDATE_INGREDIENT_COUNT_BUN" =
-  "UPDATE_INGREDIENT_COUNT_BUN";
-export const RESET_INGREDIENTS_COUNT: "RESET_INGREDIENTS_COUNT" =
-  "RESET_INGREDIENTS_COUNT";
-
-export const UPDATE_CURRENT_TAB: "UPDATE_CURRENT_TAB" = "UPDATE_CURRENT_TAB";
-
-export type TUpdateCurrentTab = {
-  readonly type: typeof UPDATE_CURRENT_TAB;
-  readonly sectionId: EIngredientTabs;
-};
-
-export type TIncrementIngredientCount = {
-  readonly type: typeof ICREMENT_INGREDIENT_COUNT;
-  readonly ingredientId: string;
-};
-
-export type TDecrementIngredientCount = {
-  readonly type: typeof DECREMENT_INGREDIENT_COUNT;
-  readonly ingredientId: string;
-};
-
-export type TUpdateIngredientCountBun = {
-  readonly type: typeof UPDATE_INGREDIENT_COUNT_BUN;
-  readonly ingredientId: string;
-};
-
-export type TResetIngredientCount = {
-  readonly type: typeof RESET_INGREDIENTS_COUNT;
-};
-
-export type TGetIngredientsRequest = {
-  readonly type: typeof GET_INGREDIENTS_REQUEST;
-};
-
-export type TGetIngredientsSuccess = {
-  readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly ingredients: ReadonlyArray<TIngredient>;
-};
-
-export type TGetIngredientsFailed = {
-  readonly type: typeof GET_INGREDIENTS_FAILED;
-};
-
-export type TIngredientsActions =
-  | TUpdateCurrentTab
-  | TIncrementIngredientCount
-  | TDecrementIngredientCount
-  | TUpdateIngredientCountBun
-  | TResetIngredientCount
-  | TGetIngredientsRequest
-  | TGetIngredientsSuccess
-  | TGetIngredientsFailed;
-
-export const updateCurrentTab = (
+export const updateCurrentTabAction = (
   sectionId: EIngredientTabs
 ): TUpdateCurrentTab => {
   return {
@@ -75,7 +31,7 @@ export const updateCurrentTab = (
   };
 };
 
-export const incrementIngredientCount = (
+export const incrementIngredientCountAction = (
   ingredientId: string
 ): TIncrementIngredientCount => {
   return {
@@ -84,7 +40,7 @@ export const incrementIngredientCount = (
   };
 };
 
-export const decrementIngredientCount = (
+export const decrementIngredientCountAction = (
   ingredientId: string
 ): TDecrementIngredientCount => {
   return {
@@ -93,7 +49,7 @@ export const decrementIngredientCount = (
   };
 };
 
-export const updateIngredientCountBun = (
+export const updateIngredientCountBunAction = (
   ingredientId: string
 ): TUpdateIngredientCountBun => {
   return {
@@ -102,24 +58,42 @@ export const updateIngredientCountBun = (
   };
 };
 
-export const resetIngredientCount = (): TResetIngredientCount => {
+export const resetIngredientCountAction = (): TResetIngredientCount => {
   return {
     type: RESET_INGREDIENTS_COUNT,
   };
 };
 
-export const getIngredients = (): AppThunk => {
+export const ingredientsRequestAction = (): TGetIngredientsRequest => {
+  return {
+    type: GET_INGREDIENTS_REQUEST,
+  };
+};
+
+export const ingredientsSuccessAction = (
+  ingredients: Array<TIngredient>
+): TGetIngredientsSuccess => {
+  return {
+    type: GET_INGREDIENTS_SUCCESS,
+    ingredients,
+  };
+};
+
+export const ingredientsFailedAction = (): TGetIngredientsFailed => {
+  return {
+    type: GET_INGREDIENTS_FAILED,
+  };
+};
+
+export const getIngredientsThunk = (): AppThunk => {
   return (dispatch) => {
-    dispatch({ type: GET_INGREDIENTS_REQUEST });
+    dispatch(ingredientsRequestAction());
     getIngredientsRequest()
       .then((data) => {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: data.data,
-        });
+        dispatch(ingredientsSuccessAction(data.data));
       })
       .catch((err) => {
-        dispatch({ type: GET_INGREDIENTS_FAILED });
+        dispatch(ingredientsFailedAction());
       });
   };
 };

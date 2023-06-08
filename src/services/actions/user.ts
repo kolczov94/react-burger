@@ -1,4 +1,3 @@
-import { TUser } from "../../types/user";
 import {
   getLoginRequest,
   getRegistrationRequest,
@@ -8,206 +7,181 @@ import {
   getResetPasswordRequest,
   getUserUpdateRequest,
 } from "../../utils/api";
+import { TUser } from "../../types/user";
+import {
+  GET_LOGIN_FAILED,
+  GET_LOGIN_REQUEST,
+  GET_LOGIN_SUCCESS,
+  GET_REGISTER_FAILED,
+  GET_REGISTER_REQUEST,
+  GET_REGISTER_SUCCESS,
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  USER_FORGOT_PASSWORD,
+  USER_FORGOT_PASSWORD_RESET,
+  USER_LOGOUT,
+  USER_PASSWORD_RESET,
+  USER_UPDATE,
+} from "../constants/user";
 import { AppThunk } from "../store";
+import {
+  TGetLoginFailed,
+  TGetLoginRequest,
+  TGetLoginSuccess,
+  TGetRegisterFailed,
+  TGetRegisterRequest,
+  TGetRegisterSuccess,
+  TGetUserFailed,
+  TGetUserRequest,
+  TGetUserSuccess,
+  TUserLogout,
+  TUserPasswordForgot,
+  TUserPasswordForgotReset,
+  TUserPasswordReset,
+  TUserUpdate,
+} from "../types/user";
 
-export const GET_LOGIN_REQUEST: "GET_LOGIN_REQUEST" = "GET_LOGIN_REQUEST";
-export const GET_LOGIN_SUCCESS: "GET_LOGIN_SUCCESS" = "GET_LOGIN_SUCCESS";
-export const GET_LOGIN_FAILED: "GET_LOGIN_FAILED" = "GET_LOGIN_FAILED";
+export const userRequestAction = (): TGetUserRequest => ({
+  type: GET_USER_REQUEST,
+});
 
-export const GET_REGISTER_REQUEST: "GET_REGISTER_REQUEST" =
-  "GET_REGISTER_REQUEST";
-export const GET_REGISTER_SUCCESS: "GET_REGISTER_SUCCESS" =
-  "GET_REGISTER_SUCCESS";
-export const GET_REGISTER_FAILED: "GET_REGISTER_FAILED" = "GET_REGISTER_FAILED";
+export const userSuccessAction = (user: TUser): TGetUserSuccess => ({
+  type: GET_USER_SUCCESS,
+  user,
+});
 
-export const GET_LOGOUT_REQUEST: "GET_LOGOUT_REQUEST" = "GET_LOGOUT_REQUEST";
-export const GET_LOGOUT_SUCCESS: "GET_LOGOUT_SUCCESS" = "GET_LOGOUT_SUCCESS";
-export const GET_LOGOUT_FAILED: "GET_LOGOUT_FAILED" = "GET_LOGOUT_FAILED";
+export const userFailedAction = (): TGetUserFailed => ({
+  type: GET_USER_FAILED,
+});
 
-export const GET_USER_REQUEST: "GET_USER_REQUEST" = "GET_USER_REQUEST";
-export const GET_USER_SUCCESS: "GET_USER_SUCCESS" = "GET_USER_SUCCESS";
-export const GET_USER_FAILED: "GET_USER_FAILED" = "GET_USER_FAILED";
+export const userUpdateSuccessAction = (user: TUser): TUserUpdate => ({
+  type: USER_UPDATE,
+  user,
+});
 
-export const USER_LOGOUT: "USER_LOGOUT" = "USER_LOGOUT";
-export const USER_UPDATE: "USER_UPDATE" = "USER_UPDATE";
-export const USER_FORGOT_PASSWORD: "USER_FORGOT_PASSWORD" =
-  "USER_FORGOT_PASSWORD";
-export const USER_FORGOT_PASSWORD_RESET: "USER_FORGOT_PASSWORD_RESET" =
-  "USER_FORGOT_PASSWORD_RESET";
-export const USER_PASSWORD_RESET: "USER_FORGOT_RESET" = "USER_FORGOT_RESET";
-export const USER_DISABLE_REDDIRECT_RESET_PASSWORD =
-  "USER_DISABLE_REDDIRECT_RESET_PASSWORD";
+export const loginRequestAction = (): TGetLoginRequest => ({
+  type: GET_LOGIN_REQUEST,
+});
 
-export type TUserPasswordForgotReset = {
-  readonly type: typeof USER_FORGOT_PASSWORD_RESET;
-};
+export const loginSuccessAction = (user: TUser): TGetLoginSuccess => ({
+  type: GET_LOGIN_SUCCESS,
+  user,
+});
 
-export type TGetUserRequest = {
-  readonly type: typeof GET_USER_REQUEST;
-};
+export const loginFailedAction = (): TGetLoginFailed => ({
+  type: GET_LOGIN_FAILED,
+});
 
-export type TGetUserSuccess = {
-  readonly type: typeof GET_USER_SUCCESS;
-  readonly user: any;
-};
+export const logoutSuccessAction = (message: string): TUserLogout => ({
+  type: USER_LOGOUT,
+  message,
+});
 
-export type TGetUserFailed = {
-  readonly type: typeof GET_USER_FAILED;
-};
+export const registerRequestAction = (): TGetRegisterRequest => ({
+  type: GET_REGISTER_REQUEST,
+});
 
-export type TUserUpdate = {
-  readonly type: typeof USER_UPDATE;
-  readonly user: TUser;
-};
+export const registerSuccessAction = (user: TUser): TGetRegisterSuccess => ({
+  type: GET_REGISTER_SUCCESS,
+  user,
+});
 
-export type TGetLoginRequest = {
-  readonly type: typeof GET_LOGIN_REQUEST;
-};
+export const registerFailedAction = (): TGetRegisterFailed => ({
+  type: GET_REGISTER_FAILED,
+});
 
-export type TGetLoginSuccess = {
-  readonly type: typeof GET_LOGIN_SUCCESS;
-  readonly user: TUser;
-};
+export const passwordResetAction = (message: string): TUserPasswordReset => ({
+  type: USER_PASSWORD_RESET,
+  message,
+});
 
-export type TGetLoginFailed = {
-  readonly type: typeof GET_LOGIN_FAILED;
-};
+export const passwordForgotAction = (message: string): TUserPasswordForgot => ({
+  type: USER_FORGOT_PASSWORD,
+  message,
+});
 
-export type TUserLogout = {
-  readonly type: typeof USER_LOGOUT;
-};
-
-export type TGetRegisterRequest = {
-  readonly type: typeof GET_REGISTER_REQUEST;
-};
-
-export type TGetRegisterSuccess = {
-  readonly type: typeof GET_REGISTER_SUCCESS;
-  readonly user: TUser;
-};
-
-export type TGetRegisterFailed = {
-  readonly type: typeof GET_REGISTER_FAILED;
-};
-
-export type TUserForgotPassword = {
-  readonly type: typeof USER_FORGOT_PASSWORD;
-};
-
-export type TUserPasswordReset = {
-  readonly type: typeof USER_PASSWORD_RESET;
-};
-
-export type TUserActions =
-  | TUserPasswordForgotReset
-  | TGetUserRequest
-  | TGetUserSuccess
-  | TGetUserFailed
-  | TUserUpdate
-  | TGetLoginRequest
-  | TGetLoginSuccess
-  | TGetLoginFailed
-  | TUserLogout
-  | TGetRegisterRequest
-  | TGetRegisterSuccess
-  | TGetRegisterFailed
-  | TUserForgotPassword
-  | TUserPasswordReset;
-
-export const userPasswordForgotReset = (): TUserPasswordForgotReset => ({
+export const passwordForgotResetAction = (): TUserPasswordForgotReset => ({
   type: USER_FORGOT_PASSWORD_RESET,
 });
 
-export const getUser = (): AppThunk => {
+export const getUserThunk = (): AppThunk => {
   return (dispatch) => {
-    dispatch({ type: GET_USER_REQUEST });
+    dispatch(userRequestAction());
     getUserRequest()
       .then((data) => {
-        dispatch({
-          type: GET_USER_SUCCESS,
-          user: data.user,
-        });
+        dispatch(userSuccessAction(data.user));
       })
       .catch((err) => {
-        dispatch({ type: GET_USER_FAILED });
+        dispatch(userFailedAction());
       });
   };
 };
 
-export const userUpdate = (userData: {
+export const userUpdateThunk = (userData: {
   name: string;
   email: string;
   password: string;
 }): AppThunk => {
   return (dispatch) => {
     getUserUpdateRequest(userData)
-      .then((data) => dispatch({ type: USER_UPDATE, user: data.user }))
+      .then((data) => dispatch(userUpdateSuccessAction(data.user)))
       .catch((err) => alert(err.message));
   };
 };
 
-export const onLogin = (userData: {
+export const onLoginThunk = (userData: {
   email: string;
   password: string;
 }): AppThunk => {
   return (dispatch) => {
-    dispatch({ type: GET_LOGIN_REQUEST });
+    dispatch(loginRequestAction());
     getLoginRequest(userData)
       .then((data) => {
-        dispatch({
-          type: GET_LOGIN_SUCCESS,
-          user: data.user,
-        });
+        dispatch(loginSuccessAction(data.user));
       })
-      .catch((err) => dispatch({ type: GET_LOGIN_FAILED }));
+      .catch((err) => dispatch(loginFailedAction()));
   };
 };
 
-export const onLogout = (): AppThunk => {
+export const onLogoutThunk = (): AppThunk => {
   return function (dispatch) {
-    getLogoutRequest().then((data) => dispatch({ type: USER_LOGOUT }));
+    getLogoutRequest().then((data) =>
+      dispatch(logoutSuccessAction(data.message))
+    );
   };
 };
 
-export const onRegistration = (userData: {
+export const onRegistrationThunk = (userData: {
   name: string;
   email: string;
   password: string;
 }): AppThunk => {
   return (dispatch) => {
-    dispatch({ type: GET_REGISTER_REQUEST });
+    dispatch(registerRequestAction());
     getRegistrationRequest(userData)
       .then((data) => {
-        dispatch({
-          type: GET_REGISTER_SUCCESS,
-          user: data.user,
-        });
+        dispatch(registerSuccessAction(data.user));
       })
-      .catch((err) => dispatch({ type: GET_REGISTER_FAILED }));
+      .catch((err) => dispatch(registerFailedAction()));
   };
 };
 
-export const userPasswordForgot = (email: string): AppThunk => {
+export const onPasswordForgotThunk = (email: string): AppThunk => {
   return (dispatch) => {
     getForgotPasswordRequest(email).then((data) => {
-      dispatch({
-        type: USER_FORGOT_PASSWORD,
-        payload: data.message,
-      });
+      dispatch(passwordForgotAction(data.message));
     });
   };
 };
 
-export const userPasswordReset = (userData: {
+export const onPasswordResetThunk = (userData: {
   password: string;
   token: string;
 }): AppThunk => {
   return (dispatch) => {
     getResetPasswordRequest(userData).then((data) => {
-      dispatch({
-        type: USER_PASSWORD_RESET,
-        payload: data.message,
-      });
+      dispatch(passwordResetAction(data.message));
     });
   };
 };

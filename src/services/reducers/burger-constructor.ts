@@ -1,12 +1,12 @@
+import { TIngredient } from "../../types/ingredient";
 import {
   ADD_CONSTRUCTOR_ITEM,
-  REMOVE_CONSTRUCTOR_ITEM,
   MOVE_CONSTRUCTOR_ITEM,
-  UPDATE_CONSTRUCTOR_BUN,
+  REMOVE_CONSTRUCTOR_ITEM,
   RESET_CONSTRUCTOR,
-  TBurgerConstructorActions,
-} from "../actions/burger-constructor";
-import { TIngredient } from "../../types/ingredient";
+  UPDATE_CONSTRUCTOR_BUN,
+} from "../constants/burger-constructor";
+import { TBurgerConstructorActions } from "../types/burger-constructor";
 
 type TBurgerConstructorState = {
   ingredients: ReadonlyArray<TIngredient>;

@@ -1,45 +1,41 @@
 import { getOrderRequest } from "../../utils/api";
+import {
+  CLOSE_MODAL_ORDER_DETAIL,
+  GET_ORDER_FAILED,
+  GET_ORDER_REQUEST,
+  GET_ORDER_SUCCESS,
+} from "../constants/order";
 import { AppThunk } from "../store";
+import {
+  TCloseModalOrderDetail,
+  TGetOrderFailed,
+  TGetOrderRequest,
+  TGetOrderSuccess,
+} from "../types/order";
 
-export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
-export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
-export const GET_ORDER_FAILED: "GET_ORDER_FAILED" = "GET_ORDER_FAILED";
-export const CLOSE_MODAL_ORDER_DETAIL: "CLOSE_MODAL_ORDER_DETAIL" =
-  "CLOSE_MODAL_ORDER_DETAIL";
-
-export type TCloseModalOrderDetail = {
-  readonly type: typeof CLOSE_MODAL_ORDER_DETAIL;
-};
-
-export type TGetOrderRequest = {
-  readonly type: typeof GET_ORDER_REQUEST;
-};
-
-export type TGetOrderSuccess = {
-  readonly type: typeof GET_ORDER_SUCCESS;
-  readonly payload: {
-    name: string;
-    number: number;
-  };
-};
-
-export type TGetOrderFailed = {
-  type: typeof GET_ORDER_FAILED;
-};
-
-export type TOrderActions =
-  | TCloseModalOrderDetail
-  | TGetOrderRequest
-  | TGetOrderSuccess
-  | TGetOrderFailed;
-
-export const closeModalOrderDetail = (): TCloseModalOrderDetail => ({
+export const closeOrderDetailAction = (): TCloseModalOrderDetail => ({
   type: CLOSE_MODAL_ORDER_DETAIL,
 });
 
-export const getOrder = (): AppThunk => {
+export const orderRequestAction = (): TGetOrderRequest => ({
+  type: GET_ORDER_REQUEST,
+});
+
+export const orderSuccessAction = (payload: {
+  name: string;
+  number: number;
+}): TGetOrderSuccess => ({
+  type: GET_ORDER_SUCCESS,
+  payload,
+});
+
+export const orderFailedAction = (): TGetOrderFailed => ({
+  type: GET_ORDER_FAILED,
+});
+
+export const getOrderThunk = (): AppThunk => {
   return (dispatch, getState) => {
-    dispatch({ type: GET_ORDER_REQUEST });
+    dispatch(orderRequestAction());
     const {
       burgerConstructor: { ingredients, bun },
     } = getState();
@@ -51,11 +47,10 @@ export const getOrder = (): AppThunk => {
 
     getOrderRequest(ingreidentsIds)
       .then((data) => {
-        dispatch({
-          type: GET_ORDER_SUCCESS,
-          payload: { name: data.name, number: data.order.number },
-        });
+        dispatch(
+          orderSuccessAction({ name: data.name, number: data.order.number })
+        );
       })
-      .catch((err) => dispatch({ type: GET_ORDER_FAILED }));
+      .catch((err) => dispatch(orderFailedAction()));
   };
 };

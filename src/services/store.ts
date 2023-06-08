@@ -12,10 +12,10 @@ import { burgerConstructorReducer } from "./reducers/burger-constructor";
 import { orderReducer } from "./reducers/order";
 import { userReducer } from "./reducers/user";
 
-import { TUserActions } from "./actions/user";
-import { TBurgerConstructorActions } from "./actions/burger-constructor";
-import { TIngredientsActions } from "./actions/ingredients";
-import { TOrderActions } from "./actions/order";
+import { TUserActions } from "./types/user";
+import { TOrderActions } from "./types/order";
+import { TIngredientsActions } from "./types/ingredients";
+import { TBurgerConstructorActions } from "./types/burger-constructor";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,

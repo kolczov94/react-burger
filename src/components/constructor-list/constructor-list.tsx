@@ -2,11 +2,11 @@ import { useDrop } from "react-dnd";
 import styles from "./constructor-list.module.css";
 
 import ConstructorItem from "../constructor-item/constructor-item";
-import { addConstructorItem } from "../../services/actions/burger-constructor";
-import { incrementIngredientCount } from "../../services/actions/ingredients";
 import { selectorBurgerConstructorIngredients } from "../../services/selectors/burger-constructor";
 import { FC } from "react";
 import { useDispatch, useSelector } from "../../services/store";
+import { incrementIngredientCountAction } from "../../services/actions/ingredients";
+import { addConstructorItemThunk } from "../../services/actions/burger-constructor";
 
 const ConstructorList: FC = () => {
   const dispatch = useDispatch();
@@ -21,8 +21,8 @@ const ConstructorList: FC = () => {
   >({
     accept: ["main", "sauce"],
     drop({ id }) {
-      dispatch(addConstructorItem(id));
-      dispatch(incrementIngredientCount(id));
+      dispatch(addConstructorItemThunk(id));
+      dispatch(incrementIngredientCountAction(id));
     },
     collect: (monitor) => {
       return { isHover: monitor.isOver(), canDrop: monitor.canDrop() };

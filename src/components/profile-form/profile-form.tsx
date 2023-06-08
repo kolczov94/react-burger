@@ -8,9 +8,9 @@ import {
 import styles from "./profile-form.module.css";
 
 import { selectorUser } from "../../services/selectors/user";
-import { userUpdate } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
 import { useDispatch, useSelector } from "../../services/store";
+import { userUpdateThunk } from "../../services/actions/user";
 
 const ProfileForm: FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ProfileForm: FC = () => {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(
-      userUpdate({
+      userUpdateThunk({
         name: values.name,
         email: values.email,
         password: values.password,
