@@ -1,0 +1,42 @@
+.main {
+  width: 100%;
+  max-width: 1280px;
+  height: calc(100% - 88px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.columns {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  overflow: hidden;
+}
+
+.feed {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: auto;
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+}
+
+.total span {
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
+    0px 0px 8px rgba(51, 51, 255, 0.25),
+    0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}

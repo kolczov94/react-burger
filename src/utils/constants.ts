@@ -23,6 +23,7 @@ export const ROUTES = {
   PROFILE: "/profile",
   ORDERS: "orders",
   SINGLE_INGREDIENT: "/ingredients/:id",
-  ORDER_FEED: "/order-feed",
+  FEED: "feed",
+  SINGLE_FEED: "/feed/:id",
   ALL: "*",
 };

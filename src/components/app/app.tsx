@@ -44,7 +44,7 @@ const App: FC = () => {
           path={ROUTES.SINGLE_INGREDIENT}
           element={<SingleIngredientPage showHeader={true} />}
         />
-        <Route path={ROUTES.ORDER_FEED} element={<OrderFeedPage />} />
+        <Route path={ROUTES.FEED} element={<OrderFeedPage />} />
         <Route
           path={ROUTES.LOGIN}
           element={
@@ -82,7 +82,7 @@ const App: FC = () => {
           }
         >
           <Route index element={<ProfileForm />} />
-          <Route path={ROUTES.ORDERS} element={<></>} />
+          <Route path={ROUTES.FEED} element={<></>} />
         </Route>
         <Route path={ROUTES.ALL} element={<Error404Page />} />
       </Routes>

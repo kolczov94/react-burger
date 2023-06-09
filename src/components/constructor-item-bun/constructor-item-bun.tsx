@@ -23,7 +23,12 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
   >({
     accept: "bun",
     drop({ id }) {
-      if (constructorBun && id !== constructorBun._id) {
+      if (constructorBun) {
+        if (id !== constructorBun._id) {
+          dispatch(updateConstructorBunThunk(id));
+          dispatch(updateIngredientCountBunAction(id));
+        }
+      } else {
         dispatch(updateConstructorBunThunk(id));
         dispatch(updateIngredientCountBunAction(id));
       }
