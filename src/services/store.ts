@@ -16,25 +16,31 @@ import { TUserActions } from "./types/user";
 import { TOrderActions } from "./types/order";
 import { TIngredientsActions } from "./types/ingredients";
 import { TBurgerConstructorActions } from "./types/burger-constructor";
+import { TWsActions } from "./types/ws";
+import { wsReducer } from "./reducers/ws";
+import { socketMiddleware } from "./middleware/socketMiddleware";
+import { WS_URL } from "../utils/api";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerConstructor: burgerConstructorReducer,
   order: orderReducer,
   user: userReducer,
+  ws: wsReducer,
 });
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk, socketMiddleware(WS_URL)))
 );
 
 export type RootState = ReturnType<typeof store.getState>;
-type TApplicationActions =
+export type TApplicationActions =
   | TUserActions
   | TBurgerConstructorActions
   | TIngredientsActions
-  | TOrderActions;
+  | TOrderActions
+  | TWsActions;
 
 export type AppThunk<TReturn = void> = ThunkAction<
   TReturn,

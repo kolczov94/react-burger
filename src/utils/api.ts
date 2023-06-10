@@ -10,6 +10,7 @@ import { TUserResponse, TUserUpdateResponse } from "../types/user";
 import { TOrderResponse } from "../types/order";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
+export const WS_URL = "wss://norma.nomoreparties.space";
 
 const checkResponse = (res: Response) => {
   if (res.ok) {
