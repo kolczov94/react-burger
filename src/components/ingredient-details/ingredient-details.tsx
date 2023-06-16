@@ -19,7 +19,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({
   proteins,
 }) => {
   return (
-    <div className={`${styles.details} pb-5`}>
+    <div className={styles.details}>
       <img className={styles.image} src={image} alt={name} />
       <p className={`${styles.name} text text_type_main-medium mt-4`}>{name}</p>
       <ul className={`${styles.nutritionList} mt-8`}>

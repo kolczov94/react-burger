@@ -1,5 +1,6 @@
-import { TOrderWsResponse } from "../../types/order";
+import { TOrderSingleWsResponse, TOrderWsResponse } from "../../types/order";
 import {
+  GET_SINGLE_ORDER,
   WS_CONNECT,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
@@ -16,7 +17,6 @@ export type TWsConnect = {
 
 export type TWsProtectedConnect = {
   readonly type: typeof WS_PROTECTED_CONNECT;
-  readonly accessToken: string;
 };
 
 export type TWsDisconnect = {
@@ -48,6 +48,11 @@ export type TWsSendMessage = {
   readonly payload: string;
 };
 
+export type TGetSingleOrder = {
+  readonly type: typeof GET_SINGLE_ORDER;
+  readonly payload: TOrderSingleWsResponse;
+};
+
 export type TWsActions =
   | TWsConnect
   | TWsProtectedConnect
@@ -56,4 +61,5 @@ export type TWsActions =
   | TWsError
   | TWsClosed
   | TWsGetMessage
-  | TWsSendMessage;
+  | TWsSendMessage
+  | TGetSingleOrder;

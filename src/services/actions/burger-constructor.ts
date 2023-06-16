@@ -72,7 +72,7 @@ export const addConstructorItemThunk = (id: string): AppThunk => {
       dispatch(
         addConstructorItemAction({
           ...ingredient,
-          constructor_id: crypto.randomUUID(),
+          second_id: crypto.randomUUID(),
         })
       );
     }

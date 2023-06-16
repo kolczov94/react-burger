@@ -7,7 +7,7 @@ import {
   TUpdateTokenResponse,
 } from "../types/auth";
 import { TUserResponse, TUserUpdateResponse } from "../types/user";
-import { TOrderResponse } from "../types/order";
+import { TOrderResponse, TOrderSingleWsResponse } from "../types/order";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 export const WS_URL = "wss://norma.nomoreparties.space";
@@ -72,6 +72,7 @@ export const getOrderRequest = (ingredients: Array<string>) =>
     method: "POST",
     headers: {
       "Content-type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
     },
     body: JSON.stringify({ ingredients }),
   });
@@ -135,7 +136,7 @@ export const getRefreshTokenRequest = () =>
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ tokena: getCookie("refreshToken") }),
+    body: JSON.stringify({ token: getCookie("refreshToken") }),
   }).then((data) => {
     setCookie("token", data.accessToken.split("Bearer ")[1], { path: "/" });
     setCookie("refreshToken", data.refreshToken, { path: "/" });
@@ -174,4 +175,12 @@ export const getLogoutRequest = () =>
     deleteCookie("token");
     deleteCookie("refreshToken");
     return data;
+  });
+
+export const getSingleOrderRequest = (number: string) =>
+  request<TOrderSingleWsResponse>(`/orders/${number}`, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
   });

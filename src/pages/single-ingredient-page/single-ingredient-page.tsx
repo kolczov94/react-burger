@@ -22,9 +22,9 @@ const SingleIngredientPage: FC<TSingleIngredientPageProps> = ({
   return (
     <>
       {ingredientDetail ? (
-        <>
+        <div className={styles.container}>
           {showHeader && (
-            <h1 className={`text text_type_main-large mt-30 ${styles.title}`}>
+            <h1 className={`text text_type_main-large ${styles.title}`}>
               Детали ингредиента
             </h1>
           )}
@@ -36,7 +36,7 @@ const SingleIngredientPage: FC<TSingleIngredientPageProps> = ({
             fat={ingredientDetail?.fat}
             proteins={ingredientDetail?.proteins}
           />
-        </>
+        </div>
       ) : (
         <Loader />
       )}

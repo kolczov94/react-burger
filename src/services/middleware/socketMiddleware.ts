@@ -10,8 +10,11 @@ import {
   wsClosedAction,
   wsErrorAction,
   wsGetMessageAction,
+  wsProtectedConnectAction,
   wsSuccessAction,
 } from "../actions/ws";
+import { getCookie } from "../../utils/cookie";
+import { getUserRequest } from "../../utils/api";
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -22,12 +25,10 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
       const { type } = action;
 
       if (type === WS_CONNECT) {
-        // объект класса WebSocket
         socket = new WebSocket(`${wsUrl}/orders/all`);
       }
       if (type === WS_PROTECTED_CONNECT) {
-        // объект класса WebSocket
-        socket = new WebSocket(`${wsUrl}/orders?token=${action.accessToken}`);
+        socket = new WebSocket(`${wsUrl}/orders?token=` + getCookie("token"));
       }
       if (socket && type === WS_DISCONNECT) {
         socket.close(1000);
@@ -39,11 +40,19 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         };
 
         socket.onmessage = (event) => {
-          const { data } = event;
-          dispatch(wsGetMessageAction(JSON.parse(data)));
+          const parsedData = JSON.parse(event.data);
+          if (parsedData.success) {
+            dispatch(wsGetMessageAction(parsedData));
+          }
+          if (parsedData.message === "Invalid or missing token") {
+            getUserRequest().then((user) => {
+              dispatch(wsProtectedConnectAction());
+            });
+          }
         };
 
         socket.onerror = (event) => {
+          console.log("ERRORMW", event);
           dispatch(wsErrorAction(event));
         };
 

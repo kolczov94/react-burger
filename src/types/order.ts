@@ -22,3 +22,8 @@ export type TOrderWsResponse = {
   total: number;
   totalToday: number;
 };
+
+export type TOrderSingleWsResponse = Omit<
+  TOrderWsResponse,
+  "total" | "totalToday"
+>;

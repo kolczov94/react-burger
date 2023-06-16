@@ -8,7 +8,7 @@ const OrderDetails: FC = () => {
   const number = useSelector(selectorOrderNumber);
 
   return (
-    <div className={`${styles.order} pt-20 pb-20`}>
+    <div className={styles.order}>
       <span className={`${styles.number} text text_type_digits-large`}>
         {number}
       </span>

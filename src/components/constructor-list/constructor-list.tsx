@@ -40,13 +40,13 @@ const ConstructorList: FC = () => {
         constructorIngredients.map((item, index) => {
           return (
             <ConstructorItem
-              key={item.constructor_id}
+              key={item.second_id}
               id={item._id}
               index={index}
               name={item.name}
               price={item.price}
               image={item.image}
-              constructorId={item.constructor_id}
+              constructorId={item.second_id}
             />
           );
         })

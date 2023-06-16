@@ -1,5 +1,7 @@
-import { TOrderWsResponse } from "../../types/order";
+import { TOrderSingleWsResponse, TOrderWsResponse } from "../../types/order";
+import { getSingleOrderRequest } from "../../utils/api";
 import {
+  GET_SINGLE_ORDER,
   WS_CONNECT,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
@@ -9,7 +11,9 @@ import {
   WS_PROTECTED_CONNECT,
   WS_SEND_MESSAGE,
 } from "../constants/ws";
+import { AppThunk } from "../store";
 import {
+  TGetSingleOrder,
   TWsClosed,
   TWsConnect,
   TWsDisconnect,
@@ -24,11 +28,8 @@ export const wsConnectAction = (): TWsConnect => ({
   type: WS_CONNECT,
 });
 
-export const wsProtectedStartAction = (
-  accessToken: string
-): TWsProtectedConnect => ({
+export const wsProtectedConnectAction = (): TWsProtectedConnect => ({
   type: WS_PROTECTED_CONNECT,
-  accessToken,
 });
 
 export const wsSuccessAction = (payload: Event): TWsSuccess => ({
@@ -61,3 +62,18 @@ export const wsSendMessageAction = (payload: string): TWsSendMessage => ({
   type: WS_SEND_MESSAGE,
   payload,
 });
+
+export const getSingleOrderAction = (
+  payload: TOrderSingleWsResponse
+): TGetSingleOrder => ({
+  type: GET_SINGLE_ORDER,
+  payload,
+});
+
+export const getSingleOrderThunk = (number: string): AppThunk => {
+  return (dispatch) => {
+    getSingleOrderRequest(number).then((data) => {
+      dispatch(getSingleOrderAction(data));
+    });
+  };
+};

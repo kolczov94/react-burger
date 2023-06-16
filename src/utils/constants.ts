@@ -21,9 +21,10 @@ export const ROUTES = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   PROFILE: "/profile",
-  ORDERS: "orders",
+  SINGLE_PROFILE_ORDERS: "/profile/orders/:id",
+  PROFILE_ORDERS: "orders",
   SINGLE_INGREDIENT: "/ingredients/:id",
-  FEED: "feed",
+  FEED: "/feed",
   SINGLE_FEED: "/feed/:id",
   ALL: "*",
 };

@@ -33,7 +33,7 @@ export const burgerConstructorReducer = (
       return {
         ...state,
         ingredients: state.ingredients.filter(
-          (item) => item.constructor_id !== action.id
+          (item) => item.second_id !== action.id
         ),
       };
     }
@@ -43,7 +43,7 @@ export const burgerConstructorReducer = (
     case MOVE_CONSTRUCTOR_ITEM: {
       const { id, atIndex } = action.payload;
       const card = [...state.ingredients].find(
-        (item) => item.constructor_id === id
+        (item) => item.second_id === id
       );
 
       if (card) {

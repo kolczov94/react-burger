@@ -25,6 +25,8 @@ import { selectorUser } from "../../services/selectors/user";
 import { useDispatch, useSelector } from "../../services/store";
 import { resetIngredientCountAction } from "../../services/actions/ingredients";
 import { resetBurgerConstructorAction } from "../../services/actions/burger-constructor";
+import Loader from "../loader/loader";
+import PageWrapper from "../page-wrapper/page-wrapper";
 
 const Order: FC = () => {
   const dispatch = useDispatch();
@@ -80,7 +82,13 @@ const Order: FC = () => {
       </div>
       {isShowOrder && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails />
+          {orderRequest ? (
+            <PageWrapper>
+              <Loader />
+            </PageWrapper>
+          ) : (
+            <OrderDetails />
+          )}
         </Modal>
       )}
     </>

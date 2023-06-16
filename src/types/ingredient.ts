@@ -1,6 +1,6 @@
 export type TIngredient = {
   _id: string;
-  constructor_id: string;
+  second_id: string;
   name: string;
   type: string;
   proteins: number;

@@ -1,5 +1,6 @@
 import { TOrderWsItem } from "../../types/order";
 import {
+  GET_SINGLE_ORDER,
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_SUCCESS,
@@ -28,7 +29,6 @@ export const wsReducer = (
 ): TWsState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
-      console.log("WSCONNECT", action.payload);
       return {
         ...state,
         error: undefined,
@@ -41,20 +41,25 @@ export const wsReducer = (
         wsConnected: false,
       };
     case WS_CONNECTION_CLOSED:
-      console.log("WSCLOSE", action.payload);
       return {
         ...state,
         error: undefined,
         wsConnected: false,
+        orders: [],
       };
     case WS_GET_MESSAGE:
-      console.log("WSMESSAGE", action.payload);
       return {
         ...state,
         error: undefined,
         orders: action.payload.orders,
         total: action.payload.total,
         totalToday: action.payload.totalToday,
+      };
+    case GET_SINGLE_ORDER:
+      console.log(action.payload);
+      return {
+        ...state,
+        orders: action.payload.orders,
       };
     default:
       return state;

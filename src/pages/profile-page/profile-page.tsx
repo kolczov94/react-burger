@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const ProfilePage = () => {
   return (
     <main className={`${styles.main} pl-5 pr-5 pb-10`}>
-      <div className={`${styles.columns} mt-30`}>
+      <div className={`${styles.columns} pt-30`}>
         <div className="mr-15">
           <ProfileMenu />
           <div className="mt-20">
