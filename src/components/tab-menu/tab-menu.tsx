@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TAB_MENU_LIST } from "../../utils/constants";
 import { selectorCurrentTab } from "../../services/selectors/ingredients";
 import { TScrollToTarget } from "../../hooks/use-observer";
+import { useSelector } from "../../services/store";
 
 type ITabMenuProps = {
   scrollToTarget: TScrollToTarget;

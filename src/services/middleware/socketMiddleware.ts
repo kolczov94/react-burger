@@ -1,68 +1,66 @@
 import type { Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState, TApplicationActions } from "../store";
-import {
-  WS_CONNECT,
-  WS_DISCONNECT,
-  WS_PROTECTED_CONNECT,
-  WS_SEND_MESSAGE,
-} from "../constants/ws";
-import {
-  wsClosedAction,
-  wsErrorAction,
-  wsGetMessageAction,
-  wsProtectedConnectAction,
-  wsSuccessAction,
-} from "../actions/ws";
-import { getCookie } from "../../utils/cookie";
-import { getUserRequest } from "../../utils/api";
+import { getRefreshTokenRequest } from "../../utils/api";
+import { TFeedWsActions } from "../actions/feed";
+import { TFeedUserWsActions } from "../actions/feed-user";
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (
+  wsActions: TFeedWsActions | TFeedUserWsActions
+): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
-    let socket: WebSocket | null = null;
+    const {
+      wsInit,
+      onOpen,
+      onClose,
+      onError,
+      onMessage,
+      sendMessage,
+      wsDisconnect,
+    } = wsActions;
+    let socket: WebSocket;
+    let url: string;
 
     return (next) => (action: TApplicationActions) => {
       const { dispatch } = store;
       const { type } = action;
 
-      if (type === WS_CONNECT) {
-        socket = new WebSocket(`${wsUrl}/orders/all`);
+      if (type === wsInit) {
+        url = action.payload;
+        socket = new WebSocket(url);
       }
-      if (type === WS_PROTECTED_CONNECT) {
-        socket = new WebSocket(`${wsUrl}/orders?token=` + getCookie("token"));
-      }
-      if (socket && type === WS_DISCONNECT) {
-        socket.close(1000);
-        socket = null;
-      }
+
       if (socket) {
         socket.onopen = (event) => {
-          dispatch(wsSuccessAction(event));
+          dispatch({ type: onOpen, payload: event });
         };
 
         socket.onmessage = (event) => {
           const parsedData = JSON.parse(event.data);
           if (parsedData.success) {
-            dispatch(wsGetMessageAction(parsedData));
+            dispatch({ type: onMessage, payload: parsedData });
           }
           if (parsedData.message === "Invalid or missing token") {
-            getUserRequest().then((user) => {
-              dispatch(wsProtectedConnectAction());
+            getRefreshTokenRequest().then((data) => {
+              dispatch({ type: wsInit, payload: url });
             });
           }
         };
 
         socket.onerror = (event) => {
-          console.log("ERRORMW", event);
-          dispatch(wsErrorAction(event));
+          dispatch({ type: onError, payload: event });
         };
 
         socket.onclose = (event) => {
-          dispatch(wsClosedAction(event));
+          dispatch({ type: onClose, payload: event });
         };
 
-        if (type === WS_SEND_MESSAGE) {
+        if (type === sendMessage) {
           const message = action.payload;
           socket.send(JSON.stringify(message));
+        }
+
+        if (type === wsDisconnect) {
+          socket.close(1000);
         }
       }
 

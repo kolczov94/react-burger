@@ -2,16 +2,16 @@ import { FC, useEffect } from "react";
 import FeedDetails from "../../components/feed-details/feed-details";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/store";
-import { selectorWsOrders } from "../../services/selectors/ws";
 import { selectorIngredients } from "../../services/selectors/ingredients";
 import { TIngredient } from "../../types/ingredient";
 import Loader from "../../components/loader/loader";
-import { getSingleOrderThunk } from "../../services/actions/ws";
+import { getSingleOrderThunk } from "../../services/actions/feed";
+import { selectorFeed } from "../../services/selectors/feed";
 
 const SingleFeedPage: FC = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const orders = useSelector(selectorWsOrders);
+  const orders = useSelector(selectorFeed);
   const ingredients = useSelector(selectorIngredients);
   let currentOrder;
   let currentIngredients;
@@ -19,7 +19,6 @@ const SingleFeedPage: FC = () => {
   useEffect(() => {
     if (!orders.length && id) {
       dispatch(getSingleOrderThunk(id));
-      console.log("Get ORDER");
     }
   }, [orders, dispatch, id]);
 

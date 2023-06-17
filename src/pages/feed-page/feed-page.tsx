@@ -2,26 +2,28 @@ import { useEffect } from "react";
 import styles from "./feed-page.module.css";
 import { useDispatch, useSelector } from "../../services/store";
 import { wsConnectAction, wsDisconnectAction } from "../../services/actions/ws";
-import {
-  selectorWsOrders,
-  selectorWsStatus,
-  selectorWsTotal,
-  selectorWsTotalToday,
-} from "../../services/selectors/ws";
+
 import OrderIngredientList from "../../components/feed-list/feed-list";
 import FeedInfo from "../../components/feed-info/feed-info";
 import Loader from "../../components/loader/loader";
 import PageWrapper from "../../components/page-wrapper/page-wrapper";
+import {
+  selectorFeed,
+  selectorFeedStatus,
+  selectorFeedTotal,
+  selectorFeedTotalToday,
+} from "../../services/selectors/feed";
+import { WS_URL } from "../../utils/api";
 
-const OrderPage = () => {
+const FeedPage = () => {
   const dispatch = useDispatch();
-  const orders = useSelector(selectorWsOrders);
-  const total = useSelector(selectorWsTotal);
-  const totalToday = useSelector(selectorWsTotalToday);
-  const isConnected = useSelector(selectorWsStatus);
+  const orders = useSelector(selectorFeed);
+  const total = useSelector(selectorFeedTotal);
+  const totalToday = useSelector(selectorFeedTotalToday);
+  const isConnected = useSelector(selectorFeedStatus);
 
   useEffect(() => {
-    dispatch(wsConnectAction());
+    dispatch(wsConnectAction(`${WS_URL}/orders/all`));
 
     return () => {
       dispatch(wsDisconnectAction());
@@ -49,4 +51,4 @@ const OrderPage = () => {
   );
 };
 
-export default OrderPage;
+export default FeedPage;

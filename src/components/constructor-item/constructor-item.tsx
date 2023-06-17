@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
@@ -11,6 +10,7 @@ import {
   moveConstructorItemAction,
   removeConstructorItemAction,
 } from "../../services/actions/burger-constructor";
+import { useDispatch } from "../../services/store";
 
 type IConstructorItemProps = {
   id: string;

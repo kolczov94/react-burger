@@ -1,3 +1,4 @@
+import { feedWsActions } from "./actions/feed";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import {
   TypedUseSelectorHook,
@@ -17,21 +18,31 @@ import { TOrderActions } from "./types/order";
 import { TIngredientsActions } from "./types/ingredients";
 import { TBurgerConstructorActions } from "./types/burger-constructor";
 import { TWsActions } from "./types/ws";
-import { wsReducer } from "./reducers/ws";
 import { socketMiddleware } from "./middleware/socketMiddleware";
-import { WS_URL } from "../utils/api";
+import { TFeedActions } from "./types/feed";
+import { TFeedUserActions } from "./types/feed-user";
+import { feedUserWsActions } from "./actions/feed-user";
+import { feedReducer } from "./reducers/feed";
+import { feedUserReducer } from "./reducers/feed-user";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerConstructor: burgerConstructorReducer,
   order: orderReducer,
   user: userReducer,
-  ws: wsReducer,
+  feed: feedReducer,
+  feedUser: feedUserReducer,
 });
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk, socketMiddleware(WS_URL)))
+  composeWithDevTools(
+    applyMiddleware(
+      thunk,
+      socketMiddleware(feedWsActions),
+      socketMiddleware(feedUserWsActions)
+    )
+  )
 );
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -40,6 +51,9 @@ export type TApplicationActions =
   | TBurgerConstructorActions
   | TIngredientsActions
   | TOrderActions
+  | TWsActions
+  | TFeedActions
+  | TFeedUserActions
   | TWsActions;
 
 export type AppThunk<TReturn = void> = ThunkAction<

@@ -1,53 +1,53 @@
 import { TOrderWsItem } from "../../types/order";
 import {
-  GET_SINGLE_ORDER,
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_MESSAGE,
-} from "../constants/ws";
-import { TWsActions } from "../types/ws";
+  FEED_CONNECTION_CLOSED,
+  FEED_CONNECTION_ERROR,
+  FEED_CONNECTION_SUCCESS,
+  FEED_GET_MESSAGE,
+  FEED_SINGLE_ORDER,
+} from "../constants/feed";
+import { TFeedActions } from "../types/feed";
 
-type TWsState = {
-  wsConnected: boolean;
+type TFeedState = {
+  isConnected: boolean;
   orders: Array<TOrderWsItem>;
   total: number;
   totalToday: number;
   error?: Event;
 };
 
-const initialState: TWsState = {
-  wsConnected: false,
+const initialState: TFeedState = {
+  isConnected: false,
   orders: [],
   total: 0,
   totalToday: 0,
 };
 
-export const wsReducer = (
+export const feedReducer = (
   state = initialState,
-  action: TWsActions
-): TWsState => {
+  action: TFeedActions
+): TFeedState => {
   switch (action.type) {
-    case WS_CONNECTION_SUCCESS:
+    case FEED_CONNECTION_SUCCESS:
       return {
         ...state,
         error: undefined,
-        wsConnected: true,
+        isConnected: true,
       };
-    case WS_CONNECTION_ERROR:
+    case FEED_CONNECTION_ERROR:
       return {
         ...state,
         error: action.payload,
-        wsConnected: false,
+        isConnected: false,
       };
-    case WS_CONNECTION_CLOSED:
+    case FEED_CONNECTION_CLOSED:
       return {
         ...state,
         error: undefined,
-        wsConnected: false,
+        isConnected: false,
         orders: [],
       };
-    case WS_GET_MESSAGE:
+    case FEED_GET_MESSAGE:
       return {
         ...state,
         error: undefined,
@@ -55,8 +55,7 @@ export const wsReducer = (
         total: action.payload.total,
         totalToday: action.payload.totalToday,
       };
-    case GET_SINGLE_ORDER:
-      console.log(action.payload);
+    case FEED_SINGLE_ORDER:
       return {
         ...state,
         orders: action.payload.orders,
