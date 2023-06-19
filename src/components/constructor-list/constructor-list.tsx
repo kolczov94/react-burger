@@ -35,6 +35,7 @@ const ConstructorList: FC = () => {
       className={`${styles.elements} ${canDrop ? styles.drag : ""} ${
         isHover ? styles.hover : ""
       } custom-scroll`}
+      data-test-id="constructor-item"
     >
       {constructorIngredients.length ? (
         constructorIngredients.map((item, index) => {

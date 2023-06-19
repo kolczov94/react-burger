@@ -35,7 +35,7 @@ const BurgerIngredients: FC = () => {
   return (
     <section className={styles.section}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <nav className={styles.nav}>
+      <nav className={styles.nav} data-test-id="ingredients-menu">
         <TabMenu scrollToTarget={scrollToTarget} />
       </nav>
       <div ref={rootRef} className={`${styles.list} mt-10 custom-scroll`}>
