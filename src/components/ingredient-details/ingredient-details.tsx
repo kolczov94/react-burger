@@ -4,10 +4,10 @@ import { FC } from "react";
 type IIngredientDetailsProps = {
   image: string;
   name: string;
-  calories: string;
-  carbohydrates: string;
-  fat: string;
-  proteins: string;
+  calories: number;
+  carbohydrates: number;
+  fat: number;
+  proteins: number;
 };
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ({
@@ -19,7 +19,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({
   proteins,
 }) => {
   return (
-    <div className={`${styles.details} pb-5`}>
+    <div className={styles.details}>
       <img className={styles.image} src={image} alt={name} />
       <p className={`${styles.name} text text_type_main-medium mt-4`}>{name}</p>
       <ul className={`${styles.nutritionList} mt-8`}>

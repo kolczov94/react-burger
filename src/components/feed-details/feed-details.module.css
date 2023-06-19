@@ -1,0 +1,48 @@
+.details {
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.number {
+  align-self: center
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+}

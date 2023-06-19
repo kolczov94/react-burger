@@ -1,24 +1,22 @@
 import { useMemo, useEffect, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 
 import IngredientGroup from "../ingredient-group/ingredient-group";
 import TabMenu from "../tab-menu/tab-menu";
 
-import { updateCurrentTab } from "../../services/actions/ingredients";
 import { useObserver } from "../../hooks/use-observer";
 import { selectorIngredients } from "../../services/selectors/ingredients";
+import { EIngredientTabs } from "../../types/ingredient";
+import { useDispatch, useSelector } from "../../services/store";
+import { updateCurrentTabAction } from "../../services/actions/ingredients";
 
 const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   const ingredients = useSelector(selectorIngredients);
 
   const filteredIngredients = useMemo(() => {
-    // @ts-ignore
     const bun = ingredients.filter((item) => item.type === "bun");
-    // @ts-ignore
     const sauce = ingredients.filter((item) => item.type === "sauce");
-    // @ts-ignore
     const main = ingredients.filter((item) => item.type === "main");
     return { bun, sauce, main };
   }, [ingredients]);
@@ -27,7 +25,11 @@ const BurgerIngredients: FC = () => {
     useObserver();
 
   useEffect(() => {
-    dispatch(updateCurrentTab(visibleSectionId));
+    dispatch(
+      updateCurrentTabAction(
+        EIngredientTabs[visibleSectionId as keyof typeof EIngredientTabs]
+      )
+    );
   }, [visibleSectionId, dispatch]);
 
   return (

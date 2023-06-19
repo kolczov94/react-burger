@@ -1,5 +1,4 @@
 import { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import styles from "./app.module.css";
 
@@ -8,11 +7,12 @@ import {
   ForgotPasswordPage,
   LoginPage,
   MainPage,
-  OrderFeedPage,
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
   SingleIngredientPage,
+  FeedPage,
+  SingleFeedPage,
 } from "../../pages";
 import Modal from "../modal/modal";
 import ProtectedRouteElement from "../protected-route-element/protected-route-element";
@@ -21,8 +21,11 @@ import Error404Page from "../../pages/error-404-page/error-404-page";
 
 import { ROUTES } from "../../utils/constants";
 
-import { getUser } from "../../services/actions/user";
-import { getIngredients } from "../../services/actions/ingredients";
+import { useDispatch } from "../../services/store";
+import { getUserThunk } from "../../services/actions/user";
+import { getIngredientsThunk } from "../../services/actions/ingredients";
+import ProfileOrdersPage from "../../pages/profile-orders-page/profile-orders-page";
+import PageWrapper from "../page-wrapper/page-wrapper";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -31,10 +34,8 @@ const App: FC = () => {
   const locationState = location.state;
 
   useEffect(() => {
-    // @ts-ignore
-    dispatch(getIngredients());
-    // @ts-ignore
-    dispatch(getUser());
+    dispatch(getIngredientsThunk());
+    dispatch(getUserThunk());
   }, [dispatch]);
 
   return (
@@ -42,11 +43,35 @@ const App: FC = () => {
       <AppHeader />
       <Routes location={locationState?.backgroundLocation || location}>
         <Route path={ROUTES.MAIN} element={<MainPage />} />
+        <Route path={ROUTES.FEED} element={<FeedPage />} />
         <Route
           path={ROUTES.SINGLE_INGREDIENT}
-          element={<SingleIngredientPage showHeader={true} />}
+          element={
+            <PageWrapper>
+              <SingleIngredientPage showHeader={true} />
+            </PageWrapper>
+          }
         />
-        <Route path={ROUTES.ORDER_FEED} element={<OrderFeedPage />} />
+        <Route
+          path={ROUTES.SINGLE_FEED}
+          element={
+            <PageWrapper>
+              <SingleFeedPage />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path={ROUTES.SINGLE_PROFILE_ORDERS}
+          element={
+            <ProtectedRouteElement
+              element={
+                <PageWrapper>
+                  <SingleFeedPage />
+                </PageWrapper>
+              }
+            />
+          }
+        />
         <Route
           path={ROUTES.LOGIN}
           element={
@@ -84,7 +109,7 @@ const App: FC = () => {
           }
         >
           <Route index element={<ProfileForm />} />
-          <Route path={ROUTES.ORDERS} element={<></>} />
+          <Route path={ROUTES.PROFILE_ORDERS} element={<ProfileOrdersPage />} />
         </Route>
         <Route path={ROUTES.ALL} element={<Error404Page />} />
       </Routes>
@@ -96,6 +121,22 @@ const App: FC = () => {
             element={
               <Modal title="Детали ингредиента" onClose={() => navigate("/")}>
                 <SingleIngredientPage showHeader={false} />
+              </Modal>
+            }
+          />
+          <Route
+            path={ROUTES.SINGLE_FEED}
+            element={
+              <Modal onClose={() => navigate("/feed")}>
+                <SingleFeedPage />
+              </Modal>
+            }
+          />
+          <Route
+            path={ROUTES.SINGLE_PROFILE_ORDERS}
+            element={
+              <Modal onClose={() => navigate("/profile/orders")}>
+                <SingleFeedPage />
               </Modal>
             }
           />

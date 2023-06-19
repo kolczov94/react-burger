@@ -1,5 +1,4 @@
 import { FC, FormEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   EmailInput,
@@ -9,31 +8,43 @@ import {
 import styles from "./profile-form.module.css";
 
 import { selectorUser } from "../../services/selectors/user";
-import { userUpdate } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
+import { useDispatch, useSelector } from "../../services/store";
+import { userUpdateThunk } from "../../services/actions/user";
 
 const ProfileForm: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectorUser);
 
   const { handleChange, setValues, values } = useForm({
-    name: user.name,
-    email: user.email,
+    name: user ? user.name : "",
+    email: user ? user.email : "",
     password: "",
   });
 
+  const visibleButtons =
+    user &&
+    (values.name !== user.name ||
+      values.email !== user.email ||
+      values.password !== "");
+
   function resetForm() {
     setValues({
-      name: user.name,
-      email: user.email,
+      name: user ? user.name : "",
+      email: user ? user.email : "",
       password: "",
     });
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
-    dispatch(userUpdate(values.name, values.email, values.password));
+    dispatch(
+      userUpdateThunk({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      })
+    );
     setValues({ ...values, password: "" });
   }
 
@@ -63,9 +74,7 @@ const ProfileForm: FC = () => {
         icon="EditIcon"
         autoComplete="off"
       />
-      {(values.name !== user.name ||
-        values.email !== user.email ||
-        values.password !== "") && (
+      {visibleButtons && (
         <div className={`${styles.buttons} mt-6`}>
           <Button
             htmlType="button"

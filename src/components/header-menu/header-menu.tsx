@@ -27,7 +27,7 @@ const HeaderMenu: FC = () => {
           </NavLink>
         </li>
         <li className="pl-5 pr-5 pt-4 pb-4">
-          <NavLink to="/order-feed" className={styles.link}>
+          <NavLink to="/feed" className={styles.link}>
             {({ isActive }) => (
               <>
                 <ListIcon type={isActive ? "primary" : "secondary"} />

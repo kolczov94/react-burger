@@ -1,5 +1,4 @@
 import { FC, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   CurrencyIcon,
@@ -9,7 +8,10 @@ import styles from "./order.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 
-import { closeModalOrderDetail, getOrder } from "../../services/actions/order";
+import {
+  closeOrderDetailAction,
+  getOrderThunk,
+} from "../../services/actions/order";
 import {
   selectorBurgerConstructorBun,
   selectorBurgerConstructorIngredients,
@@ -18,10 +20,13 @@ import {
   selectorIsShowOrder,
   selectorOrderRequest,
 } from "../../services/selectors/order";
-import { resetIngredientCount } from "../../services/actions/ingredients";
-import { resetBurgerConstructor } from "../../services/actions/burger-constructor";
 import { useNavigate } from "react-router-dom";
 import { selectorUser } from "../../services/selectors/user";
+import { useDispatch, useSelector } from "../../services/store";
+import { resetIngredientCountAction } from "../../services/actions/ingredients";
+import { resetBurgerConstructorAction } from "../../services/actions/burger-constructor";
+import Loader from "../loader/loader";
+import PageWrapper from "../page-wrapper/page-wrapper";
 
 const Order: FC = () => {
   const dispatch = useDispatch();
@@ -35,7 +40,7 @@ const Order: FC = () => {
   const user = useSelector(selectorUser);
 
   const isLockedButton =
-    Boolean(constructorIngredients.length) || Boolean(constructorBun._id);
+    Boolean(constructorIngredients.length) || Boolean(constructorBun);
 
   const totalSum = useMemo(() => {
     let total = constructorIngredients.reduce(
@@ -43,21 +48,20 @@ const Order: FC = () => {
       0
     );
 
-    if (constructorBun._id) {
+    if (constructorBun && constructorBun._id) {
       return total + constructorBun.price * 2;
     }
     return total;
   }, [constructorIngredients, constructorBun]);
 
   function handleClickOrder() {
-    // @ts-ignore
-    user ? dispatch(getOrder()) : navigate("/login");
+    user ? dispatch(getOrderThunk()) : navigate("/login");
   }
 
   function handleCloseModal() {
-    dispatch(closeModalOrderDetail());
-    dispatch(resetIngredientCount());
-    dispatch(resetBurgerConstructor());
+    dispatch(closeOrderDetailAction());
+    dispatch(resetIngredientCountAction());
+    dispatch(resetBurgerConstructorAction());
   }
 
   return (
@@ -78,7 +82,13 @@ const Order: FC = () => {
       </div>
       {isShowOrder && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails />
+          {orderRequest ? (
+            <PageWrapper>
+              <Loader />
+            </PageWrapper>
+          ) : (
+            <OrderDetails />
+          )}
         </Modal>
       )}
     </>

@@ -1,11 +1,11 @@
+import { FC, ReactElement } from "react";
+import { useSelector } from "../../services/store";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import {
   selectorUser,
   selectorUserRequest,
 } from "../../services/selectors/user";
-import { FC, ReactElement } from "react";
 
 type IProtectedRouteElementProps = {
   element: ReactElement;

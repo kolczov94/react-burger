@@ -6,10 +6,10 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./register-page.module.css";
-import { useDispatch } from "react-redux";
-import { onRegistration } from "../../services/actions/user";
 import { useForm } from "../../hooks/use-form";
 import { FC, FormEvent } from "react";
+import { useDispatch } from "../../services/store";
+import { onRegistrationThunk } from "../../services/actions/user";
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
@@ -21,8 +21,13 @@ const RegisterPage: FC = () => {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
-    dispatch(onRegistration(values.name, values.email, values.password));
+    dispatch(
+      onRegistrationThunk({
+        email: values.email,
+        name: values.name,
+        password: values.password,
+      })
+    );
   }
 
   return (

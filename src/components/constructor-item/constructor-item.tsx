@@ -1,15 +1,16 @@
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./constructor-item.module.css";
 
 import moveIcon from "../../images/move-icon.svg";
-import {
-  moveConstructorItem,
-  removeConstructorItem,
-} from "../../services/actions/burger-constructor";
-import { decrementIngredientCount } from "../../services/actions/ingredients";
+
 import { FC } from "react";
+import { decrementIngredientCountAction } from "../../services/actions/ingredients";
+import {
+  moveConstructorItemAction,
+  removeConstructorItemAction,
+} from "../../services/actions/burger-constructor";
+import { useDispatch } from "../../services/store";
 
 type IConstructorItemProps = {
   id: string;
@@ -39,7 +40,9 @@ const ConstructorItem: FC<IConstructorItemProps> = ({
       }),
       end: (item, monitor) => {
         if (!monitor.didDrop()) {
-          dispatch(moveConstructorItem({ id: item.id, atIndex: item.index }));
+          dispatch(
+            moveConstructorItemAction({ id: item.id, atIndex: item.index })
+          );
         }
       },
     }),
@@ -51,7 +54,7 @@ const ConstructorItem: FC<IConstructorItemProps> = ({
       accept: "item",
       hover(item, monitor) {
         if (item.id !== id) {
-          dispatch(moveConstructorItem({ id: item.id, atIndex: index }));
+          dispatch(moveConstructorItemAction({ id: item.id, atIndex: index }));
         }
       },
     }),
@@ -59,8 +62,8 @@ const ConstructorItem: FC<IConstructorItemProps> = ({
   );
 
   function handleRemoveClick() {
-    dispatch(removeConstructorItem(constructorId));
-    dispatch(decrementIngredientCount(id));
+    dispatch(removeConstructorItemAction(constructorId));
+    dispatch(decrementIngredientCountAction(id));
   }
 
   return (

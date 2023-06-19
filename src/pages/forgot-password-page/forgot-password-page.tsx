@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 import styles from "./forgot-password-page.module.css";
@@ -6,10 +5,11 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { userPasswordForgot } from "../../services/actions/user";
 import { selectorUserIsResetPassword } from "../../services/selectors/user";
 import { useForm } from "../../hooks/use-form";
 import { FC, FormEvent } from "react";
+import { useDispatch, useSelector } from "../../services/store";
+import { onPasswordForgotThunk } from "../../services/actions/user";
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
@@ -19,8 +19,7 @@ const ForgotPasswordPage: FC = () => {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
-    dispatch(userPasswordForgot(values.email));
+    dispatch(onPasswordForgotThunk(values.email));
   }
 
   if (isResetPassword) {

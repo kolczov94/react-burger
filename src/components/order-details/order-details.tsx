@@ -1,14 +1,14 @@
 import styles from "./order-details.module.css";
 import imageDone from "../../images/done.png";
-import { useSelector } from "react-redux";
 import { selectorOrderNumber } from "../../services/selectors/order";
 import { FC } from "react";
+import { useSelector } from "../../services/store";
 
 const OrderDetails: FC = () => {
   const number = useSelector(selectorOrderNumber);
 
   return (
-    <div className={`${styles.order} pt-20 pb-20`}>
+    <div className={styles.order}>
       <span className={`${styles.number} text text_type_digits-large`}>
         {number}
       </span>
