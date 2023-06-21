@@ -8,6 +8,7 @@ import { useSelector } from "../../services/store";
 import { selectorIngredients } from "../../services/selectors/ingredients";
 import FeedCardIcon from "../feed-card-icon/feed-card-icon";
 import { TIngredient } from "../../types/ingredient";
+import { v4 as uuidv4 } from "uuid";
 
 type TOrderCardProps = {
   title: string;
@@ -28,7 +29,7 @@ const FeedCard: FC<TOrderCardProps> = ({
     return idIngredients.reduce((acc: Array<TIngredient>, id: string) => {
       const current = ingredients.find((item) => item._id === id);
       if (current) {
-        acc.push({ ...current, second_id: crypto.randomUUID() });
+        acc.push({ ...current, second_id: uuidv4() });
       }
       return acc;
     }, []);
