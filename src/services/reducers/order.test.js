@@ -1,15 +1,17 @@
 import * as types from "../constants/order";
 import { orderReducer } from "./order";
 
+const defaultState = {
+  number: 0,
+  name: "",
+  orderRequest: false,
+  orderFailed: false,
+  isShow: false,
+};
+
 describe("Ingredients reducer", () => {
   it("should return the initial state", () => {
-    expect(orderReducer(undefined, {})).toEqual({
-      number: 0,
-      name: "",
-      orderRequest: false,
-      orderFailed: false,
-      isShow: false,
-    });
+    expect(orderReducer(undefined, {})).toEqual(defaultState);
   });
 
   it("should handle GET_ORDER_REQUEST", () => {

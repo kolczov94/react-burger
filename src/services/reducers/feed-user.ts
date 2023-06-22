@@ -16,6 +16,7 @@ type TFeedUserState = {
 const initialState: TFeedUserState = {
   isConnected: false,
   orders: [],
+  error: undefined,
 };
 
 export const feedUserReducer = (

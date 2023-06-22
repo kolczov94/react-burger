@@ -1,41 +1,49 @@
 import * as types from "../constants/feed";
 import { feedReducer } from "./feed";
 
+const defaultState = {
+  isConnected: false,
+  orders: [],
+  total: 0,
+  totalToday: 0,
+};
+
 describe("Burger constructor reducer", () => {
   it("should return the initial state", () => {
-    expect(feedReducer(undefined, {})).toEqual({
-      isConnected: false,
-      orders: [],
-      total: 0,
-      totalToday: 0,
-    });
+    expect(feedReducer(undefined, {})).toEqual(defaultState);
   });
 
   it("should handle FEED_CONNECTION_SUCCESS", () => {
     expect(
-      feedReducer(undefined, {
-        type: types.FEED_CONNECTION_SUCCESS,
-      })
+      feedReducer(
+        {
+          isConnected: false,
+          error: undefined,
+        },
+        {
+          type: types.FEED_CONNECTION_SUCCESS,
+        }
+      )
     ).toEqual({
       isConnected: true,
-      orders: [],
-      total: 0,
-      totalToday: 0,
       error: undefined,
     });
   });
 
   it("should handle FEED_CONNECTION_ERROR", () => {
     expect(
-      feedReducer(undefined, {
-        type: types.FEED_CONNECTION_ERROR,
-        payload: "Error",
-      })
+      feedReducer(
+        {
+          isConnected: true,
+          error: undefined,
+        },
+        {
+          type: types.FEED_CONNECTION_ERROR,
+          payload: "Error",
+        }
+      )
     ).toEqual({
       isConnected: false,
-      orders: [],
-      total: 0,
-      totalToday: 0,
       error: "Error",
     });
   });
@@ -45,13 +53,7 @@ describe("Burger constructor reducer", () => {
       feedReducer(undefined, {
         type: types.FEED_CONNECTION_CLOSED,
       })
-    ).toEqual({
-      isConnected: false,
-      orders: [],
-      total: 0,
-      totalToday: 0,
-      error: undefined,
-    });
+    ).toEqual(defaultState);
   });
 
   it("should handle FEED_GET_MESSAGE", () => {
@@ -71,16 +73,15 @@ describe("Burger constructor reducer", () => {
 
   it("should handle FEED_SINGLE_ORDER", () => {
     expect(
-      feedReducer(undefined, {
-        type: types.FEED_SINGLE_ORDER,
-        payload: { orders: [{ id: 1, name: "Test" }] },
-      })
+      feedReducer(
+        { orders: [] },
+        {
+          type: types.FEED_SINGLE_ORDER,
+          payload: { orders: [{ id: 1, name: "Test" }] },
+        }
+      )
     ).toEqual({
-      isConnected: false,
       orders: [{ id: 1, name: "Test" }],
-      total: 0,
-      totalToday: 0,
-      error: undefined,
     });
   });
 });

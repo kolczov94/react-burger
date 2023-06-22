@@ -1,35 +1,42 @@
 import * as types from "../constants/feed-user";
 import { feedUserReducer } from "./feed-user";
 
+const defaultState = {
+  isConnected: false,
+  orders: [],
+  error: undefined,
+};
+
 describe("Burger constructor reducer", () => {
   it("should return the initial state", () => {
-    expect(feedUserReducer(undefined, {})).toEqual({
-      isConnected: false,
-      orders: [],
-    });
+    expect(feedUserReducer(undefined, {})).toEqual(defaultState);
   });
 
   it("should handle FEED_USER_CONNECTION_SUCCESS", () => {
     expect(
-      feedUserReducer(undefined, {
-        type: types.FEED_USER_CONNECTION_SUCCESS,
-      })
+      feedUserReducer(
+        { isConnected: false, error: undefined },
+        {
+          type: types.FEED_USER_CONNECTION_SUCCESS,
+        }
+      )
     ).toEqual({
       isConnected: true,
-      orders: [],
       error: undefined,
     });
   });
 
   it("should handle FEED_USER_CONNECTION_ERROR", () => {
     expect(
-      feedUserReducer(undefined, {
-        type: types.FEED_USER_CONNECTION_ERROR,
-        payload: "Error",
-      })
+      feedUserReducer(
+        { isConnected: true, error: "Error" },
+        {
+          type: types.FEED_USER_CONNECTION_ERROR,
+          payload: "Error",
+        }
+      )
     ).toEqual({
       isConnected: false,
-      orders: [],
       error: "Error",
     });
   });
@@ -39,11 +46,7 @@ describe("Burger constructor reducer", () => {
       feedUserReducer(undefined, {
         type: types.FEED_USER_CONNECTION_CLOSED,
       })
-    ).toEqual({
-      isConnected: false,
-      orders: [],
-      error: undefined,
-    });
+    ).toEqual(defaultState);
   });
 
   it("should handle FEED_USER_GET_MESSAGE", () => {
