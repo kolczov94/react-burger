@@ -39,7 +39,10 @@ const IngredientGroup: FC<IIngredientGroupProps> = ({
       <h2 id={name} ref={titleRef} className="text text_type_main-medium">
         {title}
       </h2>
-      <ul className={`${styles.list} ml-4 mr-1 mt-6 mb-10`}>
+      <ul
+        className={`${styles.list} ml-4 mr-1 mt-6 mb-10`}
+        data-test-id="ingredients"
+      >
         {list.map((item) => {
           return (
             <IngredientItem

@@ -1,4 +1,5 @@
 import { TIngredient } from "../../types/ingredient";
+import { v4 as uuidv4 } from "uuid";
 import {
   ADD_CONSTRUCTOR_ITEM,
   MOVE_CONSTRUCTOR_ITEM,
@@ -72,7 +73,7 @@ export const addConstructorItemThunk = (id: string): AppThunk => {
       dispatch(
         addConstructorItemAction({
           ...ingredient,
-          second_id: crypto.randomUUID(),
+          second_id: uuidv4(),
         })
       );
     }

@@ -1,7 +1,21 @@
 import { TUser } from "../../types/user";
-import { GET_LOGIN_FAILED, GET_LOGIN_REQUEST, GET_LOGIN_SUCCESS, GET_REGISTER_FAILED, GET_REGISTER_REQUEST, GET_REGISTER_SUCCESS, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, USER_FORGOT_PASSWORD, USER_FORGOT_PASSWORD_RESET, USER_LOGOUT, USER_PASSWORD_RESET, USER_UPDATE } from "../constants/user";
+import {
+  GET_LOGIN_FAILED,
+  GET_LOGIN_REQUEST,
+  GET_LOGIN_SUCCESS,
+  GET_REGISTER_FAILED,
+  GET_REGISTER_REQUEST,
+  GET_REGISTER_SUCCESS,
+  GET_USER_FAILED,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  USER_FORGOT_PASSWORD,
+  USER_FORGOT_PASSWORD_RESET,
+  USER_LOGOUT,
+  USER_PASSWORD_RESET,
+  USER_UPDATE,
+} from "../constants/user";
 import { TUserActions } from "../types/user";
-
 
 type TUserState = {
   user: TUser | null;
@@ -34,7 +48,12 @@ export const userReducer = (
       return { ...state, loginRequest: true, loginFailed: false };
     }
     case GET_LOGIN_SUCCESS:
-      return { ...state, user: action.user };
+      return {
+        ...state,
+        user: action.user,
+        loginRequest: false,
+        loginFailed: false,
+      };
     case GET_LOGIN_FAILED: {
       return { ...state, loginFailed: true, loginRequest: false, user: null };
     }
@@ -43,7 +62,12 @@ export const userReducer = (
       return { ...state, registrationRequest: true, registrationFailed: false };
     }
     case GET_REGISTER_SUCCESS:
-      return { ...state, user: action.user };
+      return {
+        ...state,
+        user: action.user,
+        registrationRequest: false,
+        registrationFailed: false,
+      };
     case GET_REGISTER_FAILED: {
       return { ...state, registrationFailed: true, registrationRequest: false };
     }

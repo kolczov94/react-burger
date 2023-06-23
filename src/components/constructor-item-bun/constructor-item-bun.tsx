@@ -44,6 +44,7 @@ const ConstructorItemBun: FC<IConstructorItemBunProps> = ({ type }) => {
         type === "top" ? styles.border_top : styles.border_bottom
       } ${canDrop ? styles.drag : ""} ${isHover ? styles.hover : ""}`}
       ref={dropRef}
+      data-test-id="constructor-bun"
     >
       {constructorBun && constructorBun._id ? (
         <ConstructorElement
